@@ -1,0 +1,282 @@
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+$(document).on('click', '.btnOpenViewModal', function () {
+    const id = $(this).data('id');
+
+    $.get("/assetData/" + id + "/view-more", function (html) {
+        $('#containerView').html(html);
+        $('.modalViewAsset').modal('show');
+    });
+});
+
+$(document).on('click', '.btnOpenStoreModal', function () {
+    $.get("/assetData/create", function (html) {
+        $('#containerStore').html(html);
+        $('.modalStoreAsset').modal('show');
+    });
+});
+
+$(document).on('click', '.btnOpenStoreAssetModal', function () {
+    $.get("/assetData/createAsset", function (html) {
+        $('#containerStoreAsset').html(html);
+        $('.modalStoreAssetGen').modal('show');
+    });
+});
+
+$(document).on('click', '.btnOpenEditModal', function () {
+    const id = $(this).data('id');
+
+    $.get("/assetData/" + id + "/edit", function (html) {
+        $('#containerEdit').html(html);
+        $('.modalEditAsset').modal('show');
+    });
+});
+
+$(document).on('click', '.btnOpenPrintAll', function () {
+    $.get("/assetData/print-all", function (html) {
+        $('#containerPrintAll').html(html);
+        $('.modalPrintAll').modal('show');
+    });
+});
+
+$(document).on('click', '.btnOpenExcel', function () {
+    $.get("/assetData/excel", function (html) {
+        $('#containerExcel').html(html);
+        $('.modalExcel').modal('show');
+    });
+});
+
+$(document).on('change', '.company-select', function () {
+    let companyId = $(this).val();
+    
+    let form = $(this).closest('form, .modal');
+    let departmentSelect = form.find('.department-select');
+    let branchSelect = form.find('.branch-select');
+
+    departmentSelect.empty().append('<option value="">-- เลือกแผนก --</option>');
+    branchSelect.empty().append('<option value="">-- เลือกสาขา --</option>');
+
+    if (companyId) {
+        $.get('/company/' + companyId, function (data) {
+            if (data.branches.length > 0) {
+                data.branches.forEach(function (branch) {
+                    branchSelect.append('<option value="' + branch.id + '">' + branch.branch_name + '</option>');
+                });
+            }
+
+            if (data.departments.length > 0) {
+                data.departments.forEach(function (dept) {
+                    departmentSelect.append('<option value="' + dept.id + '">' + dept.department_name + '</option>');
+                });
+            }
+        });
+    }
+});
+
+$(document).on('click', '.btn-deleteAsset', function () {
+    const id = $(this).data('id');
+
+    Swal.fire({
+        title: 'คุณแน่ใจหรือไม่?',
+        text: "คุณต้องการลบข้อมูลนี้ใช่หรือไม่",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ใช่, ลบเลย!',
+        cancelButtonText: 'ยกเลิก',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "/assetData/" + id,
+                type: 'DELETE',
+                success: function (res) {
+                    if (res.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'สำเร็จ',
+                            text: res.message,
+                            timer: 2000,
+                            showConfirmButton: true
+                        });
+                        reloadAsset();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาด',
+                            text: 'ไม่สามารถลบข้อมูลได้',
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    let errMsg = 'ไม่สามารถลบข้อมูลได้';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errMsg = xhr.responseJSON.message;
+                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: errMsg,
+                    });
+                }
+            });
+        }
+    });
+});
+
+$(document).on('input', '#purchase_price', function () {
+    let value = this.value.replace(/,/g, '');
+    if (isNaN(value)) {
+        this.value = '';
+        return;
+    }
+    this.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+});
+
+$(document).on('click', '#btnUpdateAsset', function () {
+    const $btn = $(this);
+    const form = $btn.closest('form')[0];
+
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    const url = $(form).attr('action');
+    const formData = new FormData(form);
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        beforeSend: function () {
+            $btn.prop('disabled', true).text('กำลังบันทึก...');
+        },
+        success: function (res) {
+            Swal.fire({
+                icon: 'success',
+                title: 'สำเร็จ',
+                text: res.message,
+                timer: 2000,
+                showConfirmButton: true
+            });
+
+            $('.modalEditAsset').modal('hide');
+            reloadAsset();
+        },
+        error: function (xhr) {
+            let errMsg = 'ไม่สามารถแก้ไขข้อมูลได้';
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errMsg = xhr.responseJSON.message;
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: errMsg,
+            });
+        },
+        complete: function () {
+            $btn.prop('disabled', false).text('แก้ไขข้อมูล');
+        }
+    });
+});
+
+$(document).on('click', '#btnSaveAsset', function () {
+    const $btn = $(this);
+    const form = $btn.closest('form')[0];
+
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    const url = $(form).attr('action');
+    const formData = new FormData(form);
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        beforeSend: function () {
+            $btn.prop('disabled', true).text('กำลังบันทึก...');
+        },
+        success: function (res) {
+            Swal.fire({
+                icon: 'success',
+                title: 'สำเร็จ',
+                text: res.message,
+                timer: 2000,
+                showConfirmButton: true
+            });
+
+            $('.modalStoreAsset').modal('hide');
+            $('.modalStoreAssetGen').modal('hide');
+            reloadAsset();
+        },
+        error: function (xhr) {
+            let errMsg = 'ไม่สามารถบันทึกข้อมูลได้';
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errMsg = xhr.responseJSON.message;
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: errMsg,
+            });
+        },
+        complete: function () {
+            $btn.prop('disabled', false).text('บันทึก');
+        }
+    });
+});
+
+function reloadAsset() {
+    $.get("/assetData", function (html) {
+        const newContent = $(html).find('#contentArea').html();
+        $('#contentArea').html(newContent);
+        initAssetTable();
+    });
+}
+
+function initAssetTable() {
+    if ($.fn.DataTable.isDataTable('#assetViewTable')) {
+        $('#assetViewTable').DataTable().destroy();
+    }
+
+    $('#assetViewTable').DataTable({
+        paging: true,
+        lengthChange: true,
+        searching: true,
+        ordering: false,
+        info: true,
+        autoWidth: false,
+        pageLength: 10,
+        language: {
+            lengthMenu: "แสดง _MENU_ แถว",
+            zeroRecords: "ไม่พบข้อมูล",
+            info: "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
+            infoEmpty: "ไม่มีข้อมูล",
+            search: "ค้นหา:",
+            paginate: {
+                first: "หน้าแรก",
+                last: "หน้าสุดท้าย",
+                next: "ถัดไป",
+                previous: "ก่อนหน้า"
+            }
+        }
+    });
+}
+
+$(document).ready(function () {
+    if ($('#assetViewTable').length) {
+        initAssetTable();
+    }
+});

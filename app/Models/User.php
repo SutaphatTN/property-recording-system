@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @mixin IdeHelperUser
+ */
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -21,7 +24,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is_admin',
+        'password_plain',
+        'role',
+        'price',
     ];
 
     /**
