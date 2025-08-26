@@ -68,7 +68,7 @@
             <div class="container">
                 <a class="navbar-brand text-white d-flex align-items-center"
                     href="@auth {{ route('assetData.index') }} @else {{ url('/') }} @endauth">
-                    <img src="{{ asset('images/Mitsubishi_logo.png') }}" alt="Logo"
+                    <img src="{{ asset('images/Mitsubishi_logoCrop.png') }}" alt="Logo"
                         class="img-fluid" style="height: 20px; width: auto; margin-right: 5px; margin-bottom: 3px;">
                     <span class="d-none d-sm-inline">ระบบแจ้งซ่อม</span>
                 </a>

@@ -298,8 +298,8 @@ class AssetController extends Controller
 
             $asset = asset_information::create($data);
 
-            $assetText = route('assetData.show', ['assetDatum' => $asset->id]);
-            $qrFile = "qrcodes/{$assetCode}.png";
+            $assetText = route('maintenance.createFromQr', ['asset_id' => $asset->id]);
+            $qrFile = "qrcodes/{$request->assetCode}.png";
 
             $result = Builder::create()
                 ->writer(new PngWriter())
