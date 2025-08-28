@@ -25,7 +25,7 @@
                     $canEdit = in_array(auth()->user()->role, ['audit', 'md', 'manager']);
                     @endphp
 
-                    @forelse($maintenance as $key => $row)
+                    @foreach($maintenance as $key => $row)
                     <tr>
                         <td>{{ $key+1 }}</td>
                         @if($row->asset_id)
@@ -35,7 +35,7 @@
                         </td>
                         @else
                         <td>
-                            <strong class="text-muted">Asset Code : {{ $row->repair_name }}</strong>
+                            <strong class="text-muted">{{ $row->repair_name }}</strong>
                         </td>
                         @endif
                         <td>{{ \Carbon\Carbon::parse($row->repair_date)->format('d/m/Y') }}</td>
@@ -63,11 +63,7 @@
                             </div>
                         </td>
                     </tr>
-                    @empty
-                    <tr>
-                        <td colspan="6" class="text-center text-muted">ไม่มีการแจ้งซ่อม</td>
-                    </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>

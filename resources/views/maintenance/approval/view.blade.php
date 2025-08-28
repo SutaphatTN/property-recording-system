@@ -19,7 +19,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($maintenance as $key => $row)
+                    @foreach($maintenance as $key => $row)
                     <tr>
                         <td>{{ $key+1 }}</td>
                         @if($row->asset_id)
@@ -49,11 +49,7 @@
                             </div>
                         </td>
                     </tr>
-                    @empty
-                    <tr>
-                        <td colspan="6" class="text-center text-muted">ไม่มีคำขออนุมัติ</td>
-                    </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>

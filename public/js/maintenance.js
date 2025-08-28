@@ -143,7 +143,7 @@ $(document).on('click', '.btn-deleteMaintenance', function () {
         text: "คุณต้องการลบข้อมูลนี้ใช่หรือไม่",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
+        confirmButtonColor: '#6c5ffc',
         cancelButtonColor: '#d33',
         confirmButtonText: 'ใช่, ลบเลย!',
         cancelButtonText: 'ยกเลิก',
@@ -225,7 +225,7 @@ $(document).on('click', '#btnApproveMaintenance', function () {
                 showConfirmButton: true
             });
 
-            $('.modalApproveMain').modal('hide');
+            $('.modalApproveMain').find(':focus').blur().end().modal('hide');
             reloadMaintenance();
         },
         error: function (xhr) {
@@ -275,7 +275,7 @@ $(document).on('click', '#btnUpdateMaintenance', function () {
                 showConfirmButton: true
             });
 
-            $('.modalEditMain, .modalAuditMain').modal('hide');
+            $('.modalEditMain, .modalAuditMain').find(':focus').blur().end().modal('hide');
 
             if ($btn.closest('.modalEditMain').length) {
                 reloadMaintenance();
@@ -332,7 +332,7 @@ $(document).on('click', '#btnSaveMaintenance', function () {
                 showConfirmButton: true
             });
 
-            $('.modalStoreMain, .modalStoreGeneralMain').modal('hide');
+            $('.modalStoreMain, .modalStoreGeneralMain').find(':focus').blur().end().modal('hide');
             reloadMaintenance();
         },
         error: function (xhr) {
@@ -360,7 +360,7 @@ $(document).on('click', '.btn-approve', function () {
         text: "คุณต้องการอนุมัติรายการนี้ใช่หรือไม่",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
+        confirmButtonColor: '#6c5ffc',
         cancelButtonColor: '#d33',
         confirmButtonText: 'ใช่, อนุมัติ',
         cancelButtonText: 'ยกเลิก'
@@ -389,7 +389,7 @@ $(document).on('click', '.btn-reject', function () {
         text: "คุณต้องการไม่อนุมัติรายการนี้ใช่หรือไม่",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
+        confirmButtonColor: '#6c5ffc',
         cancelButtonColor: '#d33',
         confirmButtonText: 'ใช่, ไม่อนุมัติ',
         cancelButtonText: 'ยกเลิก'
@@ -429,7 +429,7 @@ $(document).on('click', '#btnFinishMaintenance', function () {
                 timer: 2000,
                 showConfirmButton: true
             });
-            $('.modalEditMain').modal('hide');
+            $('.modalEditMain').find(':focus').blur().end().modal('hide');
             reloadMaintenance();
         },
         error: function (xhr) {

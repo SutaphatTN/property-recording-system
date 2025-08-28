@@ -44,21 +44,23 @@
                                         @for($m = 1; $m <= 12; $m++)
                                             <th>{{ DateTime::createFromFormat('!m', $m)->format('M') }}</th>
                                             @endfor
+                                            <th>ยอดรวม</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse($tableData as $companyName => $months)
                                     <tr>
                                         <td>{{ $companyName }}</td>
-                                        @foreach($months as $total)
-                                        <td>
-                                            {{ number_format($total, 2) }}
-                                        </td>
+                                        @php $total = 0; @endphp
+                                        @foreach($months as $totalMonth)
+                                        <td>{{ number_format($totalMonth, 2) }}</td>
+                                        @php $total += $totalMonth; @endphp
                                         @endforeach
+                                        <td>{{ number_format($total, 2) }}</td>
                                     </tr>
                                     @empty
                                     <tr>
-                                        <td colspan="13" class="text-center text-muted">ไม่มีข้อมูลของปีนี้</td>
+                                        <td colspan="14" class="text-center text-muted">ไม่มีข้อมูลของปีนี้</td>
                                     </tr>
                                     @endforelse
                                 </tbody>
@@ -66,26 +68,30 @@
                         </div>
 
                         <div class="tab-pane fade" id="maintenance" role="tabpanel">
-                            <table class="table table-bordered table-striped text-center align-middle">
+                            <table class="table table-bordered text-center align-middle">
                                 <thead>
                                     <tr>
                                         <th>บริษัท</th>
                                         @for($m = 1; $m <= 12; $m++)
                                             <th>{{ DateTime::createFromFormat('!m', $m)->format('M') }}</th>
                                             @endfor
+                                            <th>ยอดรวม</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse($maintenanceTableData as $companyName => $months)
                                     <tr>
                                         <td>{{ $companyName }}</td>
-                                        @foreach($months as $total)
-                                        <td>{{ number_format($total, 2) }}</td>
+                                        @php $total = 0; @endphp
+                                        @foreach($months as $totalMonth)
+                                        <td>{{ number_format($totalMonth, 2) }}</td>
+                                        @php $total += $totalMonth; @endphp
                                         @endforeach
+                                        <td>{{ number_format($total, 2) }}</td>
                                     </tr>
                                     @empty
                                     <tr>
-                                        <td colspan="13" class="text-center text-muted">ไม่มีข้อมูลของปีนี้</td>
+                                        <td colspan="14" class="text-center text-muted">ไม่มีข้อมูลของปีนี้</td>
                                     </tr>
                                     @endforelse
                                 </tbody>

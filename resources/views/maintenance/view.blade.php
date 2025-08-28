@@ -23,12 +23,12 @@
 
                 <div class="col-auto">
                     <label class="me-2">จากวันที่:</label>
-                    <input type="date" name="from_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}">
+                    <input type="date" name="fromDate" max="{{ date('Y-m-d') }}" class="form-control form-control-sm" value="{{ date('Y-m-d') }}">
                 </div>
 
                 <div class="col-auto">
                     <label class="me-2">ถึงวันที่:</label>
-                    <input type="date" name="to_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}">
+                    <input type="date" name="toDate" max="{{ date('Y-m-d') }}" class="form-control form-control-sm" value="{{ date('Y-m-d') }}">
                 </div>
 
                 <div class="col-auto">
@@ -61,7 +61,7 @@
                             </td>
                             @else
                             <td>
-                                <strong class="text-muted">Asset Code : {{ $row->repair_name }}</strong>
+                                <strong class="text-muted">{{ $row->repair_name }}</strong>
                             </td>
                             @endif
                             <td>{{ \Carbon\Carbon::parse($row->repair_date)->format('d/m/Y') }}</td>
@@ -85,9 +85,8 @@
                                     @endif
                                 </div>
                             </td>
-
                         </tr>
-                        @endforeach
+                     @endforeach
                     </tbody>
                 </table>
             </div>

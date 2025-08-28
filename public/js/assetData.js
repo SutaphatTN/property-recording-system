@@ -85,7 +85,7 @@ $(document).on('click', '.btn-deleteAsset', function () {
         text: "คุณต้องการลบข้อมูลนี้ใช่หรือไม่",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
+        confirmButtonColor: '#6c5ffc',
         cancelButtonColor: '#d33',
         confirmButtonText: 'ใช่, ลบเลย!',
         cancelButtonText: 'ยกเลิก',
@@ -167,7 +167,7 @@ $(document).on('click', '#btnUpdateAsset', function () {
                 showConfirmButton: true
             });
 
-            $('.modalEditAsset').modal('hide');
+            $('.modalEditAsset').find(':focus').blur().end().modal('hide');
             reloadAsset();
         },
         error: function (xhr) {
@@ -217,8 +217,8 @@ $(document).on('click', '#btnSaveAsset', function () {
                 showConfirmButton: true
             });
 
-            $('.modalStoreAsset').modal('hide');
-            $('.modalStoreAssetGen').modal('hide');
+            $('.modalStoreAsset').find(':focus').blur().end().modal('hide');
+            $('.modalStoreAssetGen').find(':focus').blur().end().modal('hide');
             reloadAsset();
         },
         error: function (xhr) {

@@ -36,12 +36,12 @@
 
                     {{-- Username --}}
                     <div class="mb-3">
-                        <label for="email" class="form-label">Username</label>
-                        <input id="email" type="email"
-                            class="form-control @error('email') is-invalid @enderror"
-                            name="email" value="{{ old('email') }}" required autofocus>
+                        <label for="username" class="form-label">Username</label>
+                        <input id="username" type="text"
+                            class="form-control @error('username') is-invalid @enderror"
+                            name="username" value="{{ old('username') }}" required autofocus>
 
-                        @error('email')
+                        @error('username')
                         <span class="invalid-feedback">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -62,16 +62,13 @@
                         @enderror
                     </div>
 
-                    {{-- Remember Me + Forgot Password --}}
+                    {{-- Remember Me --}}
                     <div class="mb-3 d-flex justify-content-between align-items-center">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="remember" id="remember"
                                 {{ old('remember') ? 'checked' : '' }}>
                             <label class="form-check-label" for="remember">Remember Me</label>
                         </div>
-                        @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}">Forgot Your Password?</a>
-                        @endif
                     </div>
 
                     @guest

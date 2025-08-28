@@ -7,10 +7,8 @@
     <title>@yield('title', 'Property Recording System')</title>
 
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/css/theme-default.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/boxicons/css/boxicons.min.css') }}">
 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
@@ -47,6 +45,7 @@
         .custom-table thead th {
             border-top: 1px solid #dee2e6;
         }
+        
     </style>
 </head>
 
@@ -80,7 +79,6 @@
     <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="assets/vendor/js/helpers.js"></script>
-    <script src="assets/vendor/js/template-custom.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

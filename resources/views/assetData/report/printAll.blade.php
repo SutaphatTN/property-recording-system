@@ -17,7 +17,7 @@
                             <div class="form-group row mb-1">
                                 <label class="col-sm-3 col-form-label text-right">จากวันที่ : </label>
                                 <div class="col-sm-8">
-                                    <input type="date" id="Fromdate" name="Fromdate" value="{{ date('Y-m-d') }}" class="form-control" />
+                                    <input type="date" id="Fromdate" name="Fromdate" max="{{ date('Y-m-d') }}" value="{{ date('Y-m-d') }}" class="form-control" />
                                 </div>
                             </div>
                         </div>
@@ -25,7 +25,7 @@
                             <div class="form-group row mb-1">
                                 <label class="col-sm-3 col-form-label text-right">ถึงวันที่ : </label>
                                 <div class="col-sm-8">
-                                    <input type="date" id="Todate" name="Todate" value="{{ date('Y-m-d') }}" class="form-control" />
+                                    <input type="date" id="Todate" name="Todate" max="{{ date('Y-m-d') }}" value="{{ date('Y-m-d') }}" class="form-control" />
                                 </div>
                             </div>
                         </div>

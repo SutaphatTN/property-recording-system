@@ -210,18 +210,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($maintenances as $key => $row)
+                                @foreach($maintenances as $key => $row)
                                 <tr>
                                     <td class="text-center">{{ $key+1 }}</td>
                                     <td class="text-center">{{ \Carbon\Carbon::parse($row->result_date)->format('d/m/Y') }}</td>
                                     <td class="text-center">{{ number_format($row->repair_price, 2) }}</td>
                                     <td class="text-center">{{ $row->repair_reason }}</td>
                                 </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="6" class="text-center text-muted">ไม่มีประวัติการซ่อม</td>
-                                </tr>
-                                @endforelse
+                               @endforeach
                             </tbody>
                         </table>
                     </div>

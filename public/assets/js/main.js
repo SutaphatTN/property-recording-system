@@ -37,33 +37,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Display menu toggle (layout-menu-toggle) on hover with delay
-  let delay = function (elem, callback) {
-    let timeout = null;
-    elem.onmouseenter = function () {
-      // Set timeout to be a timer which will invoke callback after 300ms (not for small screen)
-      if (!Helpers.isSmallScreen()) {
-        timeout = setTimeout(callback, 300);
-      } else {
-        timeout = setTimeout(callback, 0);
-      }
-    };
-
-    elem.onmouseleave = function () {
-      // Clear any timers set to timeout
-      document.querySelector('.layout-menu-toggle').classList.remove('d-block');
-      clearTimeout(timeout);
-    };
-  };
-  if (document.getElementById('layout-menu')) {
-    delay(document.getElementById('layout-menu'), function () {
-      // not for small screen
-      if (!Helpers.isSmallScreen()) {
-        document.querySelector('.layout-menu-toggle').classList.add('d-block');
-      }
-    });
-  }
-
   // Display in main menu when menu scrolls
   let menuInnerContainer = document.getElementsByClassName('menu-inner'),
     menuInnerShadow = document.getElementsByClassName('menu-inner-shadow')[0];
@@ -121,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // If current layout is vertical and current window screen is > small
 
   // Auto update menu collapsed/expanded based on the themeConfig
-      window.Helpers.setCollapsed(true, false);
+  window.Helpers.setCollapsed(true, false);
 })();
 // Utils
 function isMacOS() {

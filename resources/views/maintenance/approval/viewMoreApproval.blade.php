@@ -147,15 +147,34 @@
                     </div>
                 </div>
 
+                @php
+                $userRole = auth()->user()->role;
+                @endphp
+
                 <div class="row mt-3">
                     <div class="col-12 text-end">
                         @if($maintenance->status == 'processing')
+                        @if($maintenance->approver == 'Manager')
+                        @if( $userRole == 'audit' || $userRole == 'manager')
                         <button class="btn btn-success btn-approve" title="อนุมัติ" data-id="{{ $maintenance->id }}">
                             <i class="bi bi-check2"></i> อนุมัติ
                         </button>
                         <button class="btn btn-danger btn-reject" title="ไม่อนุมัติ" data-id="{{ $maintenance->id }}">
                             <i class="bi bi-x-lg"></i> ไม่อนุมัติ
                         </button>
+                        @endif
+                        @endif
+
+                        @if($maintenance->approver == 'MD')
+                        @if( $userRole == 'md')
+                        <button class="btn btn-success btn-approve" title="อนุมัติ" data-id="{{ $maintenance->id }}">
+                            <i class="bi bi-check2"></i> อนุมัติ
+                        </button>
+                        <button class="btn btn-danger btn-reject" title="ไม่อนุมัติ" data-id="{{ $maintenance->id }}">
+                            <i class="bi bi-x-lg"></i> ไม่อนุมัติ
+                        </button>
+                        @endif
+                        @endif
                         @endif
                     </div>
                 </div>
