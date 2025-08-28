@@ -20,6 +20,11 @@
                     </tr>
                 </thead>
                 <tbody>
+
+                    @php
+                    $canEdit = in_array(auth()->user()->role, ['audit', 'md', 'manager']);
+                    @endphp
+
                     @forelse($maintenance as $key => $row)
                     <tr>
                         <td>{{ $key+1 }}</td>
@@ -38,19 +43,23 @@
                         <td>{{ $row->presenter }}</td>
                         <td>
                             <div class="d-flex justify-content-center gap-2">
-                                @auth
-                                @if(Auth::user()->role == 'audit')
                                 @if($row->status == 'pending')
-                                <button class="btn btn-warning btn-icon btnOpenAuditMainModal" title="ตรวจสอบ"
-                                    data-id="{{ $row->id }}">
+                                <button class="btn btn-warning btn-icon btnOpenAuditMainModal"
+                                    title="ตรวจสอบ"
+                                    data-id="{{ $row->id }}"
+                                    {{ $canEdit ? '' : 'disabled' }}
+                                    {{ $canEdit ? '' : 'style=opacity:0.5;cursor:not-allowed;' }}>
                                     <i class="bx bx-detail" style="color:white;"></i>
                                 </button>
-                                <button class="btn btn-danger btn-icon btn-deleteMaintenance" title="ลบ" data-id="{{ $row->id }}">
-                                    <i class="bx bx-printer"></i>
+
+                                <button class="btn btn-danger btn-icon btn-deleteMaintenance"
+                                    title="ลบ"
+                                    data-id="{{ $row->id }}"
+                                    {{ $canEdit ? '' : 'disabled' }}
+                                    {{ $canEdit ? '' : 'style=opacity:0.5;cursor:not-allowed;' }}>
+                                    <i class="bx bx-trash"></i>
                                 </button>
                                 @endif
-                                @endif
-                                @endauth
                             </div>
                         </td>
                     </tr>

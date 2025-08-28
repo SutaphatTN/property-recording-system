@@ -115,7 +115,7 @@
 
                         <div class="col-md-6">
                             <input id="presenter" type="text"
-                                class="form-control readonly-field"
+                                class="form-control readonly-field bg-light"
                                 name="presenter" value="{{ $maintenance->presenter }}" readonly>
 
                             @error('presenter')
@@ -328,8 +328,6 @@
 
                     <div class="row mb-0">
                         <div class="col-md-6 offset-md-4">
-                            @auth
-                            @if(Auth::user()->role == 'staff' || 'audit')
                             @if($maintenance->status == 'pending')
                             <button type="button" id="btnUpdateMaintenance" class="btn btn-primary">
                                 แก้ไขข้อมูล
@@ -344,8 +342,6 @@
                                 </div>
                             </div>
                             @endif
-                            @endif
-                            @endauth
                         </div>
                     </div>
                 </form>
@@ -355,10 +351,13 @@
 </div>
 
 <style>
-    .readonly-field {
-        background-color: rgba(0, 0, 0, 0.1);
-        border: 1px solid #ccc;
-        color: #555;
-        cursor: not-allowed;
+    .modalEditMain .modal-header {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .modalEditMain .modal-title {
+        font-weight: bold;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
     }
 </style>

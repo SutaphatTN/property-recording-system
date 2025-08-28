@@ -9,16 +9,16 @@
         <ul class="navbar-nav flex-row align-items-center ms-auto">
 
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                @auth
                 <a class="nav-link dropdown-toggle hide-arrow d-flex align-items-center" href="#" data-bs-toggle="dropdown">
                     <span class="me-2">{{ Auth::user()->name }}</span>
                     <span class="avatar avatar-online" style="width: 10px; height: 10px;"></span>
                 </a>
 
-
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                         document.getElementById('logout-form').submit();">
                             <i class="bx bx-power-off me-2"></i>
                             <span class="align-middle">ออกจากระบบ</span>
                         </a>
@@ -28,6 +28,7 @@
                         </form>
                     </li>
                 </ul>
+                @endauth
             </li>
         </ul>
     </div>

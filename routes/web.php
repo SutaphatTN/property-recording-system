@@ -3,14 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ListUserController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\MaintenanceController;
-use App\Http\Controllers\Auth\LoginController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 Route::get('/', function () {
     return view('auth.login');
 });
@@ -18,8 +13,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-// Route::post('/login', [LoginController::class, 'login'])->name('login');
-
 Route::group(['middleware' => 'auth'], function () {
     //maintenance store general
     Route::get('/maintenance/create/general', [MaintenanceController::class, 'createGeneral'])->name('maintenance.createGeneral');
@@ -71,12 +64,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('assetData/report-money/export', [AssetController::class, 'exportExcel'])->name('assetData.exportExcel');
 
     //asset maintenance
-    Route::resource('maintenance', MaintenanceController::class)->middleware('auth');
+    Route::resource('maintenance', MaintenanceController::class);
 
     //asset information
-    Route::resource('assetData', AssetController::class)->middleware('auth');
+    Route::resource('assetData', AssetController::class);
 });
 
 Route::fallback(function () {
-    return "<h1>Page not Found</h1>";
+    return response()->view('errors.404', [], 404);
 });

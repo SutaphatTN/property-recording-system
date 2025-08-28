@@ -42,18 +42,17 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $input = $request->all();
-        $this->validate($request, ['email' => 'required|email', 'password' => 'required']);
-        if (Auth::attempt(['email' => $input['email'], 'password' => $input['password']])) {
-            return redirect()->intended(function () {
-                if (Auth::user()->role == 'audit') {
-                    return route('assetData.index');
-                } else {
-                    return route('maintenance.index');
-                }
-            });
-        } else {
-            return redirect('login')->with('error', "username หรือ password ผิดพลาด");
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials, $request->filled('remember'))) {
+            return redirect()->intended(route('home'));
         }
+
+        return back()->with('error', 'Username หรือ Password ไม่ถูกต้อง');
     }
 }

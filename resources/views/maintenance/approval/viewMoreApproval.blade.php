@@ -163,3 +163,15 @@
         </div>
     </div>
 </div>
+
+<style>
+    .modalViewMoreApp .modal-header {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .modalViewMoreApp .modal-title {
+        font-weight: bold;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+</style>

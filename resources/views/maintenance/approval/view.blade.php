@@ -1,6 +1,6 @@
 <div id="contentArea">
     <div id="containerViewMoreApp"></div>
-    
+
     <div class="card mt-4">
         <div class="card-header text-center">
             <h4 class="mb-0 fw-bold">รออนุมัติ</h4>
@@ -34,7 +34,13 @@
                         @endif
                         <td>{{ $row->repair_reason }}</td>
                         <td>{{ $row->operator }}</td>
-                        <td>{{ $row->approver }}</td>
+                        <td>
+                            @if($row->approver === 'MD')
+                            <span class="badge bg-label-primary">{{ $row->approver }}</span>
+                            @else
+                            <span class="badge bg-label-warning">{{ $row->approver }}</span>
+                            @endif
+                        </td>
                         <td>
                             <div class="d-flex justify-content-center gap-2">
                                 <button class="btn btn-info btn-icon btnOpenViewMoreApp" title="ดูข้อมูล" data-id="{{ $row->id }}">

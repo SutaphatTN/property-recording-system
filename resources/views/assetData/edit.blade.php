@@ -289,7 +289,7 @@
                         <div class="col-md-6">
                             <input id="presenter"
                                 type="text"
-                                class="form-control readonly-field"
+                                class="form-control readonly-field bg-light"
                                 name="presenter"
                                 value="{{ $asset->presenter }}"
                                 readonly>

@@ -7,7 +7,6 @@
 
     <title>Login</title>
 
-    <!-- Bootstrap CSS (ใส่จาก CDN หรือไฟล์ของคุณเอง) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .branch-bg {
@@ -75,6 +74,7 @@
                         @endif
                     </div>
 
+                    @guest
                     {{-- Login button --}}
                     <div class="d-grid mb-3">
                         <button type="submit" class="btn btn-primary">Login</button>
@@ -85,12 +85,12 @@
                         <span>Don't have an account? </span>
                         <a href="{{ route('register') }}">Sign Up</a>
                     </div>
+                    @endguest
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
