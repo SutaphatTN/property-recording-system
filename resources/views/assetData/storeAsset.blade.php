@@ -279,3 +279,15 @@
         </div>
     </div>
 </div>
+
+<style>
+    .modalStoreAssetGen .modal-header {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .modalStoreAssetGen .modal-title {
+        font-weight: bold;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+</style>

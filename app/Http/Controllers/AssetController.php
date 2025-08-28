@@ -242,22 +242,18 @@ class AssetController extends Controller
 
             $prefix = $companyCode . $departmentCode . $branchCode . $purchaseYear;
 
-            // หาเลขล่าสุดจากฐานข้อมูลที่ขึ้นต้นด้วย prefix
             $lastAsset = asset_information::where('assetCode', 'like', $prefix . '%')
                 ->orderBy('assetCode', 'desc')
                 ->first();
 
             if ($lastAsset) {
-                // ตัดเลข 4 หลักท้าย แล้ว +1
                 $lastNumber = intval(substr($lastAsset->assetCode, -4));
                 $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
             } else {
-                // ถ้าไม่มี ให้เริ่มที่ 0001
                 $newNumber = '0001';
             }
 
             $assetCode = $prefix . $newNumber;
-
 
             $exists = asset_information::where('assetCode', $assetCode)->exists();
             if ($exists) {
@@ -322,7 +318,6 @@ class AssetController extends Controller
             ], 500);
         }
     }
-
 
     public function printAll(Request $request)
     {

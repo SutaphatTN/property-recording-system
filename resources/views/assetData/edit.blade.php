@@ -338,3 +338,15 @@
         </div>
     </div>
 </div>
+
+<style>
+    .modalEditAsset .modal-header {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .modalEditAsset .modal-title {
+        font-weight: bold;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+</style>

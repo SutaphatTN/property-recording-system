@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\asset_maintenance;
 use App\Models\asset_information;
 use App\Models\User;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class MaintenanceController extends Controller
 {
@@ -23,8 +22,6 @@ class MaintenanceController extends Controller
         }
 
         $maintenance = $query->orderBy('repair_date', 'desc')->get();
-
-        // $maintenance = asset_maintenance::with(['asset_information'])->get();
 
         return view('maintenance.view', compact('maintenance'));
     }
@@ -75,11 +72,6 @@ class MaintenanceController extends Controller
                 'success' => false,
                 'message' => 'เกิดข้อผิดพลาด กรุณาติดต่อแอดมิน'
             ], 500);
-            // return response()->json([
-            //     'success' => false,
-            //     'message' => $e->getMessage(),
-            //     'trace' => $e->getTraceAsString(),
-            // ], 500);
         }
     }
 
@@ -203,25 +195,6 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function downloadQuotation($id)
-    {
-        $maintenance = asset_maintenance::with('asset_information.company')->findOrFail($id);
-
-        $pdf = Pdf::loadView('maintenance.quotation_pdf', compact('maintenance'));
-
-        $filename = 'quotation_' . $maintenance->asset_information->assetCode . '.pdf';
-
-        return $pdf->download($filename);
-    }
-
-    public function approveView($id)
-    {
-        $maintenance = asset_maintenance::findOrFail($id);
-        $asset = asset_information::all();
-
-        return view('maintenance.approver', compact('maintenance', 'asset'));
-    }
-
     public function approve($id)
     {
         try {
@@ -275,9 +248,9 @@ class MaintenanceController extends Controller
 
         $results = $assets->map(function ($asset) {
             return [
-                'label' => $asset->assetCode,  // label สำหรับ dropdown
-                'value' => $asset->assetCode,  // value สำหรับ input
-                'id' => $asset->id             // id จริง
+                'label' => $asset->assetCode,
+                'value' => $asset->assetCode,
+                'id' => $asset->id
             ];
         });
 
@@ -343,7 +316,6 @@ class MaintenanceController extends Controller
             ], 500);
         }
     }
-
 
     public function viewApproval()
     {

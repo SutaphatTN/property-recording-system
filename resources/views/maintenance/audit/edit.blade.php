@@ -408,12 +408,3 @@
         </div>
     </div>
 </div>
-<!-- 
-<style>
-    .readonly-field {
-        background-color: rgba(0, 0, 0, 0.1);
-        border: 1px solid #ccc;
-        color: #555;
-        cursor: not-allowed;
-    }
-</style> -->

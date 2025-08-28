@@ -1,0 +1,31 @@
+.layout-menu {
+    width: 250px;
+    transition: width 0.3s ease, padding 0.3s ease, opacity 0.3s ease;
+    overflow-x: hidden;
+    padding: 1rem;
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.layout-menu.collapsed {
+    width: 0;
+    padding: 0 !important;
+    opacity: 0;
+}
+
+.mainContent {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
+}
+
+.layout-menu ul li a {
+    color: #000;
+}
+
+.layout-menu ul li a:hover {
+    background-color: #f1f1f1;
+}

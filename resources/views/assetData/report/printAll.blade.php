@@ -3,8 +3,8 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="card bg-warning">
-                    <div class="card-header">
-                        <b>ข้อมูล Qr Code</b>
+                    <div class="card-header text-white text-center" style="font-size: 1.3rem; font-weight: bold;">
+                        ข้อมูล Qr Code
                     </div>
                 </div>
             </div>
@@ -33,10 +33,10 @@
 
                     <br>
                     <div class="text-center">
-                        <button type="submit" class="btn bg-warning">
-                            <i class="bi bi-printer"></i> print
+                        <button type="submit" class="btn bg-warning text-white">
+                            <i class="bx bx-printer"></i>&nbsp;Print
                         </button>
-                        <button type="button" class="btn bg-danger" data-bs-dismiss="modal">
+                        <button type="button" class="btn bg-danger text-white" data-bs-dismiss="modal">
                             <i class="fas fa-times"></i> ยกเลิก
                         </button>
                     </div>

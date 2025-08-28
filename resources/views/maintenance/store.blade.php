@@ -97,4 +97,14 @@
     .ui-autocomplete {
         z-index: 2000 !important;
     }
+
+    .modalStoreMain .modal-header {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .modalStoreMain .modal-title {
+        font-weight: bold;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
 </style>

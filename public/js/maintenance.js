@@ -11,15 +11,6 @@ $(document).on('click', '.btnOpenStoreGeneralMainModal', function () {
     });
 });
 
-$(document).on('click', '.btnOpenApproveMainModal', function () {
-    const id = $(this).data('id');
-
-    $.get("/maintenance/" + id + "/view-approve", function (html) {
-        $('#containerApproveMain').html(html);
-        $('.modalApproveMain').modal('show');
-    });
-});
-
 $(document).on('click', '.btnOpenEditMainModal', function () {
     const id = $(this).data('id');
 
@@ -452,24 +443,21 @@ $(document).on('click', '#btnFinishMaintenance', function () {
 
 function reloadMaintenance() {
     $.get("/maintenance", function (html) {
-        let newContent = $(html).find('#contentArea').html();
-        $('#contentArea').html(newContent);
+        $('#contentArea').html(html);
         initMainTable();
     });
 }
 
 function reloadMaintenanceAudit() {
     $.get("/maintenance/view-audit", function (html) {
-        let newContent = $(html).find('#contentArea').html();
-        $('#contentArea').html(newContent);
+        $('#contentArea').html(html);
         initMainAuditTable();
     });
 }
 
 function reloadMaintenanceApprove() {
     $.get("/maintenance/view-approval", function (html) {
-        let newContent = $(html).find('#contentArea').html();
-        $('#contentArea').html(newContent);
+        $('#contentArea').html(html);
         initMainApproveTable();
     });
 }

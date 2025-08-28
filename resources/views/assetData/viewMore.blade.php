@@ -8,16 +8,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <!-- ใช้ modal-body ครอบแทน -->
             <div class="modal-body">
-                <div class="card">
-                    <div class="card-header">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-primary text-white">
                         <b>รายละเอียด</b>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body mt-3">
                         <div class="row">
                             <div class="col-6">
-                                <div class="card">
+                                <div class="card image-card">
                                     <div class="d-flex justify-content-center align-items-center mt-3"
                                         style="width: 200px; height: 200px; margin:auto;">
                                         <img src="{{ asset('storage/'.$asset->images) }}"
@@ -31,7 +30,7 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="card">
+                                <div class="card image-card">
                                     <div class="d-flex justify-content-center align-items-center mt-3"
                                         style="width: 200px; height: 200px; margin:auto;">
                                         <img src="{{ asset('storage/'.$asset->qrCode) }}"
@@ -193,18 +192,14 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
-
-
                 </div>
 
-                <div class="card mt-3">
-                    <div class="card-header">
+                <div class="card mt-3 shadow-sm border-0">
+                    <div class="card-header bg-warning text-white">
                         <b>ประวัติการซ่อม</b>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body mt-3">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -235,3 +230,16 @@
         </div>
     </div>
 </div>
+
+<style>
+    .modalViewAsset .card.image-card {
+        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .modalViewAsset .card.image-card:hover {
+        transform: scale(1.02);
+    }
+</style>

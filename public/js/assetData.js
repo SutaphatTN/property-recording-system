@@ -240,8 +240,7 @@ $(document).on('click', '#btnSaveAsset', function () {
 
 function reloadAsset() {
     $.get("/assetData", function (html) {
-        const newContent = $(html).find('#contentArea').html();
-        $('#contentArea').html(newContent);
+        $('#contentArea').html(html);
         initAssetTable();
     });
 }
