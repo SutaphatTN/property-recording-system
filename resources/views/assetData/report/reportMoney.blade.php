@@ -36,8 +36,8 @@
 
                 <div id="reportContent">
                     <div class="card-body tab-content">
-                        <div class="tab-pane fade show active" id="asset" role="tabpanel">
-                            <table class="table table-bordered text-center align-middle">
+                        <div class="tab-pane fade show active table-responsive" id="asset" role="tabpanel">
+                            <table class="table table-bordered text-center align-middle custom-table">
                                 <thead>
                                     <tr>
                                         <th>บริษัท</th>
@@ -68,7 +68,7 @@
                         </div>
 
                         <div class="tab-pane fade" id="maintenance" role="tabpanel">
-                            <table class="table table-bordered text-center align-middle">
+                            <table class="table table-bordered text-center align-middle custom-table">
                                 <thead>
                                     <tr>
                                         <th>บริษัท</th>

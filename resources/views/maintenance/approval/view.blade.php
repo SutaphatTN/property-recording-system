@@ -5,7 +5,7 @@
         <div class="card-header text-center">
             <h4 class="mb-0 fw-bold">รออนุมัติ</h4>
         </div>
-        <div class="card-body">
+        <div class="card-body table-responsive">
 
             <table id="mainViewApproveTable" class="table table-bordered text-center align-middle custom-table">
                 <thead>

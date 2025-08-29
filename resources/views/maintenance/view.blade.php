@@ -38,7 +38,7 @@
                 </div>
             </form>
 
-            <div id="maintenanceTable">
+            <div id="maintenanceTable" class="table-responsive">
                 <table id="mainViewTable" class="table table-bordered text-center align-middle custom-table">
                     <thead>
                         <tr>

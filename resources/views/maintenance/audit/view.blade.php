@@ -6,7 +6,7 @@
         <div class="card-header text-center">
             <h4 class="mb-0 fw-bold">รอตรวจสอบ</h4>
         </div>
-        <div class="card-body">
+        <div class="card-body table-responsive">
 
             <table id="mainViewAuditTable" class="table table-bordered text-center align-middle custom-table">
                 <thead>

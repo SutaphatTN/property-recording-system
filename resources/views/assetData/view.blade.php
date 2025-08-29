@@ -6,7 +6,7 @@
         <div class="card-header text-center">
             <h4 class="mb-0 fw-bold">รายการทรัพย์สิน</h4>
         </div>
-        <div class="card-body">
+        <div class="card-body table-responsive">
             <table id="assetViewTable" class="table table-bordered text-center align-middle custom-table">
                 <thead>
                     <tr>
