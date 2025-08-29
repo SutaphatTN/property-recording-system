@@ -57,6 +57,8 @@ $(document).on('submit', '#searchForm', function (e) {
     $.get(url, data, function (html) {
         let newTable = $(html).find('#maintenanceTable').html();
         $('#maintenanceTable').html(newTable);
+
+        initMainTable();
     });
 });
 
@@ -225,8 +227,11 @@ $(document).on('click', '#btnApproveMaintenance', function () {
                 showConfirmButton: true
             });
 
-            $('.modalApproveMain').find(':focus').blur().end().modal('hide');
-            reloadMaintenance();
+            $('.modalApproveMain').modal('hide');
+
+            if ($btn.closest('.modalStoreAsset').length) {
+                reloadMaintenance();
+            }
         },
         error: function (xhr) {
             let errMsg = 'ไม่สามารถอนุมัติข้อมูลได้';
@@ -238,6 +243,7 @@ $(document).on('click', '#btnApproveMaintenance', function () {
                 title: 'เกิดข้อผิดพลาด',
                 text: errMsg,
             });
+            $('.modalApproveMain').modal('hide');
         },
         complete: function () {
             $btn.prop('disabled', false).text('อนุมัติ');
@@ -275,7 +281,7 @@ $(document).on('click', '#btnUpdateMaintenance', function () {
                 showConfirmButton: true
             });
 
-            $('.modalEditMain, .modalAuditMain').find(':focus').blur().end().modal('hide');
+            $('.modalEditMain, .modalAuditMain').modal('hide');
 
             if ($btn.closest('.modalEditMain').length) {
                 reloadMaintenance();
@@ -295,6 +301,7 @@ $(document).on('click', '#btnUpdateMaintenance', function () {
                 title: 'เกิดข้อผิดพลาด',
                 text: errMsg,
             });
+            $('.modalEditMain, .modalAuditMain').modal('hide');
         },
         complete: function () {
             $btn.prop('disabled', false).text('บันทึกข้อมูล');
@@ -332,8 +339,12 @@ $(document).on('click', '#btnSaveMaintenance', function () {
                 showConfirmButton: true
             });
 
-            $('.modalStoreMain, .modalStoreGeneralMain').find(':focus').blur().end().modal('hide');
-            reloadMaintenance();
+            $('.modalStoreMain, .modalStoreGeneralMain').modal('hide');
+
+            if ($btn.closest('.modalStoreMain, .modalStoreGeneralMain').length) {
+                reloadMaintenance();
+            }
+
         },
         error: function (xhr) {
             let errMsg = 'ไม่สามารถบันทึกข้อมูลได้';
@@ -345,6 +356,7 @@ $(document).on('click', '#btnSaveMaintenance', function () {
                 title: 'เกิดข้อผิดพลาด',
                 text: errMsg,
             });
+            $('.modalStoreMain, .modalStoreGeneralMain').modal('hide');
         },
         complete: function () {
             $btn.prop('disabled', false).text('บันทึก');
@@ -429,12 +441,19 @@ $(document).on('click', '#btnFinishMaintenance', function () {
                 timer: 2000,
                 showConfirmButton: true
             });
-            $('.modalEditMain').find(':focus').blur().end().modal('hide');
-            reloadMaintenance();
+
+            $('.modalEditMain').modal('hide');
+
+            if ($btn.closest('.modalEditMain').length) {
+                reloadMaintenance();
+            }
+
         },
         error: function (xhr) {
             Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถบันทึกได้', 'error');
+            $('.modalEditMain').modal('hide');
         },
+
         complete: function () {
             $btn.prop('disabled', false).text('เสร็จแล้ว');
         }

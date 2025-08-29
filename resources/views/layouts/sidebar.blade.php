@@ -223,19 +223,5 @@
         parent.classList.toggle('open');
       });
     });
-
-    document.querySelectorAll('.btnIndex').forEach(function(btn) {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const url = btn.dataset.route;
-        if (url) {
-          fetch(url)
-            .then(res => res.text())
-            .then(html => {
-              document.getElementById('contentArea').innerHTML = html;
-            });
-        }
-      });
-    });
   });
 </script>

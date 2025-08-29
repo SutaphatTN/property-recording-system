@@ -49,7 +49,7 @@ class MaintenanceController extends Controller
             }
 
             $validated = $request->validate([
-                'asset_id' => 'required|exists:assets,id',
+                'asset_id' => 'required|exists:asset_information,id',
             ]);
 
             $data = [
@@ -153,6 +153,19 @@ class MaintenanceController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            if ($request->asset_id) {
+                $exists = asset_maintenance::where('asset_id', $request->asset_id)
+                    ->where('status', '!=', asset_maintenance::STATUS_FINISHED)
+                    ->exists();
+
+                if ($exists) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'ทรัพย์สินนี้ยังมีรายการซ่อมที่ยังไม่เสร็จ กรุณาตรวจสอบ'
+                    ], 400);
+                }
+            }
+
             $maintenance = asset_maintenance::findOrFail($id);
 
             $data = $request->except(['_token', '_method']);
@@ -277,6 +290,19 @@ class MaintenanceController extends Controller
     public function updateAudit(Request $request, $id)
     {
         try {
+            if ($request->asset_id) {
+                $exists = asset_maintenance::where('asset_id', $request->asset_id)
+                    ->where('status', '!=', asset_maintenance::STATUS_FINISHED)
+                    ->exists();
+
+                if ($exists) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'ทรัพย์สินนี้มีอยู่ในรายการ รอตรวจสอบ แล้ว กรุณาตรวจสอบ'
+                    ], 400);
+                }
+            }
+
             $maintenance = asset_maintenance::findOrFail($id);
 
             $data = $request->except(['_token', '_method']);

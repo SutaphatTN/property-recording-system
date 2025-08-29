@@ -52,7 +52,7 @@ $(document).on('click', '.btnOpenExcel', function () {
 
 $(document).on('change', '.company-select', function () {
     let companyId = $(this).val();
-    
+
     let form = $(this).closest('form, .modal');
     let departmentSelect = form.find('.department-select');
     let branchSelect = form.find('.branch-select');
@@ -167,8 +167,12 @@ $(document).on('click', '#btnUpdateAsset', function () {
                 showConfirmButton: true
             });
 
-            $('.modalEditAsset').find(':focus').blur().end().modal('hide');
-            reloadAsset();
+            $('.modalEditAsset').modal('hide');
+
+            if ($btn.closest('.modalEditAsset').length) {
+                reloadAsset();
+            }
+
         },
         error: function (xhr) {
             let errMsg = 'ไม่สามารถแก้ไขข้อมูลได้';
@@ -180,6 +184,7 @@ $(document).on('click', '#btnUpdateAsset', function () {
                 title: 'เกิดข้อผิดพลาด',
                 text: errMsg,
             });
+            $('.modalEditAsset').modal('hide');
         },
         complete: function () {
             $btn.prop('disabled', false).text('แก้ไขข้อมูล');
@@ -217,9 +222,12 @@ $(document).on('click', '#btnSaveAsset', function () {
                 showConfirmButton: true
             });
 
-            $('.modalStoreAsset').find(':focus').blur().end().modal('hide');
-            $('.modalStoreAssetGen').find(':focus').blur().end().modal('hide');
-            reloadAsset();
+            $('.modalStoreAsset, .modalStoreAssetGen').modal('hide');
+
+            if ($btn.closest('.modalStoreAsset, .modalStoreAssetGen').length) {
+                reloadAsset();
+            }
+
         },
         error: function (xhr) {
             let errMsg = 'ไม่สามารถบันทึกข้อมูลได้';
@@ -231,6 +239,7 @@ $(document).on('click', '#btnSaveAsset', function () {
                 title: 'เกิดข้อผิดพลาด',
                 text: errMsg,
             });
+            $('.modalStoreAsset, .modalStoreAssetGen').modal('hide');
         },
         complete: function () {
             $btn.prop('disabled', false).text('บันทึก');

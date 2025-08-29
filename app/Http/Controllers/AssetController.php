@@ -193,7 +193,7 @@ class AssetController extends Controller
             if ($asset->asset_maintenance()->count() > 0) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'ไม่สามารถลบข้อมูลนี้ได้ เนื่องจากมีประวัติการซ่อมอยู่'
+                    'message' => 'ไม่สามารถลบข้อมูลนี้ได้ เนื่องจากอยู่ในรายการซ่อม'
                 ], 400);
             }
 

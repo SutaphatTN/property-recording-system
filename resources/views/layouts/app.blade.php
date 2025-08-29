@@ -4,6 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>@yield('title', 'Property Recording System')</title>
 
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}">
@@ -26,7 +28,12 @@
             padding: 0 0.8rem;
         }
 
-        body, input, select, textarea, button, table {
+        body,
+        input,
+        select,
+        textarea,
+        button,
+        table {
             font-family: 'Sarabun', sans-serif;
         }
 
@@ -45,7 +52,18 @@
         .custom-table thead th {
             border-top: 1px solid #dee2e6;
         }
-        
+
+        @media (max-width: 1199.98px) {
+            #layout-menu {
+                display: none !important;
+            }
+
+            #mainContent {
+                margin-left: 0 !important;
+                width: 100% !important;
+                padding-left: 0 !important;
+            }
+        }
     </style>
 </head>
 
@@ -58,7 +76,7 @@
             <div class="container-fluid" id="mainContent" style="transition: all 0.3s;">
                 @include('layouts.navbar')
 
-                <div id="contentArea">
+                <div id="contentArea" class="mb-4">
                     @yield('content')
                 </div>
             </div>
@@ -74,16 +92,14 @@
     <div id="containerExcel"></div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="assets/vendor/js/helpers.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{ asset('js/assetData.js') }}"></script>
-    <script src="{{ asset('js/maintenance.js') }}"></script>
 
     <script>
         $(document).ready(function() {
@@ -151,6 +167,9 @@
 
         });
     </script>
+
+    <script src="{{ asset('js/assetData.js') }}"></script>
+    <script src="{{ asset('js/maintenance.js') }}"></script>
 
 </body>
 

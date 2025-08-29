@@ -132,7 +132,7 @@
                         <div class="col-md-6">
                             <input id="repair_price" type="text"
                                 class="form-control @error('repair_price') is-invalid @enderror"
-                                name="repair_price" value="{{ number_format($maintenance->repair_price, 2) }}" autocomplete="off" required>
+                                name="repair_price" value="" autocomplete="off" required>
 
                             @error('repair_price')
                             <span class="invalid-feedback" role="alert">
