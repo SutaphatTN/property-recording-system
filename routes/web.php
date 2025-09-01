@@ -8,7 +8,7 @@ use App\Http\Controllers\MaintenanceController;
 
 Route::get('/', function () {
     return view('auth.login');
-});
+})->name('login');
 
 Auth::routes();
 
