@@ -229,13 +229,13 @@ class AssetController extends Controller
     public function storeAsset(Request $request)
     {
         try {
-            $company = Company::findOrFail($request->company_id);
+            $company = company::findOrFail($request->company_id);
             $companyCode = strtoupper(substr($company->company_name, 0, 3));
 
-            $department = Department::findOrFail($request->department_id);
+            $department = department::findOrFail($request->department_id);
             $departmentCode = strtoupper(substr($department->department_name, 0, 3));
 
-            $branch = Branch::findOrFail($request->branch_id);
+            $branch = branch::findOrFail($request->branch_id);
             $branchCode = strtoupper(substr($branch->branch_name, 0, 3));
 
             $purchaseYear = \Carbon\Carbon::parse($request->purchase_date)->format('Y');
