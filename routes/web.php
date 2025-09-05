@@ -7,8 +7,8 @@ use App\Http\Controllers\AssetController;
 use App\Http\Controllers\MaintenanceController;
 
 Route::get('/', function () {
-    return view('auth.login');
-})->name('login');
+    return redirect()->route('login');
+});
 
 Auth::routes();
 
