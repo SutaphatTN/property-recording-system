@@ -4,19 +4,17 @@
 
     <div class="card mt-4">
         <div class="card-header text-center">
-            <h4 class="mb-0 fw-bold">ผลการอนุมัติ</h4>
+            <h4 class="mb-0 fw-bold">รออนุมัติ</h4>
         </div>
         <div class="card-body table-responsive">
-
-            <table id="mainViewResultTable" class="table table-bordered text-center align-middle custom-table">
+            <table id="mainViewApproveTable" class="table table-bordered text-center align-middle custom-table">
                 <thead>
                     <tr>
                         <th class="text-center">No.</th>
                         <th class="text-center">ข้อมูลครุภัณฑ์</th>
                         <th class="text-center">สาเหตุ</th>
+                        <th class="text-center">ผู้ตรวจสอบ</th>
                         <th class="text-center">ผู้อนุมัติ</th>
-                        <th class="text-center">วันที่อนุมัติ</th>
-                        <th class="text-center">ผลการอนุมัติ</th>
                         <th class="text-center" width="150px">Action</th>
                     </tr>
                 </thead>
@@ -30,29 +28,18 @@
                             <small>Asset Name : {{ $row->asset_information->assetName }}</small>
                         </td>
                         @else
-                        <td>
-                            <strong class="text-muted">{{ $row->repair_name }}</strong>
-                        </td>
+                        <td><strong class="text-muted">{{ $row->repair_name }}</strong></td>
                         @endif
                         <td>{{ $row->repair_reason }}</td>
-                        
+                        <td>{{ $row->operator }}</td>
                         @php
                         $approverUser = \App\Models\User::find($row->approver);
                         $badgeClass = ($approverUser && $approverUser->role == 'manager') ? 'bg-label-warning' : 'bg-label-primary';
                         @endphp
-
                         <td>
                             <span class="badge {{ $badgeClass }}">
                                 {{ $approverUser ? $approverUser->name : '-' }}
                             </span>
-                        </td>
-                        <td>{{ $row->approv_date_formatted }}</td>
-                        <td>
-                            @if($row->status === 'rejected')
-                            <span class="badge bg-label-danger">ไม่ผ่าน</span>
-                            @else
-                            <span class="badge bg-label-success">ผ่าน</span>
-                            @endif
                         </td>
                         <td>
                             <div class="d-flex justify-content-center gap-2">
@@ -67,14 +54,14 @@
             </table>
         </div>
     </div>
-
-    <style>
-        #mainViewResultTable_wrapper .dataTables_filter {
-            margin-bottom: 15px;
-        }
-
-        #contentArea .btn .bx {
-            color: #fff !important;
-        }
-    </style>
 </div>
+
+<style>
+    #mainViewApproveTable_wrapper .dataTables_filter {
+        margin-bottom: 15px;
+    }
+
+    #contentArea .btn .bx {
+        color: #fff !important;
+    }
+</style>

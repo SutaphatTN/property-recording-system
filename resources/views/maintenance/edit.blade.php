@@ -6,7 +6,7 @@
                 <h5 class="modal-title" id="modalEditMainLabel">แก้ไขข้อมูลการแจ้งซ่อม</h5>
                 @else
                 <h5 class="modal-title" id="modalEditMainLabel">
-                    ติดตามสถานะการแจ้งซ่อม :
+                    สถานะการแจ้งซ่อม :
                     @if($maintenance->status == 'pending')
                     รอตรวจสอบ
                     @elseif($maintenance->status == 'processing')
@@ -38,7 +38,7 @@
                         <div class="col-md-6">
                             <input type="text" class="form-control asset_search" placeholder="พิมพ์ Asset Code เพื่อค้นหา"
                                 value="{{ $maintenance->asset_information->assetCode }}">
-                            <input type="hidden" name="asset_id" class="asset_id">
+                            <input type="hidden" name="asset_id" class="asset_id" value="{{ $maintenance->asset_id }}">
 
                             @error('assetCode')
                             <span class="invalid-feedback" role="alert">
@@ -50,7 +50,7 @@
                     @else
                     <div class="row mb-3">
                         <label for="repair_name"
-                            class="col-md-4 col-form-label text-md-end">{{ __('อุปกรณ์ / สิ่งของ ที่ต้องการซ่อม') }}</label>
+                            class="col-md-4 col-form-label text-md-end">{{ __('ครุภัณฑ์') }}</label>
 
                         <div class="col-md-6">
                             <input id="repair_name" type="text"
@@ -169,7 +169,7 @@
                         @else
                         <div class="col-12">
                             <div class="form-group row mb-0">
-                                <label class="col-md-4 col-form-label text-md-end">อุปกรณ์ / สิ่งของ ที่ต้องการซ่อม :</label>
+                                <label class="col-md-4 col-form-label text-md-end">ครุภัณฑ์ :</label>
                                 <div class="col-md-6">
                                     <input type="text" name="repair_name" class="form-control" value="{{ $maintenance->repair_name }}" disabled />
                                 </div>
@@ -183,7 +183,7 @@
                             <div class="form-group row mb-0">
                                 <label class="col-md-4 col-form-label text-md-end">วันที่แจ้งซ่อม :</label>
                                 <div class="col-md-8">
-                                    <input type="text" name="repair_date" class="form-control" value="{{ \Carbon\Carbon::parse($maintenance->repair_date)->format('d/m/Y') }}" disabled />
+                                    <input type="text" name="repair_date" class="form-control" value="{{ $maintenance->repair_date_formatted }}" disabled />
                                 </div>
                             </div>
                         </div>
@@ -223,7 +223,7 @@
                             <div class="form-group row mb-0">
                                 <label class="col-md-4 col-form-label text-md-end">วันที่ขออนุมัติ :</label>
                                 <div class="col-md-8">
-                                    <input type="text" name="process_date" class="form-control" value="{{ \Carbon\Carbon::parse($maintenance->process_date)->format('d/m/Y') }}" disabled />
+                                    <input type="text" name="process_date" class="form-control" value="{{ $maintenance->process_date_formatted }}" disabled />
                                 </div>
                             </div>
                         </div>
@@ -231,7 +231,7 @@
                             <div class="form-group row mb-0">
                                 <label class="col-md-4 col-form-label text-md-end">ผู้อนุมัติ :</label>
                                 <div class="col-md-8">
-                                    <input type="text" name="approver" class="form-control" value="{{ $maintenance->approver }}" disabled />
+                                    <input type="text" name="approver" class="form-control" value="{{ $maintenance->approverUser->name }}" disabled />
                                 </div>
                             </div>
                         </div>
@@ -244,7 +244,7 @@
                             <div class="form-group row mb-0">
                                 <label class="col-md-4 col-form-label text-md-end">วันที่ขออนุมัติ :</label>
                                 <div class="col-md-8">
-                                    <input type="text" name="approv_date" class="form-control" value="{{ \Carbon\Carbon::parse($maintenance->approv_date)->format('d/m/Y') }}" disabled />
+                                    <input type="text" name="approv_date" class="form-control" value="{{ $maintenance->approv_date_formatted }}" disabled />
                                 </div>
                             </div>
                         </div>
@@ -267,7 +267,7 @@
                             <div class="form-group row mb-0">
                                 <label class="col-md-4 col-form-label text-md-end">วันที่ขออนุมัติ :</label>
                                 <div class="col-md-8">
-                                    <input type="text" name="approv_date" class="form-control" value="{{ \Carbon\Carbon::parse($maintenance->approv_date)->format('d/m/Y') }}" disabled />
+                                    <input type="text" name="approv_date" class="form-control" value="{{ $maintenance->approv_date_formatted }}" disabled />
                                 </div>
                             </div>
                         </div>
@@ -282,6 +282,17 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-3 col-form-label text-md-end">สาเหตุที่ไม่ผ่านการอนุมัติ :</label>
+                                <div class="col-md-9">
+                                    <textarea class="form-control" name="note" rows="2" disabled>{{ $maintenance->note }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     @endif
 
                     @if($maintenance->status == 'finished')
@@ -290,7 +301,7 @@
                             <div class="form-group row mb-0">
                                 <label class="col-md-4 col-form-label text-md-end">วันที่ขออนุมัติ :</label>
                                 <div class="col-md-8">
-                                    <input type="text" name="approv_date" class="form-control" value="{{ \Carbon\Carbon::parse($maintenance->approv_date)->format('d/m/Y') }}" disabled />
+                                    <input type="text" name="approv_date" class="form-control" value="{{ $maintenance->approv_date_formatted }}" disabled />
                                 </div>
                             </div>
                         </div>
@@ -319,7 +330,7 @@
                             <div class="form-group row mb-0">
                                 <label class="col-md-4 col-form-label text-md-end">วันที่ซ่อมเสร็จ :</label>
                                 <div class="col-md-8">
-                                    <input type="text" name="result_date" class="form-control" value="{{ \Carbon\Carbon::parse($maintenance->result_date)->format('d/m/Y') }}" disabled />
+                                    <input type="text" name="result_date" class="form-control" value="{{ $maintenance->result_date_formatted }}" disabled />
                                 </div>
                             </div>
                         </div>
@@ -333,14 +344,6 @@
                                 แก้ไขข้อมูล
                             </button>
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
-                            @elseif($maintenance->status == 'approved')
-                            <div class="row mt-3">
-                                <div class="col-12 text-end">
-                                    <button type="button" id="btnFinishMaintenance" class="btn btn-success" data-id="{{ $maintenance->id }}">
-                                        เสร็จแล้ว
-                                    </button>
-                                </div>
-                            </div>
                             @endif
                         </div>
                     </div>

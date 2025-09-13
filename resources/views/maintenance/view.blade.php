@@ -38,15 +38,20 @@
                 </div>
             </form>
 
+            @php
+            $userRole = auth()->user()->role;
+            @endphp
+
             <div id="maintenanceTable" class="table-responsive">
                 <table id="mainViewTable" class="table table-bordered text-center align-middle custom-table">
                     <thead>
                         <tr>
                             <th class="text-center">No.</th>
-                            <th class="text-center">ข้อมูลอุปกรณ์ / สิ่งของ</th>
+                            <th class="text-center">ข้อมูลครุภัณฑ์</th>
                             <th class="text-center">วันที่แจ้งซ่อม</th>
                             <th class="text-center">สาเหตุ</th>
                             <th class="text-center">ผู้แจ้งซ่อม</th>
+                            <th class="text-center">สถานะ</th>
                             <th class="text-center" width="150px">Action</th>
                         </tr>
                     </thead>
@@ -64,29 +69,42 @@
                                 <strong class="text-muted">{{ $row->repair_name }}</strong>
                             </td>
                             @endif
-                            <td>{{ \Carbon\Carbon::parse($row->repair_date)->format('d/m/Y') }}</td>
+                            <td>{{ $row->repair_date_formatted }}</td>
                             <td>{{ $row->repair_reason }}</td>
                             <td>{{ $row->presenter }}</td>
                             <td>
+                                @if($row->status === 'pending')
+                                <span class="badge bg-label-warning">รอตรวจสอบ</span>
+                                @elseif($row->status === 'processing')
+                                <span class="badge bg-label-primary">รออนุมัติ</span>
+                                @elseif($row->status === 'approved')
+                                <span class="badge bg-label-info">อนุมัติ</span>
+                                @elseif($row->status === 'rejected')
+                                <span class="badge bg-label-danger">ไม่อนุมัติ</span>
+                                @else
+                                <span class="badge bg-label-success">ซ่อมเสร็จแล้ว</span>
+                                @endif
+                            </td>
+                            <td>
                                 <div class="d-flex justify-content-center gap-2">
-                                    @if(Auth::user()->role == 'staff' || Auth::user()->role == 'audit')
                                     @if($row->status == 'pending')
                                     <button class="btn btn-warning btn-icon btnOpenEditMainModal" title="แก้ไข" data-id="{{ $row->id }}">
                                         <i class="bx bx-edit"></i>
                                     </button>
+                                    @if( ($userRole == 'audit' || $userRole == 'manager' || $userRole == 'md') )
                                     <button class="btn btn-danger btn-icon btn-deleteMaintenance" title="ลบ" data-id="{{ $row->id }}">
                                         <i class="bx bx-trash"></i>
                                     </button>
+                                    @endif
                                     @else
                                     <button class="btn btn-info btn-icon btnOpenEditMainModal" title="ดูข้อมูล" data-id="{{ $row->id }}">
                                         <i class="bx bx-show"></i>
                                     </button>
                                     @endif
-                                    @endif
                                 </div>
                             </td>
                         </tr>
-                     @endforeach
+                        @endforeach
                     </tbody>
                 </table>
             </div>

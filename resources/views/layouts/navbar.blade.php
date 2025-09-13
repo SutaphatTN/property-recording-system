@@ -18,7 +18,13 @@
                 </a>
             </li>
 
-            <li class="nav-item dropdown">
+            <li class="nav-item">
+                <a class="nav-link btnOpenStoreAssetModal" href="#">
+                    เพิ่มข้อมูลทรัพย์สิน
+                </a>
+            </li>
+
+            <!-- <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="assetStoreMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     เพิ่มข้อมูลทรัพย์สิน
                 </a>
@@ -26,7 +32,7 @@
                     <li><a class="dropdown-item btnOpenStoreModal" href="#">ทรัพย์สินที่มีอยู่</a></li>
                     <li><a class="dropdown-item btnOpenStoreAssetModal" href="#">ทรัพย์สินใหม่</a></li>
                 </ul>
-            </li>
+            </li> -->
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="mainStoreMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -74,10 +80,19 @@
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-end">
+                    @if(Auth::user()->role == 'audit')
+                    <li>
+                        <a class="dropdown-item" href="{{ route('register.view') }}">
+                            <i class="bx bx-id-card me-2 align-middle"></i>
+                            <span class="align-middle">ลงทะเบียน</span>
+                        </a>
+                    </li>
+                    @endif
+
                     <li>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                          document.getElementById('logout-form').submit();">
-                            <i class="bx bx-power-off me-2"></i>
+                            <i class="bx bx-power-off me-2 align-middle"></i>
                             <span class="align-middle">ออกจากระบบ</span>
                         </a>
 

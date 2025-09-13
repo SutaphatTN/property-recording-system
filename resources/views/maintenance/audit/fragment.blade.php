@@ -1,26 +1,30 @@
 <div id="contentArea">
 
-    <div id="containerViewMoreApp"></div>
+    <div id="containerAuditMain"></div>
 
     <div class="card mt-4">
         <div class="card-header text-center">
-            <h4 class="mb-0 fw-bold">ผลการอนุมัติ</h4>
+            <h4 class="mb-0 fw-bold">รอตรวจสอบ</h4>
         </div>
         <div class="card-body table-responsive">
 
-            <table id="mainViewResultTable" class="table table-bordered text-center align-middle custom-table">
+            <table id="mainViewAuditTable" class="table table-bordered text-center align-middle custom-table">
                 <thead>
                     <tr>
                         <th class="text-center">No.</th>
                         <th class="text-center">ข้อมูลครุภัณฑ์</th>
+                        <th class="text-center">วันที่แจ้งซ่อม</th>
                         <th class="text-center">สาเหตุ</th>
-                        <th class="text-center">ผู้อนุมัติ</th>
-                        <th class="text-center">วันที่อนุมัติ</th>
-                        <th class="text-center">ผลการอนุมัติ</th>
+                        <th class="text-center">ผู้แจ้งซ่อม</th>
                         <th class="text-center" width="150px">Action</th>
                     </tr>
                 </thead>
                 <tbody>
+
+                    @php
+                    $canEdit = in_array(auth()->user()->role, ['audit', 'md', 'manager']);
+                    @endphp
+
                     @foreach($maintenance as $key => $row)
                     <tr>
                         <td>{{ $key+1 }}</td>
@@ -34,31 +38,28 @@
                             <strong class="text-muted">{{ $row->repair_name }}</strong>
                         </td>
                         @endif
+                        <td>{{ $row->repair_date_formatted }}</td>
                         <td>{{ $row->repair_reason }}</td>
-                        
-                        @php
-                        $approverUser = \App\Models\User::find($row->approver);
-                        $badgeClass = ($approverUser && $approverUser->role == 'manager') ? 'bg-label-warning' : 'bg-label-primary';
-                        @endphp
-
-                        <td>
-                            <span class="badge {{ $badgeClass }}">
-                                {{ $approverUser ? $approverUser->name : '-' }}
-                            </span>
-                        </td>
-                        <td>{{ $row->approv_date_formatted }}</td>
-                        <td>
-                            @if($row->status === 'rejected')
-                            <span class="badge bg-label-danger">ไม่ผ่าน</span>
-                            @else
-                            <span class="badge bg-label-success">ผ่าน</span>
-                            @endif
-                        </td>
+                        <td>{{ $row->presenter }}</td>
                         <td>
                             <div class="d-flex justify-content-center gap-2">
-                                <button class="btn btn-info btn-icon btnOpenViewMoreApp" title="ดูข้อมูล" data-id="{{ $row->id }}">
-                                    <i class="bx bx-show"></i>
+                                @if($row->status == 'pending')
+                                <button class="btn btn-warning btn-icon btnOpenAuditMainModal"
+                                    title="ตรวจสอบ"
+                                    data-id="{{ $row->id }}"
+                                    {{ $canEdit ? '' : 'disabled' }}
+                                    {{ $canEdit ? '' : 'style=opacity:0.5;cursor:not-allowed;' }}>
+                                    <i class="bx bx-detail" style="color:white;"></i>
                                 </button>
+
+                                <button class="btn btn-danger btn-icon btn-deleteMaintenanceAudit"
+                                    title="ลบ"
+                                    data-id="{{ $row->id }}"
+                                    {{ $canEdit ? '' : 'disabled' }}
+                                    {{ $canEdit ? '' : 'style=opacity:0.5;cursor:not-allowed;' }}>
+                                    <i class="bx bx-trash"></i>
+                                </button>
+                                @endif
                             </div>
                         </td>
                     </tr>
@@ -69,7 +70,7 @@
     </div>
 
     <style>
-        #mainViewResultTable_wrapper .dataTables_filter {
+        #mainViewAuditTable_wrapper .dataTables_filter {
             margin-bottom: 15px;
         }
 

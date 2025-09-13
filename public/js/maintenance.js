@@ -188,6 +188,57 @@ $(document).on('click', '.btn-deleteMaintenance', function () {
     });
 });
 
+$(document).on('click', '.btn-deleteMaintenanceAudit', function () {
+    const id = $(this).data('id');
+
+    Swal.fire({
+        title: 'คุณแน่ใจหรือไม่?',
+        text: "คุณต้องการลบข้อมูลนี้ใช่หรือไม่",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#6c5ffc',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ใช่, ลบเลย!',
+        cancelButtonText: 'ยกเลิก',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "/maintenance/" + id,
+                type: 'DELETE',
+                success: function (res) {
+                    if (res.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'สำเร็จ',
+                            text: res.message,
+                            timer: 2000,
+                            showConfirmButton: true
+                        });
+                        reloadMaintenanceAudit();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาด',
+                            text: 'ไม่สามารถลบข้อมูลได้',
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    let errMsg = 'ไม่สามารถลบข้อมูลได้';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errMsg = xhr.responseJSON.message;
+                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: errMsg,
+                    });
+                }
+            });
+        }
+    });
+});
+
 $(document).on('input', '#repair_price', function () {
     let value = this.value.replace(/,/g, '');
     if (isNaN(value)) {
@@ -216,7 +267,17 @@ $(document).on('click', '#btnApproveMaintenance', function () {
         contentType: false,
         processData: false,
         beforeSend: function () {
-            $btn.prop('disabled', true).text('กำลังอนุมัติ...');
+            $('.modalApproveMain').modal('hide');
+
+            Swal.fire({
+                title: 'กำลังอนุมัติ...',
+                text: 'กรุณารอสักครู่',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            $btn.prop('disabled', true);
         },
         success: function (res) {
             Swal.fire({
@@ -226,8 +287,6 @@ $(document).on('click', '#btnApproveMaintenance', function () {
                 timer: 2000,
                 showConfirmButton: true
             });
-
-            $('.modalApproveMain').modal('hide');
 
             if ($btn.closest('.modalStoreAsset').length) {
                 reloadMaintenance();
@@ -270,7 +329,17 @@ $(document).on('click', '#btnUpdateMaintenance', function () {
         contentType: false,
         processData: false,
         beforeSend: function () {
-            $btn.prop('disabled', true).text('กำลังบันทึก...');
+            $('.modalEditMain, .modalAuditMain').modal('hide');
+
+            Swal.fire({
+                title: 'กำลังบันทึกข้อมูล...',
+                text: 'กรุณารอสักครู่',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            $btn.prop('disabled', true);
         },
         success: function (res) {
             Swal.fire({
@@ -280,8 +349,6 @@ $(document).on('click', '#btnUpdateMaintenance', function () {
                 timer: 2000,
                 showConfirmButton: true
             });
-
-            $('.modalEditMain, .modalAuditMain').modal('hide');
 
             if ($btn.closest('.modalEditMain').length) {
                 reloadMaintenance();
@@ -304,7 +371,7 @@ $(document).on('click', '#btnUpdateMaintenance', function () {
             $('.modalEditMain, .modalAuditMain').modal('hide');
         },
         complete: function () {
-            $btn.prop('disabled', false).text('บันทึกข้อมูล');
+            $btn.prop('disabled', false);
         }
     });
 });
@@ -328,7 +395,17 @@ $(document).on('click', '#btnSaveMaintenance', function () {
         contentType: false,
         processData: false,
         beforeSend: function () {
-            $btn.prop('disabled', true).text('กำลังบันทึก...');
+            $('.modalStoreMain, .modalStoreGeneralMain').modal('hide');
+
+            Swal.fire({
+                title: 'กำลังบันทึกข้อมูล...',
+                text: 'กรุณารอสักครู่',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            $btn.prop('disabled', true);
         },
         success: function (res) {
             Swal.fire({
@@ -338,8 +415,6 @@ $(document).on('click', '#btnSaveMaintenance', function () {
                 timer: 2000,
                 showConfirmButton: true
             });
-
-            $('.modalStoreMain, .modalStoreGeneralMain').modal('hide');
 
             if ($btn.closest('.modalStoreMain, .modalStoreGeneralMain').length) {
                 reloadMaintenance();
@@ -366,6 +441,8 @@ $(document).on('click', '#btnSaveMaintenance', function () {
 
 $(document).on('click', '.btn-approve', function () {
     let id = $(this).data('id');
+
+    $('.modalViewMoreApp').modal('hide');
 
     Swal.fire({
         title: 'ยืนยันการอนุมัติ?',
@@ -396,26 +473,40 @@ $(document).on('click', '.btn-approve', function () {
 $(document).on('click', '.btn-reject', function () {
     let id = $(this).data('id');
 
+    $('.modalViewMoreApp').modal('hide');
+
     Swal.fire({
-        title: 'ยืนยันไม่อนุมัติ?',
-        text: "คุณต้องการไม่อนุมัติรายการนี้ใช่หรือไม่",
-        icon: 'warning',
+        title: 'เหตุผลที่ไม่อนุมัติ',
+        input: 'textarea',
+        inputLabel: 'เนื่องจาก',
+        inputPlaceholder: 'กรอกเหตุผล...',
+        inputAttributes: {
+            'aria-label': 'เหตุผลการไม่อนุมัติ'
+        },
         showCancelButton: true,
+        confirmButtonText: 'ยืนยัน',
+        cancelButtonText: 'ยกเลิก',
         confirmButtonColor: '#6c5ffc',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'ใช่, ไม่อนุมัติ',
-        cancelButtonText: 'ยกเลิก'
+        inputValidator: (value) => {
+            if (!value) {
+                return 'กรุณากรอกเหตุผล!';
+            }
+        }
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
                 url: "/maintenance/" + id + "/reject",
                 type: 'PUT',
+                data: {
+                    note: result.value,
+                },
                 success: function (res) {
                     Swal.fire('สำเร็จ', res.message, 'success');
                     reloadMaintenanceApprove();
                 },
                 error: function () {
-                    Swal.fire('ผิดพลาด', 'ไม่สามารถไม่อนุมัติได้', 'error');
+                    Swal.fire('ผิดพลาด', 'ไม่สามารถบันทึกข้อมูลได้', 'error');
                 }
             });
         }
@@ -431,7 +522,16 @@ $(document).on('click', '#btnFinishMaintenance', function () {
         url: url,
         type: 'POST',
         beforeSend: function () {
-            $btn.prop('disabled', true).text('กำลังบันทึก...');
+            $('.modalViewMoreApp').modal('hide');
+            Swal.fire({
+                title: 'กำลังบันทึกข้อมูล...',
+                text: 'กรุณารอสักครู่',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            $btn.prop('disabled', true);
         },
         success: function (res) {
             Swal.fire({
@@ -442,20 +542,18 @@ $(document).on('click', '#btnFinishMaintenance', function () {
                 showConfirmButton: true
             });
 
-            $('.modalEditMain').modal('hide');
-
-            if ($btn.closest('.modalEditMain').length) {
+            if ($btn.closest('.modalViewMoreApp').length) {
                 reloadMaintenance();
             }
 
         },
         error: function (xhr) {
             Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถบันทึกได้', 'error');
-            $('.modalEditMain').modal('hide');
+            $('.modalViewMoreApp').modal('hide');
         },
 
         complete: function () {
-            $btn.prop('disabled', false).text('เสร็จแล้ว');
+            $btn.prop('disabled', false).text('ซ่อมเสร็จแล้ว');
         }
     });
 });
@@ -596,3 +694,61 @@ function initMainResultTable() {
         }
     });
 }
+
+$(document).on('blur', '#repair_price', function () {
+    let repairPrice = $(this).val().replace(/,/g, '');
+
+    if (!repairPrice) return;
+
+    $.ajax({
+        url: "/maintenance/get-approver",
+        type: "GET",
+        data: { repair_price: repairPrice },
+        success: function (data) {
+            let $approverSelect = $("#approver");
+            $approverSelect.empty().append('<option value="">-- เลือกผู้อนุมัติ --</option>');
+
+            if (data.length > 0) {
+                data.forEach(function (user) {
+                    $approverSelect.append(`<option value="${user.id}">${user.name}</option>`);
+                });
+            } else {
+                $approverSelect.append('<option value="">ไม่พบผู้อนุมัติ</option>');
+            }
+        },
+        error: function () {
+            $('.modalEditMain, .modalAuditMain').modal('hide');
+            Swal.fire("ผิดพลาด", "ไม่สามารถโหลดข้อมูลผู้อนุมัติได้", "error");
+        }
+    });
+});
+
+$(document).ready(function () {
+    if ($('#mainViewApproveTable').length) {
+        initMainApproveTable();
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const openId = urlParams.get('id');
+    if (openId) {
+        $.get("/maintenance/" + openId + "/view-moreApproval", function (html) {
+            $('#containerViewMoreApp').html(html);
+            $('.modalViewMoreApp').modal('show');
+        });
+    }
+});
+
+$(document).ready(function () {
+    if ($('#mainViewAuditTable').length) {
+        initMainAuditTable();
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const openId = urlParams.get('id');
+    if (openId) {
+        $.get("/maintenance/" + openId + "/edit-audit", function (html) {
+            $('#containerAuditMain').html(html);
+            $('.modalAuditMain').modal('show');
+        });
+    }
+});

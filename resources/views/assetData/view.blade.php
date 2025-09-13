@@ -27,7 +27,9 @@
                             <strong class="text-muted">Asset Code : {{ $row->assetCode }}</strong><br>
                             <small>Asset Name : {{ $row->assetName }}</small>
                         </td>
-                        <td>{{ number_format($row->purchase_price, 2) }}</td>
+                        <td>
+                            {{ $row->purchase_price !== null && $row->purchase_price !== '' ? number_format((float)$row->purchase_price, 2) : '-' }}
+                        </td>
                         <td>
                             @if($row->status === 'ใหม่')
                             <span class="badge bg-label-info">{{ $row->status }}</span>
@@ -52,7 +54,7 @@
                                 <button class="btn btn-icon btn-warning btnOpenEditModal" data-id="{{ $row->id }}" title="แก้ไข">
                                     <i class="bx bx-edit"></i>
                                 </button>
-                                <a href="{{ route('assetData.downloadPrintOne', $row->id) }}" class="btn btn-icon btn-primary" title="ปริ้น">
+                                <a href="{{ route('assetData.downloadPrintOne', $row->id) }}" target="_blank" class="btn btn-icon btn-primary" title="ปริ้น">
                                     <i class="bx bx-printer"></i>
                                 </a>
                                 <button class="btn btn-icon btn-danger btn-deleteAsset" data-id="{{ $row->id }}" title="ลบ">

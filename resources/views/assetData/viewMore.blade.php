@@ -114,7 +114,7 @@
                                 <div class="form-group row mb-0">
                                     <label class="col-md-4 col-form-label text-md-end">ราคา :</label>
                                     <div class="col-md-8">
-                                        <input type="text" name="purchase_price" class="form-control" value="{{ number_format($asset->purchase_price, 2) }}" disabled />
+                                        <input type="text" name="purchase_price" class="form-control" value="{{ $asset->purchase_price !== null && $asset->purchase_price !== '' ? number_format((float)$asset->purchase_price, 2) : '-' }}" disabled />
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +125,7 @@
                                 <div class="form-group row mb-0">
                                     <label class="col-md-4 col-form-label text-md-end">วันที่ซื้อ :</label>
                                     <div class="col-md-8">
-                                        <input type="text" name="purchase_date" class="form-control" value="{{ \Carbon\Carbon::parse($asset->purchase_date)->format('d/m/Y') }}" disabled />
+                                        <input type="text" name="purchase_date" class="form-control" value="{{ $asset->purchase_date_formatted }}" disabled />
                                     </div>
                                 </div>
                             </div>
@@ -133,7 +133,7 @@
                                 <div class="form-group row mb-0">
                                     <label class="col-md-4 col-form-label text-md-end">วันที่หมดอายุประกัน :</label>
                                     <div class="col-md-8">
-                                        <input type="text" name="expiration_date" class="form-control" value="{{ \Carbon\Carbon::parse($asset->expiration_date)->format('d/m/Y') }}" disabled />
+                                        <input type="text" name="expiration_date" class="form-control" value="{{ $asset->expiration_date_formatted }}" disabled />
                                     </div>
                                 </div>
                             </div>
@@ -171,11 +171,11 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group row mb-0">
-                                    <label class="col-md-4 col-form-label text-md-end">สาเหตุ :</label>
+                                    <label class="col-md-4 col-form-label text-md-end">สาเหตุการซื้อ :</label>
                                     <div class="col-md-8">
                                         <textarea name="purchase_reason"
                                             class="form-control"
-                                            disabled>{{ $asset->purchase_reason }}</textarea>
+                                            disabled>{{ $asset->purchase_reason ?: '-' }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -195,6 +195,7 @@
                     </div>
                 </div>
 
+                @if($maintenances && $maintenances->count() > 0)
                 <div class="card mt-3 shadow-sm border-0">
                     <div class="card-header bg-warning text-white">
                         <b>ประวัติการซ่อม</b>
@@ -213,15 +214,16 @@
                                 @foreach($maintenances as $key => $row)
                                 <tr>
                                     <td class="text-center">{{ $key+1 }}</td>
-                                    <td class="text-center">{{ \Carbon\Carbon::parse($row->result_date)->format('d/m/Y') }}</td>
+                                    <td class="text-center">{{ $row->result_date_formatted }}</td>
                                     <td class="text-center">{{ number_format($row->repair_price, 2) }}</td>
                                     <td class="text-center">{{ $row->repair_reason }}</td>
                                 </tr>
-                               @endforeach
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
     </div>

@@ -27,6 +27,23 @@
                     </div>
 
                     <div class="row mb-3">
+                        <label for="assetName"
+                            class="col-md-4 col-form-label text-md-end">{{ __('Asset Name') }}</label>
+
+                        <div class="col-md-6">
+                            <input id="assetName" type="text"
+                                class="form-control @error('assetName') is-invalid @enderror"
+                                name="assetName" value="" required autocomplete="assetName">
+
+                            @error('assetName')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
                         <label for="detail_property"
                             class="col-md-4 col-form-label text-md-end">{{ __('รายละเอียดทรัพย์สิน') }}</label>
 
@@ -141,7 +158,7 @@
                         <div class="col-md-6">
                             <input id="purchase_date" type="date"
                                 class="form-control @error('purchase_date') is-invalid @enderror"
-                                name="purchase_date" max="{{ date('Y-m-d') }}" value="" required autocomplete="purchase_date">
+                                name="purchase_date" max="{{ date('Y-m-d') }}" value="">
 
                             @error('purchase_date')
                             <span class="invalid-feedback" role="alert">
@@ -159,7 +176,7 @@
                         <div class="col-md-6">
                             <input id="expiration_date" type="date"
                                 class="form-control @error('expiration_date') is-invalid @enderror" name="expiration_date"
-                                value="" required autocomplete="expiration_date">
+                                value="">
 
                             @error('expiration_date')
                             <span class="invalid-feedback" role="alert">
@@ -176,7 +193,7 @@
                         <div class="col-md-6">
                             <input id="purchase_price" type="text"
                                 class="form-control @error('purchase_price') is-invalid @enderror"
-                                name="purchase_price" value="" required autocomplete="off">
+                                name="purchase_price" value="" autocomplete="off">
 
                             @error('purchase_price')
                             <span class="invalid-feedback" role="alert">
@@ -188,13 +205,13 @@
 
                     <div class="row mb-3">
                         <label for="purchase_reason"
-                            class="col-md-4 col-form-label text-md-end">{{ __('สาเหตุ') }}</label>
+                            class="col-md-4 col-form-label text-md-end">{{ __('สาเหตุการซื้อ') }}</label>
 
                         <div class="col-md-6">
                             <textarea id="purchase_reason"
                                 class="form-control @error('purchase_reason') is-invalid @enderror"
                                 name="purchase_reason"
-                                rows="4" required autocomplete="purchase_reason">{{ old('purchase_reason') }}</textarea>
+                                rows="4" autocomplete="purchase_reason">{{ old('purchase_reason') }}</textarea>
 
 
                             @error('purchase_reason')

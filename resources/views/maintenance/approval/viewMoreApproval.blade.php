@@ -48,7 +48,7 @@
                     @else
                     <div class="col-12">
                         <div class="form-group row mb-0">
-                            <label class="col-md-4 col-form-label text-md-end">อุปกรณ์ / สิ่งของ ที่ต้องการซ่อม :</label>
+                            <label class="col-md-4 col-form-label text-md-end">ครุภัณฑ์ :</label>
                             <div class="col-md-6">
                                 <input type="text" name="repair_name" class="form-control" value="{{ $maintenance->repair_name }}" disabled />
                             </div>
@@ -62,7 +62,7 @@
                         <div class="form-group row mb-0">
                             <label class="col-md-4 col-form-label text-md-end">วันที่แจ้งซ่อม :</label>
                             <div class="col-md-8">
-                                <input type="text" name="repair_date" class="form-control" value="{{ \Carbon\Carbon::parse($maintenance->repair_date)->format('d/m/Y') }}" disabled />
+                                <input type="text" name="repair_date" class="form-control" value="{{ $maintenance->repair_date_formatted }}" disabled />
                             </div>
                         </div>
                     </div>
@@ -102,7 +102,7 @@
                         <div class="form-group row mb-0">
                             <label class="col-md-4 col-form-label text-md-end">วันที่ขออนุมัติ :</label>
                             <div class="col-md-8">
-                                <input type="text" name="process_date" class="form-control" value="{{ \Carbon\Carbon::parse($maintenance->process_date)->format('d/m/Y') }}" disabled />
+                                <input type="text" name="process_date" class="form-control" value="{{ $maintenance->process_date_formatted }}" disabled />
                             </div>
                         </div>
                     </div>
@@ -122,7 +122,7 @@
                         <div class="form-group row mb-0">
                             <label class="col-md-4 col-form-label text-md-end">วันที่อนุมัติ :</label>
                             <div class="col-md-8">
-                                <input type="text" name="approv_date" class="form-control" value="{{ \Carbon\Carbon::parse($maintenance->approv_date)->format('d/m/Y') }}" disabled />
+                                <input type="text" name="approv_date" class="form-control" value="{{ $maintenance->approv_date_formatted }}" disabled />
                             </div>
                         </div>
                     </div>
@@ -133,19 +133,44 @@
                         <div class="form-group row mb-0">
                             <label class="col-md-4 col-form-label text-md-end">ผู้อนุมัติ :</label>
                             <div class="col-md-8">
-                                <input type="text" name="approver" class="form-control" value="{{ $maintenance->approver }}" disabled />
+                                <!-- <input type="text" name="approver" class="form-control" value="{{ $maintenance->approver_name  }}" disabled /> -->
+                                <input type="text" name="approver" class="form-control" value="{{ $maintenance->approverUser->name }}" disabled />
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="row mt-3">
+                <div class="row mt-5">
+                    @if($maintenance->status == 'approved')
+                    <div class="col-6 text-center">
+                        <a href="{{ asset('storage/' . $maintenance->quotation) }}" target="_blank" class="btn btn-secondary">
+                            ดูไฟล์ใบเสนอราคา
+                        </a>
+                    </div>
+
+                    <div class="col-6 text-center">
+                        <a href="{{ route('maintenance.downloadApprove', $maintenance->id) }}" class="btn btn-info">
+                            ดาวน์โหลดใบอนุมัติ
+                        </a>
+                    </div>
+                    @else
                     <div class="col-12 text-center">
                         <a href="{{ asset('storage/' . $maintenance->quotation) }}" target="_blank" class="btn btn-secondary">
                             ดูไฟล์ใบเสนอราคา
                         </a>
                     </div>
+                    @endif
                 </div>
+
+                @if($maintenance->status == 'approved')
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <button type="button" id="btnFinishMaintenance" class="btn btn-success" data-id="{{ $maintenance->id }}">
+                            ซ่อมเสร็จแล้ว
+                        </button>
+                    </div>
+                </div>
+                @endif
 
                 @php
                 $userRole = auth()->user()->role;
@@ -154,9 +179,10 @@
                 <div class="row mt-3">
                     <div class="col-12 text-end">
                         @if($maintenance->status == 'processing')
-                        @if($maintenance->approver == 'Manager')
-                        @if( $userRole == 'audit' || $userRole == 'manager')
-                        <button class="btn btn-success btn-approve" title="อนุมัติ" data-id="{{ $maintenance->id }}">
+
+                        @if($maintenance->approverUser->role == 'manager')
+                        @if( ($userRole == 'audit' || $userRole == 'manager' || $userRole == 'md') )
+                        <button class="btn btn-success btn-approve" style="margin-right: 4px;" title="อนุมัติ" data-id="{{ $maintenance->id }}">
                             <i class="bi bi-check2"></i> อนุมัติ
                         </button>
                         <button class="btn btn-danger btn-reject" title="ไม่อนุมัติ" data-id="{{ $maintenance->id }}">
@@ -165,9 +191,9 @@
                         @endif
                         @endif
 
-                        @if($maintenance->approver == 'MD')
-                        @if( $userRole == 'md')
-                        <button class="btn btn-success btn-approve" title="อนุมัติ" data-id="{{ $maintenance->id }}">
+                        @if($maintenance->approverUser->role == 'md')
+                        @if( $userRole == 'md' )
+                        <button class="btn btn-success btn-approve" style="margin-right: 4px;" title="อนุมัติ" data-id="{{ $maintenance->id }}">
                             <i class="bi bi-check2"></i> อนุมัติ
                         </button>
                         <button class="btn btn-danger btn-reject" title="ไม่อนุมัติ" data-id="{{ $maintenance->id }}">
@@ -175,6 +201,7 @@
                         </button>
                         @endif
                         @endif
+
                         @endif
                     </div>
                 </div>

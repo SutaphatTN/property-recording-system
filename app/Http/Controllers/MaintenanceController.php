@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\asset_maintenance;
 use App\Models\asset_information;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Mail\ApproveRequestMail;
+use App\Mail\RequestMaintenanceMail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 class MaintenanceController extends Controller
 {
@@ -61,7 +66,12 @@ class MaintenanceController extends Controller
                 'category' => '01',
             ];
 
-            asset_maintenance::create($data);
+            $maintenance = asset_maintenance::create($data);
+
+            $presenterEmail = Auth::check() ? Auth::user()->email : null;
+            Mail::to(['nan.sutaphat1886@gmail.com', 'nan.sutaphat@gmail.com'])
+                ->cc($presenterEmail ? [$presenterEmail] : [])
+                ->send(new RequestMaintenanceMail($maintenance));
 
             return response()->json([
                 'success' => true,
@@ -83,6 +93,19 @@ class MaintenanceController extends Controller
     public function storeGeneral(Request $request)
     {
         try {
+            if ($request->asset_id) {
+                $exists = asset_maintenance::where('asset_id', $request->asset_id)
+                    ->where('status', '!=', asset_maintenance::STATUS_FINISHED)
+                    ->exists();
+
+                if ($exists) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'ทรัพย์สินนี้ยังมีรายการซ่อมที่ยังไม่เสร็จ กรุณาตรวจสอบ'
+                    ], 400);
+                }
+            }
+
             $data = [
                 'repair_name' => $request->repair_name,
                 'repair_date' => $request->repair_date,
@@ -92,7 +115,12 @@ class MaintenanceController extends Controller
                 'category' => '02',
             ];
 
-            asset_maintenance::create($data);
+            $maintenance = asset_maintenance::create($data);
+
+            $presenterEmail = Auth::check() ? Auth::user()->email : null;
+            Mail::to(['nan.sutaphat1886@gmail.com', 'nan.sutaphat@gmail.com'])
+                ->cc($presenterEmail ? [$presenterEmail] : [])
+                ->send(new RequestMaintenanceMail($maintenance));
 
             return response()->json([
                 'success' => true,
@@ -116,6 +144,19 @@ class MaintenanceController extends Controller
     public function storeFromQr(Request $request)
     {
         try {
+            if ($request->asset_id) {
+                $exists = asset_maintenance::where('asset_id', $request->asset_id)
+                    ->where('status', '!=', asset_maintenance::STATUS_FINISHED)
+                    ->exists();
+
+                if ($exists) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'ทรัพย์สินนี้ยังมีรายการซ่อมที่ยังไม่เสร็จ กรุณาตรวจสอบ'
+                    ], 400);
+                }
+            }
+
             $data = [
                 'asset_id' => $request->asset_id,
                 'repair_date' => $request->repair_date,
@@ -125,7 +166,12 @@ class MaintenanceController extends Controller
                 'category' => '01',
             ];
 
-            asset_maintenance::create($data);
+            $maintenance = asset_maintenance::create($data);
+
+            $presenterEmail = Auth::check() ? Auth::user()->email : null;
+            Mail::to(['nan.sutaphat1886@gmail.com', 'nan.sutaphat@gmail.com'])
+                ->cc($presenterEmail ? [$presenterEmail] : [])
+                ->send(new RequestMaintenanceMail($maintenance));
 
             return response()->json([
                 'success' => true,
@@ -153,19 +199,6 @@ class MaintenanceController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            if ($request->asset_id) {
-                $exists = asset_maintenance::where('asset_id', $request->asset_id)
-                    ->where('status', '!=', asset_maintenance::STATUS_FINISHED)
-                    ->exists();
-
-                if ($exists) {
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'ทรัพย์สินนี้ยังมีรายการซ่อมที่ยังไม่เสร็จ กรุณาตรวจสอบ'
-                    ], 400);
-                }
-            }
-
             $maintenance = asset_maintenance::findOrFail($id);
 
             $data = $request->except(['_token', '_method']);
@@ -229,11 +262,12 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function reject($id)
+    public function reject(Request $request, $id)
     {
         try {
             $maintenance = asset_maintenance::findOrFail($id);
             $maintenance->status = asset_maintenance::STATUS_REJECTED;
+            $maintenance->note = $request->note;
             $maintenance->approv_date = now();
             $maintenance->save();
 
@@ -270,13 +304,20 @@ class MaintenanceController extends Controller
         return response()->json($results->toArray());
     }
 
-    public function viewAudit()
+    public function viewAudit(Request $request)
     {
         $maintenance = asset_maintenance::with('asset_information')
             ->whereIn('status', ['pending'])
             ->get();
 
-        return view('maintenance.audit.view', compact('maintenance'));
+        if ($request->ajax()) {
+            return view('maintenance.audit.fragment', compact('maintenance'));
+        }
+
+        return view('maintenance.audit.view', [
+            'maintenance' => $maintenance,
+            'openId' => $request->query('id')
+        ]);
     }
 
     public function editAudit($id)
@@ -290,37 +331,11 @@ class MaintenanceController extends Controller
     public function updateAudit(Request $request, $id)
     {
         try {
-            if ($request->asset_id) {
-                $exists = asset_maintenance::where('asset_id', $request->asset_id)
-                    ->where('status', '!=', asset_maintenance::STATUS_FINISHED)
-                    ->exists();
-
-                if ($exists) {
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'ทรัพย์สินนี้มีอยู่ในรายการ รอตรวจสอบ แล้ว กรุณาตรวจสอบ'
-                    ], 400);
-                }
-            }
-
             $maintenance = asset_maintenance::findOrFail($id);
 
             $data = $request->except(['_token', '_method']);
             $data['status'] = asset_maintenance::STATUS_PROCESSING;
-
-            if ($request->filled('repair_price')) {
-                $repairPrice = (float) str_replace(',', '', $request->repair_price);
-                $data['repair_price'] = $repairPrice;
-
-                $manager = User::where('role', 'manager')->first();
-                $md      = User::where('role', 'md')->first();
-
-                if ($repairPrice <= 5000) {
-                    $data['approver'] = $manager ? $manager->name : null;
-                } else {
-                    $data['approver'] = $md ? $md->name : null;
-                }
-            }
+            $data['repair_price'] = (float) str_replace(',', '', $request->repair_price);
 
             if ($request->hasFile('quotation')) {
                 $file = $request->file('quotation');
@@ -330,6 +345,11 @@ class MaintenanceController extends Controller
             }
 
             $maintenance->update($data);
+
+            if ($maintenance->approverUser && $maintenance->approverUser->email) {
+                Mail::to($maintenance->approverUser->email)
+                    ->send(new ApproveRequestMail($maintenance));
+            }
 
             return response()->json([
                 'success' => true,
@@ -343,13 +363,56 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function viewApproval()
+    public function getApprover(Request $request)
+    {
+        $repairPrice = (float) str_replace(',', '', $request->repair_price);
+        $currentUser = Auth::user();
+
+        $companyApproverIds = [];
+        if ($currentUser->company_approver) {
+            $companyApproverIds = array_map('trim', explode(',', $currentUser->company_approver));
+        }
+
+        $managers = User::where('role', 'manager')
+            ->whereIn('company', $companyApproverIds)
+            ->get();
+
+        $mds = User::where('role', 'md')
+            ->whereIn('company', $companyApproverIds)
+            ->get();
+
+        $approvers = [];
+
+        if ($repairPrice <= $managers->max('price')) {
+            foreach ($managers as $manager) {
+                if ($repairPrice <= $manager->price) {
+                    $approvers[] = ['id' => $manager->id, 'name' => $manager->name];
+                }
+            }
+        } else {
+            foreach ($mds as $md) {
+                $approvers[] = ['id' => $md->id, 'name' => $md->name];
+            }
+        }
+
+        return response()->json($approvers);
+    }
+
+
+    public function viewApproval(Request $request)
     {
         $maintenance = asset_maintenance::with('asset_information')
             ->whereIn('status', ['processing'])
             ->get();
 
-        return view('maintenance.approval.view', compact('maintenance'));
+        if ($request->ajax()) {
+            return view('maintenance.approval.fragment', compact('maintenance'));
+        }
+
+        return view('maintenance.approval.view', [
+            'maintenance' => $maintenance,
+            'openId' => $request->query('id')
+        ]);
     }
 
     public function viewMoreApproval($id)
@@ -362,7 +425,7 @@ class MaintenanceController extends Controller
     public function viewResultApproval()
     {
         $maintenance = asset_maintenance::with('asset_information')
-            ->whereIn('status', ['approved', 'rejected', 'finished'])
+            ->whereIn('status', ['approved'])
             ->get();
 
         return view('maintenance.result.view', compact('maintenance'));
@@ -372,7 +435,7 @@ class MaintenanceController extends Controller
     {
         try {
             $maintenance = asset_maintenance::findOrFail($id);
-            $maintenance->repair_result = 'เสร็จแล้ว';
+            $maintenance->repair_result = 'ซ่อมเสร็จแล้ว';
             $maintenance->result_date = now();
             $maintenance->status = asset_maintenance::STATUS_FINISHED;
             $maintenance->save();
@@ -387,5 +450,22 @@ class MaintenanceController extends Controller
                 'message' => 'เกิดข้อผิดพลาด: ' . $e->getMessage()
             ], 500);
         }
+    }
+
+    public function downloadApprove($id)
+    {
+        $maintenance = asset_maintenance::with('asset_information.company')->findOrFail($id);
+
+        $filename = 'approve_';
+        if ($maintenance->asset_information) {
+            $filename .= $maintenance->asset_information->assetCode ?? '-';
+        } else {
+            $filename .= $maintenance->repair_name ?? '-';
+        }
+        $filename .= '.pdf';
+
+        $pdf = Pdf::loadView('maintenance.approval.approve_pdf', compact('maintenance'));
+
+        return $pdf->download($filename);
     }
 }

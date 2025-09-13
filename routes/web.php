@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\MaintenanceController;
+use App\Http\Controllers\Auth\RegisterController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -13,6 +14,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register.view');
+Route::post('/register', [RegisterController::class, 'register'])->name('register.store');
+
 Route::group(['middleware' => 'auth'], function () {
     //maintenance store general
     Route::get('/maintenance/create/general', [MaintenanceController::class, 'createGeneral'])->name('maintenance.createGeneral');
@@ -33,14 +38,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/maintenance/{id}/approve', [MaintenanceController::class, 'approve'])->name('maintenance.approve');
     Route::put('/maintenance/{id}/reject', [MaintenanceController::class, 'reject'])->name('maintenance.reject');
 
-    //finish
+    //maintenance finish
     Route::post('/maintenance/{id}/finish', [MaintenanceController::class, 'finish'])->name('maintenance.finish');
 
     //maintenance result approval
     Route::get('/maintenance/view-result-approval', [MaintenanceController::class, 'viewResultApproval'])->name('maintenance.viewResultApproval');
 
-    //search
+    //maintenance search asset id
     Route::get('/maintenance/search', [MaintenanceController::class, 'search'])->name('maintenance.search');
+
+    //maintenance approved download
+    Route::get('/maintenance/approve/{id}', [MaintenanceController::class, 'downloadApprove'])->name('maintenance.downloadApprove');
+
+    //maintenance user approve
+    Route::get('/maintenance/get-approver', [MaintenanceController::class, 'getApprover'])->name('maintenance.getApprover');
 
     //asset
     Route::get('assetData/{id}/view-more', [AssetController::class, 'viewMore'])->name('assetData.viewMore');

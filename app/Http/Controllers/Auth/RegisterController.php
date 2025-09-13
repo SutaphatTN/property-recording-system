@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\company;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -37,7 +39,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        // $this->middleware('guest');
     }
 
     /**
@@ -53,6 +55,10 @@ class RegisterController extends Controller
             'username' => ['required', 'string', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'role' => ['required', 'string', 'in:staff,audit,manager,md'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'company' => ['required', 'exists:company,id'],
+            'company_approver' => ['required', 'array'],
+            'company_approver.*' => ['exists:company,id'],
         ]);
     }
 
@@ -64,12 +70,36 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $price = 0;
+        if (in_array($data['role'], ['manager', 'md'])) {
+            $price = 5000;
+        }
+
         return User::create([
             'name' => $data['name'],
             'username' => $data['username'],
             'password' => Hash::make($data['password']),
             'password_plain' => $data['password'],
             'role' => $data['role'],
+            'price' => $price,
+            'email' => $data['email'],
+            'company' => $data['company'],
+            'company_approver' => implode(',', $data['company_approver']),
         ]);
+    }
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        $user = $this->create($request->all());
+
+        return redirect()->back()->with('success', 'สร้างบัญชีเรียบร้อยแล้ว');
+    }
+
+    public function showRegistrationForm()
+    {
+        $companies = company::all();
+        return view('auth.register', compact('companies'));
     }
 }

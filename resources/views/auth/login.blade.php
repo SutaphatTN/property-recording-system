@@ -77,11 +77,11 @@
                         <button type="submit" class="btn btn-primary">Login</button>
                     </div>
 
-                    {{-- Register / Sign Up --}}
+                    <!-- {{-- Register / Sign Up --}}
                     <div class="text-center">
                         <span>Don't have an account? </span>
                         <a href="{{ route('register') }}">Sign Up</a>
-                    </div>
+                    </div> -->
                     @endguest
                 </form>
             </div>

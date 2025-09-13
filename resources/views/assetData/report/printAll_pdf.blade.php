@@ -58,8 +58,8 @@ $assets = $asset instanceof \Illuminate\Support\Collection ? $asset : collect([$
                     <div class="label-text">
                         <p><b>รหัส :</b> {{ $row->assetCode }}</p>
                         <p><b>ชื่อ :</b> {{ $row->assetName }}</p>
-                        <p><b>วันที่ซื้อ :</b> {{ \Carbon\Carbon::parse($row->purchase_date)->format('d/m/Y') }}</p>
-                        <p><b>หมดประกัน :</b> {{ \Carbon\Carbon::parse($row->expiration_date)->format('d/m/Y') }}</p>
+                        <p><b>วันที่ซื้อ :</b> {{ $row->purchase_date_formatted }}</p>
+                        <p><b>หมดประกัน :</b> {{ $row->expiration_date_formatted }}</p>
                     </div>
                 </div>
                 <div class="label-footer">

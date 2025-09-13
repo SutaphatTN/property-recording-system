@@ -52,8 +52,8 @@ class AssetController extends Controller
 
     public function getByCompany($companyId)
     {
-        $departments = department::where('company_id', $companyId)->get();
-        $branches = branch::where('company_id', $companyId)->get();
+        $departments = department::whereRaw("FIND_IN_SET('" . $companyId . "', company_id)")->get();
+        $branches = branch::whereRaw("FIND_IN_SET('" . $companyId . "', company_id)")->get();
 
         return response()->json([
             'departments' => $departments,
@@ -265,7 +265,7 @@ class AssetController extends Controller
 
             $data = [
                 'assetCode' => $assetCode,
-                'assetName' => '-',
+                'assetName' => $request->assetName,
                 'detail_property' => $request->detail_property,
                 'company_id' => $request->company_id,
                 'branch_id' => $request->branch_id,
@@ -335,16 +335,19 @@ class AssetController extends Controller
             ->get();
 
         if ($asset->isEmpty()) {
-            return back()->with('error', 'ไม่พบข้อมูลในช่วงวันที่ที่เลือก');
+            return response()->json([
+                'status' => 'error',
+                'message' => 'ไม่พบข้อมูลในช่วงวันที่เลือก'
+            ]);
         }
 
         $pdf = Pdf::loadView('assetData.report.printAll_pdf', compact('asset'))
             ->setPaper('A4', 'portrait');
 
-        $filename = 'asset_' . now()->format('Ymd_His') . '.pdf';
-
-        return $pdf->download($filename);
+        return response($pdf->stream(), 200)
+            ->header('Content-Type', 'application/pdf');
     }
+
 
     public function downloadPrintOne($id)
     {
@@ -356,7 +359,7 @@ class AssetController extends Controller
 
         $filename = 'asset_' . $asset->assetCode . '_' . now()->format('Ymd_His') . '.pdf';
 
-        return $pdf->download($filename);
+        return $pdf->stream($filename);
     }
 
     public function excel(Request $request)

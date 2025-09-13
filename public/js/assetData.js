@@ -156,7 +156,17 @@ $(document).on('click', '#btnUpdateAsset', function () {
         contentType: false,
         processData: false,
         beforeSend: function () {
-            $btn.prop('disabled', true).text('กำลังบันทึก...');
+            $('.modalEditAsset').modal('hide');
+
+            Swal.fire({
+                title: 'กำลังบันทึกข้อมูล...',
+                text: 'กรุณารอสักครู่',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            $btn.prop('disabled', true);
         },
         success: function (res) {
             Swal.fire({
@@ -166,8 +176,6 @@ $(document).on('click', '#btnUpdateAsset', function () {
                 timer: 2000,
                 showConfirmButton: true
             });
-
-            $('.modalEditAsset').modal('hide');
 
             if ($btn.closest('.modalEditAsset').length) {
                 reloadAsset();
@@ -211,7 +219,17 @@ $(document).on('click', '#btnSaveAsset', function () {
         contentType: false,
         processData: false,
         beforeSend: function () {
-            $btn.prop('disabled', true).text('กำลังบันทึก...');
+            $('.modalStoreAsset, .modalStoreAssetGen').modal('hide');
+
+            Swal.fire({
+                title: 'กำลังบันทึกข้อมูล...',
+                text: 'กรุณารอสักครู่',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            $btn.prop('disabled', true);
         },
         success: function (res) {
             Swal.fire({
@@ -221,8 +239,6 @@ $(document).on('click', '#btnSaveAsset', function () {
                 timer: 2000,
                 showConfirmButton: true
             });
-
-            $('.modalStoreAsset, .modalStoreAssetGen').modal('hide');
 
             if ($btn.closest('.modalStoreAsset, .modalStoreAssetGen').length) {
                 reloadAsset();
@@ -287,4 +303,36 @@ $(document).ready(function () {
     if ($('#assetViewTable').length) {
         initAssetTable();
     }
+});
+
+$(document).on('submit', '#formPrintAll', function (e) {
+    e.preventDefault();
+    var form = $(this);
+    var errorDiv = $('#printAllError');
+    errorDiv.addClass('d-none').text('');
+
+    $.ajax({
+        url: form.attr('action'),
+        method: form.attr('method'),
+        data: form.serialize(),
+        xhrFields: { responseType: 'blob' },
+        success: function (data, status, xhr) {
+            var contentType = xhr.getResponseHeader('Content-Type');
+            if (contentType === 'application/pdf') {
+                var blob = new Blob([data], { type: 'application/pdf' });
+                var url = window.URL.createObjectURL(blob);
+                window.open(url, '_blank');
+            } else {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    var json = JSON.parse(reader.result);
+                    errorDiv.removeClass('d-none').text(json.message);
+                };
+                reader.readAsText(data);
+            }
+        },
+        error: function () {
+            errorDiv.removeClass('d-none').text('ไม่พบข้อมูลทรัพย์สิน ตามวันเดือนปีที่คุณเลือก กรุณาลองใหม่');
+        }
+    });
 });

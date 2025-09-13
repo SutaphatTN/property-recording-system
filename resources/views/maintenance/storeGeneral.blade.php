@@ -11,7 +11,7 @@
 
                     <div class="row mb-3">
                         <label for="repair_name"
-                            class="col-md-4 col-form-label text-md-end">{{ __('อุปกรณ์ / สิ่งของ ที่ต้องการซ่อม') }}</label>
+                            class="col-md-4 col-form-label text-md-end">{{ __('ครุภัณฑ์') }}</label>
 
                         <div class="col-md-6">
                             <input id="repair_name"

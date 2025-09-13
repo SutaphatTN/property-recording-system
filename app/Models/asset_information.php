@@ -60,4 +60,18 @@ class asset_information extends Model
     {
         return $this->belongsTo(position::class);
     }
+
+    public function getPurchaseDateFormattedAttribute()
+    {
+        return $this->purchase_date
+            ? \Carbon\Carbon::parse($this->purchase_date)->format('d/m/Y')
+            : '-';
+    }
+
+    public function getExpirationDateFormattedAttribute()
+    {
+        return $this->expiration_date
+            ? \Carbon\Carbon::parse($this->expiration_date)->format('d/m/Y')
+            : '-';
+    }
 }

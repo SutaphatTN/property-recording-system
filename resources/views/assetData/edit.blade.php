@@ -197,7 +197,8 @@
                         <div class="col-md-6">
                             <input id="purchase_date" type="date"
                                 class="form-control @error('purchase_date') is-invalid @enderror"
-                                name="purchase_date" max="{{ date('Y-m-d') }}" value="{{ $asset->purchase_date }}" autocomplete="purchase_date" required>
+                                name="purchase_date" max="{{ date('Y-m-d') }}" 
+                                value="{{ $asset->purchase_date }}">
 
                             @error('purchase_date')
                             <span class="invalid-feedback" role="alert">
@@ -215,7 +216,7 @@
                         <div class="col-md-6">
                             <input id="expiration_date" type="date"
                                 class="form-control @error('expiration_date') is-invalid @enderror" name="expiration_date"
-                                value="{{ $asset->expiration_date }}" autocomplete="expiration_date" required>
+                                value="{{ $asset->expiration_date }}">
 
                             @error('expiration_date')
                             <span class="invalid-feedback" role="alert">
@@ -232,7 +233,7 @@
                         <div class="col-md-6">
                             <input id="purchase_price" type="text"
                                 class="form-control @error('purchase_price') is-invalid @enderror"
-                                name="purchase_price" value="{{ number_format($asset->purchase_price, 2) }}" autocomplete="off" required>
+                                name="purchase_price" value="{{ $asset->purchase_price !== null && $asset->purchase_price !== '' ? number_format((float)$asset->purchase_price, 2) : '-' }}" autocomplete="off">
 
                             @error('purchase_price')
                             <span class="invalid-feedback" role="alert">
@@ -244,13 +245,13 @@
 
                     <div class="row mb-3">
                         <label for="purchase_reason"
-                            class="col-md-4 col-form-label text-md-end">{{ __('สาเหตุ') }}</label>
+                            class="col-md-4 col-form-label text-md-end">{{ __('สาเหตุการซื้อ') }}</label>
 
                         <div class="col-md-6">
                             <textarea id="purchase_reason"
                                 class="form-control @error('purchase_reason') is-invalid @enderror"
                                 name="purchase_reason"
-                                rows="4" autocomplete="purchase_reason" required>{{ $asset->purchase_reason }}</textarea>
+                                rows="4" autocomplete="purchase_reason">{{ $asset->purchase_reason ?: '-' }}</textarea>
 
 
                             @error('purchase_reason')

@@ -17,6 +17,13 @@
     </li>
 
     <li class="menu-item">
+      <a class="menu-link btnOpenStoreAssetModal" href="#">
+        <i class="menu-icon tf-icons bx bx-plus"></i>
+        เพิ่มข้อมูลทรัพย์สิน
+      </a>
+    </li>
+
+    <!-- <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-plus"></i>
         <div class="text-truncate">{{ __('เพิ่มข้อมูลทรัพย์สิน') }}</div>
@@ -29,7 +36,7 @@
           <a class="menu-link btnOpenStoreAssetModal" href="#" wire:navigate>{{ __('ทรัพย์สินใหม่') }}</a>
         </li>
       </ul>
-    </li>
+    </li> -->
 
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">

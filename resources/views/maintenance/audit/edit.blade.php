@@ -19,16 +19,11 @@
                             class="col-md-4 col-form-label text-md-end">{{ __('Asset Code') }}</label>
 
                         <div class="col-md-6">
-                            <select name="asset_id" class="form-control">
-                                @foreach($asset as $info)
-                                <option value="{{ $info->id }}"
-                                    {{ $maintenance->asset_id == $info->id ? 'selected' : '' }}>
-                                    {{ $info->assetCode }}
-                                </option>
-                                @endforeach
-                            </select>
+                            <input type="text" class="form-control asset_search" placeholder="พิมพ์ Asset Code เพื่อค้นหา"
+                                value="{{ $maintenance->asset_information->assetCode }}">
+                            <input type="hidden" name="asset_id" class="asset_id" value="{{ $maintenance->asset_id }}">
 
-                            @error('asset_id')
+                            @error('assetCode')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -38,7 +33,7 @@
                     @else
                     <div class="row mb-3">
                         <label for="repair_name"
-                            class="col-md-4 col-form-label text-md-end">{{ __('อุปกรณ์ / สิ่งของ ที่ต้องการซ่อม') }}</label>
+                            class="col-md-4 col-form-label text-md-end">{{ __('ครุภัณฑ์') }}</label>
 
                         <div class="col-md-6">
                             <input id="repair_name" type="text"
@@ -107,7 +102,7 @@
                         </div>
                     </div>
 
-                    @if($maintenance->repair_name)
+                    <!-- @if($maintenance->repair_name)
                     <div class="row mb-3">
                         <label for="assetCode"
                             class="col-md-4 col-form-label text-md-end">{{ __('Asset Code') }}</label>
@@ -123,7 +118,7 @@
                             @enderror
                         </div>
                     </div>
-                    @endif
+                    @endif -->
 
                     <div class="row mb-3">
                         <label for="repair_price"
@@ -158,7 +153,7 @@
 
                             <input id="quotation" type="file" accept="application/pdf"
                                 class="form-control @error('quotation') is-invalid @enderror"
-                                name="quotation" value="{{ old('quotation', $maintenance->quotation) }}" autocomplete="off">
+                                name="quotation" value="{{ old('quotation', $maintenance->quotation) }}" autocomplete="off" required>
 
                             @error('quotation')
                             <span class="invalid-feedback" role="alert">
@@ -204,6 +199,22 @@
                             @enderror
                         </div>
                     </div>
+
+                    <div class="row mb-3">
+                        <label for="approver" class="col-md-4 col-form-label text-md-end">{{ __('ผู้อนุมัติ') }}</label>
+                        <div class="col-md-6">
+                            <select name="approver" id="approver" class="form-select" required>
+                                <option value="">-- เลือกผู้อนุมัติ --</option>
+                            </select>
+
+                            @error('approver')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+
                     @endif
 
                     <div class="row mb-0">

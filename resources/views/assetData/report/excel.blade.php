@@ -32,8 +32,8 @@
                     </div>
 
                     <br>
-                    <div class="text-center gap-2">
-                        <button type="submit" class="btn bg-info text-white">
+                    <div class="text-center">
+                        <button type="submit" class="btn bg-info text-white" style="margin-right: 3px;">
                             <i class="bx bx-printer"></i>&nbsp;Print
                         </button>
                         <button type="button" class="btn bg-danger text-white" data-bs-dismiss="modal">

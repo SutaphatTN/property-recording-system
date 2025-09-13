@@ -9,8 +9,10 @@
                 </div>
             </div>
             <div class="modal-body text-sm">
-                <form action="{{ route('assetData.downloadPrintAll') }}" method="post">
+                <form id="formPrintAll" action="{{ route('assetData.downloadPrintAll') }}" method="post">
                     @csrf
+
+                    <div id="printAllError" class="alert alert-danger d-none mt-2"></div>
 
                     <div class="row">
                         <div class="col-6">
