@@ -69,7 +69,7 @@ class MaintenanceController extends Controller
             $maintenance = asset_maintenance::create($data);
 
             $presenterEmail = Auth::check() ? Auth::user()->email : null;
-            Mail::to(['nan.sutaphat1886@gmail.com', 'nan.sutaphat@gmail.com'])
+            Mail::to(['WorawongM@Chookiat.org', 'HR@Chookiat.org'])
                 ->cc($presenterEmail ? [$presenterEmail] : [])
                 ->send(new RequestMaintenanceMail($maintenance));
 
@@ -118,7 +118,7 @@ class MaintenanceController extends Controller
             $maintenance = asset_maintenance::create($data);
 
             $presenterEmail = Auth::check() ? Auth::user()->email : null;
-            Mail::to(['nan.sutaphat1886@gmail.com', 'nan.sutaphat@gmail.com'])
+            Mail::to(['WorawongM@Chookiat.org', 'HR@Chookiat.org'])
                 ->cc($presenterEmail ? [$presenterEmail] : [])
                 ->send(new RequestMaintenanceMail($maintenance));
 
@@ -169,7 +169,7 @@ class MaintenanceController extends Controller
             $maintenance = asset_maintenance::create($data);
 
             $presenterEmail = Auth::check() ? Auth::user()->email : null;
-            Mail::to(['nan.sutaphat1886@gmail.com', 'nan.sutaphat@gmail.com'])
+            Mail::to(['WorawongM@Chookiat.org', 'HR@Chookiat.org'])
                 ->cc($presenterEmail ? [$presenterEmail] : [])
                 ->send(new RequestMaintenanceMail($maintenance));
 
