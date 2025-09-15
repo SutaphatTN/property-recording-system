@@ -64,13 +64,13 @@ $(document).on('change', '.company-select', function () {
         $.get('/company/' + companyId, function (data) {
             if (data.branches.length > 0) {
                 data.branches.forEach(function (branch) {
-                    branchSelect.append('<option value="' + branch.id + '">' + branch.branch_name + '</option>');
+                    branchSelect.append('<option value="' + branch.id + '">' + branch.branch_name_th + '</option>');
                 });
             }
 
             if (data.departments.length > 0) {
                 data.departments.forEach(function (dept) {
-                    departmentSelect.append('<option value="' + dept.id + '">' + dept.department_name + '</option>');
+                    departmentSelect.append('<option value="' + dept.id + '">' + dept.department_name_th + '</option>');
                 });
             }
         });
