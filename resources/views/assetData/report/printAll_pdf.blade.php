@@ -9,8 +9,22 @@ $assets = $asset instanceof \Illuminate\Support\Collection ? $asset : collect([$
     <meta charset="UTF-8">
     <title>QR Code Assets</title>
     <style>
-        body {
+        @font-face {
             font-family: 'sarabun';
+            src: url("{{ resource_path('fonts/Sarabun-Regular.ttf') }}") format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'sarabun';
+            src: url("{{ resource_path('fonts/Sarabun-Bold.ttf') }}") format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'sarabun', DejaVu Sans, sans-serif;
             font-size: 10pt;
         }
 
