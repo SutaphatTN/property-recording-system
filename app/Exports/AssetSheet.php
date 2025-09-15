@@ -27,7 +27,7 @@ class AssetSheet implements FromArray, WithTitle
 
         foreach ($reportData as $row) {
             $data[] = [
-                $row->company->company_name ?? '',
+                $row->company->company_name_th ?? '',
                 $row->assetCode,
                 $row->assetName,
                 $row->month,

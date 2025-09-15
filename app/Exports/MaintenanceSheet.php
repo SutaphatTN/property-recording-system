@@ -28,7 +28,7 @@ class MaintenanceSheet implements FromArray, WithTitle
         foreach ($reportData as $row) {
             if ($row->asset_information && $row->asset_information->company) {
                 $data[] = [
-                    $row->asset_information->company->company_name,
+                    $row->asset_information->company->company_name_th,
                     $row->asset_information->assetCode,
                     $row->asset_information->assetName,
                     $row->month,

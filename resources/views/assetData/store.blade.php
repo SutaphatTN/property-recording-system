@@ -85,7 +85,7 @@
                             <select class="form-control company-select" name="company_id" required>
                                 <option value="">-- เลือกบริษัท --</option>
                                 @foreach($companies as $company)
-                                <option value="{{ $company->id }}">{{ $company->company_name }}</option>
+                                <option value="{{ $company->id }}">{{ $company->company_name_th }}</option>
                                 @endforeach
                             </select>
 
@@ -156,7 +156,7 @@
                             <select name="position_id" class="form-control" required>
                                 <option value="">-- เลือกตำแหน่ง --</option>
                                 @foreach($positions as $position)
-                                <option value="{{ $position->id }}">{{ $position->position_name }}</option>
+                                <option value="{{ $position->id }}">{{ $position->position_name_th }}</option>
                                 @endforeach
                             </select>
 

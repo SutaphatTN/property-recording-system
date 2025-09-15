@@ -26,10 +26,10 @@
             <td>{{ $row->assetCode }}</td>
             <td>{{ $row->assetName }}</td>
             <td>{{ $row->detail_property }}</td>
-            <td>{{ $row->company->company_name ?? '-' }}</td>
-            <td>{{ $row->branch->branch_name ?? '-' }}</td>
-            <td>{{ $row->department->department_name ?? '-' }}</td>
-            <td>{{ $row->position->position_name ?? '-' }}</td>
+            <td>{{ $row->company->company_name_th ?? '-' }}</td>
+            <td>{{ $row->branch->branch_name_th ?? '-' }}</td>
+            <td>{{ $row->department->department_name_th ?? '-' }}</td>
+            <td>{{ $row->position->position_name_th ?? '-' }}</td>
             <td>{{ $row->purchase_date }}</td>
             <td>{{ $row->expiration_date }}</td>
         </tr>

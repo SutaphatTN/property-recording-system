@@ -396,11 +396,11 @@ class AssetController extends Controller
         $tableData = [];
 
         foreach ($companies as $company) {
-            $tableData[$company->company_name] = array_fill(1, 12, 0);
+            $tableData[$company->company_name_th] = array_fill(1, 12, 0);
         }
 
         foreach ($reportData as $data) {
-            $companyName = $data->company->company_name;
+            $companyName = $data->company->company_name_th;
             $month = $data->month;
             $tableData[$companyName][$month] = $data->total;
         }
@@ -418,7 +418,7 @@ class AssetController extends Controller
 
         foreach ($maintenanceData as $data) {
             if ($data->asset_information && $data->asset_information->company) {
-                $companyName = $data->asset_information->company->company_name;
+                $companyName = $data->asset_information->company->company_name_th;
                 $month = $data->month;
 
                 if (!isset($maintenanceTableData[$companyName])) {

@@ -68,7 +68,7 @@
                                 <div class="form-group row mb-0">
                                     <label class="col-md-4 col-form-label text-md-end">บริษัท :</label>
                                     <div class="col-md-8">
-                                        <input type="text" name="company_id" class="form-control" value="{{ $asset->company->company_name }}" disabled />
+                                        <input type="text" name="company_id" class="form-control" value="{{ $asset->company->company_name_th }}" disabled />
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@
                                 <div class="form-group row mb-0">
                                     <label class="col-md-4 col-form-label text-md-end">แผนกผู้รับผิดชอบ :</label>
                                     <div class="col-md-8">
-                                        <input type="text" name="department_id" class="form-control" value="{{ $asset->department->department_name }}" disabled />
+                                        <input type="text" name="department_id" class="form-control" value="{{ $asset->department->department_name_th }}" disabled />
                                     </div>
                                 </div>
                             </div>
@@ -87,7 +87,7 @@
                                 <div class="form-group row mb-0">
                                     <label class="col-md-4 col-form-label text-md-end">สาขา :</label>
                                     <div class="col-md-8">
-                                        <input type="text" name="branch_id" class="form-control" value="{{ $asset->branch->branch_name }}" disabled />
+                                        <input type="text" name="branch_id" class="form-control" value="{{ $asset->branch->branch_name_th }}" disabled />
                                     </div>
                                 </div>
                             </div>
@@ -95,7 +95,7 @@
                                 <div class="form-group row mb-0">
                                     <label class="col-md-4 col-form-label text-md-end">ตำแหน่งรับผิดชอบ :</label>
                                     <div class="col-md-8">
-                                        <input type="text" name="position_id" class="form-control" value="{{ $asset->position->position_name }}" disabled />
+                                        <input type="text" name="position_id" class="form-control" value="{{ $asset->position->position_name_th }}" disabled />
                                     </div>
                                 </div>
                             </div>

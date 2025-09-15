@@ -86,7 +86,7 @@
                                     <option value="">-- เลือก Company --</option>
                                     @foreach($companies as $company)
                                     <option value="{{ $company->id }}" {{ old('company') == $company->id ? 'selected' : '' }}>
-                                        {{ $company->company_name }}
+                                        {{ $company->company_name_th }}
                                     </option>
                                     @endforeach
                                 </select>
@@ -104,7 +104,7 @@
                                             name="company_approver[]"
                                             value="{{ $company->id }}"
                                             {{ (collect(old('company_approver'))->contains($company->id)) ? 'checked' : '' }}>
-                                        <label class="form-check-label">{{ $company->company_name }}</label>
+                                        <label class="form-check-label">{{ $company->company_name_th }}</label>
                                     </div>
                                     @endforeach
                                 </div>

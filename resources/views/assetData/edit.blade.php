@@ -96,7 +96,7 @@
                             <select class="form-control company-select" name="company_id" required>
                                 @foreach($companies as $company)
                                 <option value="{{ $company->id }}" {{ $asset->company_id == $company->id ? 'selected' : '' }}>
-                                    {{ $company->company_name }}
+                                    {{ $company->company_name_th }}
                                 </option>
                                 @endforeach
                             </select>
@@ -117,7 +117,7 @@
                             <select class="form-control department-select" name="department_id" required>
                                 @foreach($departments as $department)
                                 <option value="{{ $department->id }}" {{ $asset->department_id == $department->id ? 'selected' : '' }}>
-                                    {{ $department->department_name }}
+                                    {{ $department->department_name_th }}
                                 </option>
                                 @endforeach
                             </select>
@@ -138,7 +138,7 @@
                             <select class="form-control branch-select" name="branch_id" required>
                                 @foreach($branches as $branch)
                                 <option value="{{ $branch->id }}" {{ $asset->branch_id == $branch->id ? 'selected' : '' }}>
-                                    {{ $branch->branch_name }}
+                                    {{ $branch->branch_name_th }}
                                 </option>
                                 @endforeach
                             </select>
@@ -177,7 +177,7 @@
                                 @foreach($positions as $position)
                                 <option value="{{ $position->id }}"
                                     {{ $asset->position_id == $position->id ? 'selected' : '' }}>
-                                    {{ $position->position_name }}
+                                    {{ $position->position_name_th }}
                                 </option>
                                 @endforeach
                             </select>
