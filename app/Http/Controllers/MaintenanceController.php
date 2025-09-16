@@ -367,37 +367,22 @@ class MaintenanceController extends Controller
     {
         $repairPrice = (float) str_replace(',', '', $request->repair_price);
         $currentUser = Auth::user();
+        $currentCompany = $currentUser->company;
 
-        $companyApproverIds = [];
-        if ($currentUser->company_approver) {
-            $companyApproverIds = array_map('trim', explode(',', $currentUser->company_approver));
-        }
-
-        $managers = User::where('role', 'manager')
-            ->whereIn('company', $companyApproverIds)
-            ->get();
-
-        $mds = User::where('role', 'md')
-            ->whereIn('company', $companyApproverIds)
-            ->get();
-
-        $approvers = [];
-
-        if ($repairPrice <= $managers->max('price')) {
-            foreach ($managers as $manager) {
-                if ($repairPrice <= $manager->price) {
-                    $approvers[] = ['id' => $manager->id, 'name' => $manager->name];
-                }
-            }
-        } else {
-            foreach ($mds as $md) {
-                $approvers[] = ['id' => $md->id, 'name' => $md->name];
-            }
-        }
+        $approvers = User::whereRaw("FIND_IN_SET(?, company_approver)", [$currentCompany])
+            ->where(function ($q) use ($repairPrice) {
+                $q->where(function ($sub) use ($repairPrice) {
+                    $sub->whereIn('role', ['audit', 'manager', 'md'])
+                        ->whereRaw('CAST(price AS UNSIGNED) >= ?', [$repairPrice]);
+                })
+                    ->orWhere(function ($sub) {
+                        $sub->where('role', 'md');
+                    });
+            })
+            ->get(['id', 'name', 'role', 'price']);
 
         return response()->json($approvers);
     }
-
 
     public function viewApproval(Request $request)
     {

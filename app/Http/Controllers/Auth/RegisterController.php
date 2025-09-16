@@ -71,7 +71,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $price = 0;
-        if (in_array($data['role'], ['manager', 'md'])) {
+        if (in_array($data['role'], ['audit', 'manager', 'md'])) {
             $price = 5000;
         }
 
