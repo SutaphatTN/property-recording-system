@@ -11,6 +11,8 @@ use App\Mail\ApproveRequestMail;
 use App\Mail\RequestMaintenanceMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 class MaintenanceController extends Controller
 {
@@ -63,12 +65,19 @@ class MaintenanceController extends Controller
                 'images.*.image' => 'ไฟล์ที่อัปโหลดต้องเป็นรูปภาพเท่านั้น',
             ]);
 
-
             $imagePaths = [];
             if ($request->hasFile('images')) {
+                $manager = new ImageManager(new Driver());
+
                 foreach ($request->file('images') as $file) {
                     $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                    $path = $file->storeAs('maintenance_images', $filename, 'public');
+
+                    $image = $manager->read($file)->scaleDown(width: 1200);
+
+                    $path = 'maintenance_images/' . $filename;
+
+                    $image->save(storage_path('app/public/' . $path));
+
                     $imagePaths[] = $path;
                 }
             }
@@ -133,12 +142,19 @@ class MaintenanceController extends Controller
                 'images.*.image' => 'ไฟล์ที่อัปโหลดต้องเป็นรูปภาพเท่านั้น',
             ]);
 
-
             $imagePaths = [];
             if ($request->hasFile('images')) {
+                $manager = new ImageManager(new Driver());
+
                 foreach ($request->file('images') as $file) {
                     $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                    $path = $file->storeAs('maintenance_images', $filename, 'public');
+
+                    $image = $manager->read($file)->scaleDown(width: 1200);
+
+                    $path = 'maintenance_images/' . $filename;
+
+                    $image->save(storage_path('app/public/' . $path));
+
                     $imagePaths[] = $path;
                 }
             }
@@ -206,18 +222,25 @@ class MaintenanceController extends Controller
                 'images.*.image' => 'ไฟล์ที่อัปโหลดต้องเป็นรูปภาพเท่านั้น',
             ]);
 
-
             $imagePaths = [];
             if ($request->hasFile('images')) {
+                $manager = new ImageManager(new Driver());
+
                 foreach ($request->file('images') as $file) {
                     $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                    $path = $file->storeAs('maintenance_images', $filename, 'public');
+
+                    $image = $manager->read($file)->scaleDown(width: 1200);
+
+                    $path = 'maintenance_images/' . $filename;
+
+                    $image->save(storage_path('app/public/' . $path));
+
                     $imagePaths[] = $path;
                 }
             }
 
             $data = [
-                'asset_id' => $request->asset_id,
+                'asset_id' => $validated['asset_id'],
                 'repair_date' => $request->repair_date,
                 'repair_reason' => $request->repair_reason,
                 'location' => $request->location,
@@ -266,9 +289,14 @@ class MaintenanceController extends Controller
             $newImages = [];
 
             if ($request->hasFile('images')) {
+                $manager = new ImageManager(new Driver());
+
                 foreach ($request->file('images') as $file) {
                     $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                    $path = $file->storeAs('maintenance_images', $filename, 'public');
+                    $image = $manager->read($file)->scaleDown(width: 1200);
+                    $path = 'maintenance_images/' . $filename;
+                    $image->save(storage_path('app/public/' . $path));
+
                     $newImages[] = $path;
                 }
             }
@@ -288,13 +316,13 @@ class MaintenanceController extends Controller
                 'message' => 'แก้ไขข้อมูลเรียบร้อยแล้ว'
             ]);
         } catch (\Exception $e) {
-
             return response()->json([
                 'success' => false,
                 'message' => 'เกิดข้อผิดพลาด กรุณาติดต่อแอดมิน'
             ], 500);
         }
     }
+
 
     public function destroy($id)
     {
@@ -411,9 +439,14 @@ class MaintenanceController extends Controller
             $newImages = [];
 
             if ($request->hasFile('images')) {
+                $manager = new ImageManager(new Driver());
+
                 foreach ($request->file('images') as $file) {
                     $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                    $path = $file->storeAs('maintenance_images', $filename, 'public');
+                    $image = $manager->read($file)->scaleDown(width: 1200);
+                    $path = 'maintenance_images/' . $filename;
+                    $image->save(storage_path('app/public/' . $path));
+
                     $newImages[] = $path;
                 }
             }
