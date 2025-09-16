@@ -77,10 +77,11 @@ class MaintenanceController extends Controller
                 'asset_id' => $validated['asset_id'],
                 'repair_date' => $request->repair_date,
                 'repair_reason' => $request->repair_reason,
+                'location' => $request->location,
                 'presenter' => $request->presenter,
                 'status' => asset_maintenance::STATUS_PENDING,
                 'category' => '01',
-                'images' => json_encode($imagePaths),
+                'images' => $imagePaths,
             ];
 
             $maintenance = asset_maintenance::create($data);
@@ -146,10 +147,11 @@ class MaintenanceController extends Controller
                 'repair_name' => $request->repair_name,
                 'repair_date' => $request->repair_date,
                 'repair_reason' => $request->repair_reason,
+                'location' => $request->location,
                 'presenter' => $request->presenter,
                 'status' => asset_maintenance::STATUS_PENDING,
                 'category' => '02',
-                'images' => json_encode($imagePaths),
+                'images' => $imagePaths,
             ];
 
             $maintenance = asset_maintenance::create($data);
@@ -218,10 +220,11 @@ class MaintenanceController extends Controller
                 'asset_id' => $request->asset_id,
                 'repair_date' => $request->repair_date,
                 'repair_reason' => $request->repair_reason,
+                'location' => $request->location,
                 'presenter' => $request->presenter,
                 'status' => asset_maintenance::STATUS_PENDING,
                 'category' => '01',
-                'images' => json_encode($imagePaths),
+                'images' => $imagePaths,
             ];
 
             $maintenance = asset_maintenance::create($data);
@@ -272,7 +275,7 @@ class MaintenanceController extends Controller
 
             $allImages = array_merge($existingImages, $newImages);
             $data = $request->except(['_token', '_method', 'existing_images', 'images']);
-            $data['images'] = json_encode($allImages);
+            $data['images'] = $allImages;
 
             if ($request->repair_price) {
                 $data['repair_price'] = str_replace(',', '', $request->repair_price);
@@ -417,7 +420,7 @@ class MaintenanceController extends Controller
 
             $allImages = array_merge($existingImages, $newImages);
             $data = $request->except(['_token', '_method', 'existing_images', 'images']);
-            $data['images'] = json_encode($allImages);
+            $data['images'] = $allImages;
             $data['status'] = asset_maintenance::STATUS_PROCESSING;
             $data['repair_price'] = (float) str_replace(',', '', $request->repair_price);
 
