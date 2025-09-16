@@ -33,11 +33,7 @@
 
                     <div class="row mb-3">
                         <div class="col-md-12 d-flex flex-wrap justify-content-center" id="existingImages">
-                            @php
-                            $images = is_array($maintenance->images) ? $maintenance->images : json_decode($maintenance->images, true) ?? [];
-                            @endphp
-
-                            @foreach($images as $index => $img)
+                            @foreach($maintenance->images ?? [] as $index => $img)
                             <div class="existing-image position-relative m-2">
                                 <img src="{{ asset('storage/'.$img) }}" alt="Image" width="120" height="120" class="img-thumbnail">
                                 <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 remove-image">X</button>
@@ -119,14 +115,6 @@
                                 name="repair_reason"
                                 rows="4" autocomplete="repair_reason" required>{{ $maintenance->repair_reason }}</textarea>
 
-                            @if($maintenance->status == 'processing')
-                            <textarea id="repair_reason"
-                                class="form-control readonly-field @error('repair_reason') is-invalid @enderror"
-                                name="repair_reason"
-                                rows="4" autocomplete="repair_reason" readonly>{{ $maintenance->repair_reason }}</textarea>
-                            @endif
-
-
                             @error('repair_reason')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -134,6 +122,44 @@
                             @enderror
                         </div>
                     </div>
+
+                    @if($maintenance->asset_id)
+                    <div class="row mb-3">
+                        <label for="location"
+                            class="col-md-4 col-form-label text-md-end">{{ __('ตำแหน่งของทรัพย์สิน') }}</label>
+
+                        <div class="col-md-6">
+                            <textarea id="location"
+                                class="form-control @error('location') is-invalid @enderror"
+                                name="location"
+                                rows="4" autocomplete="location" required>{{ $maintenance->location }}</textarea>
+
+                            @error('location')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                    @else
+                    <div class="row mb-3">
+                        <label for="location"
+                            class="col-md-4 col-form-label text-md-end">{{ __('ตำแหน่งของครุภัณฑ์') }}</label>
+
+                        <div class="col-md-6">
+                            <textarea id="location"
+                                class="form-control @error('location') is-invalid @enderror"
+                                name="location"
+                                rows="4" autocomplete="location" required>{{ $maintenance->location }}</textarea>
+
+                            @error('location')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                    @endif
 
                     <div class="row mb-3">
                         <label for="presenter"
@@ -154,26 +180,29 @@
 
                     @elseif($maintenance->status == 'processing' || 'approved' || 'rejected' || 'finished')
 
-                    @if($maintenance->asset_id && $asset && $asset->images)
+                    @if($maintenance->images)
+                    @php
+                    $images = json_decode($maintenance->images, true) ?? [];
+                    @endphp
+
                     <div class="card-body">
                         <div class="row justify-content-center">
-                            <div class="col-8">
+                            @foreach($images as $img)
+                            <div class="col-4 mb-3">
                                 <div class="card">
                                     <div class="d-flex justify-content-center align-items-center mt-3"
                                         style="width: 100%; height: 200px; margin:auto;">
-
-                                        <img src="{{ asset('storage/'.$asset->images) }}"
+                                        <img src="{{ asset('storage/'.$img) }}"
                                             class="card-img-top"
                                             style="max-width: 100%; max-height: 100%; object-fit: contain;">
                                     </div>
-                                    <div class="card-body">
-                                        <p class="card-text text-center">รูปทรัพย์สิน</p>
-                                    </div>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
                     </div>
                     @endif
+
                     <div class="row mt-3">
                         @if($maintenance->asset_id && $asset)
                         <div class="col-6">
@@ -247,7 +276,7 @@
                     <div class="row mt-3">
                         <div class="col-6">
                             <div class="form-group row mb-0">
-                                <label class="col-md-4 col-form-label text-md-end">วันที่ขออนุมัติ :</label>
+                                <label class="col-md-4 col-form-label text-md-end">วันที่ดำเนินการ :</label>
                                 <div class="col-md-8">
                                     <input type="text" name="process_date" class="form-control" value="{{ $maintenance->process_date_formatted }}" disabled />
                                 </div>
@@ -268,7 +297,7 @@
                     <div class="row mt-3">
                         <div class="col-6">
                             <div class="form-group row mb-0">
-                                <label class="col-md-4 col-form-label text-md-end">วันที่ขออนุมัติ :</label>
+                                <label class="col-md-4 col-form-label text-md-end">วันที่อนุมัติ :</label>
                                 <div class="col-md-8">
                                     <input type="text" name="approv_date" class="form-control" value="{{ $maintenance->approv_date_formatted }}" disabled />
                                 </div>
@@ -291,7 +320,7 @@
                     <div class="row mt-3">
                         <div class="col-6">
                             <div class="form-group row mb-0">
-                                <label class="col-md-4 col-form-label text-md-end">วันที่ขออนุมัติ :</label>
+                                <label class="col-md-4 col-form-label text-md-end">วันที่อนุมัติ :</label>
                                 <div class="col-md-8">
                                     <input type="text" name="approv_date" class="form-control" value="{{ $maintenance->approv_date_formatted }}" disabled />
                                 </div>
@@ -325,7 +354,7 @@
                     <div class="row mt-3">
                         <div class="col-6">
                             <div class="form-group row mb-0">
-                                <label class="col-md-4 col-form-label text-md-end">วันที่ขออนุมัติ :</label>
+                                <label class="col-md-4 col-form-label text-md-end">วันที่อนุมัติ :</label>
                                 <div class="col-md-8">
                                     <input type="text" name="approv_date" class="form-control" value="{{ $maintenance->approv_date_formatted }}" disabled />
                                 </div>
@@ -361,6 +390,33 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+
+                    @if($maintenance->status !== 'pending')
+
+                    <div class="row mt-3">
+                        @if($maintenance->asset_id)
+                        <div class="col-12">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-3 col-form-label text-md-end">ตำแหน่งของทรัพย์สิน :</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="location" class="form-control" value="{{ $maintenance->location }}" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        @else
+                        <div class="col-12">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-3 col-form-label text-md-end">ตำแหน่งของครุภัณฑ์ :</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="location" class="form-control" value="{{ $maintenance->location }}" disabled />
+                                </div>
+                            </div>
+
+                        </div>
+                        @endif
+                    </div>
+
                     @endif
 
                     <div class="row mb-0">

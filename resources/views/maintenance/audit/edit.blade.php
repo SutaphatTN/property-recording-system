@@ -11,16 +11,11 @@
                     @csrf
                     @method('PUT')
 
-
                     @if($maintenance->status == 'pending')
 
                     <div class="row mb-3">
                         <div class="col-md-12 d-flex flex-wrap justify-content-center" id="existingImages">
-                            @php
-                            $images = is_array($maintenance->images) ? $maintenance->images : json_decode($maintenance->images, true) ?? [];
-                            @endphp
-
-                            @foreach($images as $index => $img)
+                            @foreach($maintenance->images ?? [] as $index => $img)
                             <div class="existing-image position-relative m-2">
                                 <img src="{{ asset('storage/'.$img) }}" alt="Image" width="120" height="120" class="img-thumbnail">
                                 <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 remove-image">X</button>
@@ -111,6 +106,44 @@
                         </div>
                     </div>
 
+                    @if($maintenance->asset_id)
+                    <div class="row mb-3">
+                        <label for="location"
+                            class="col-md-4 col-form-label text-md-end">{{ __('ตำแหน่งของทรัพย์สิน') }}</label>
+
+                        <div class="col-md-6">
+                            <textarea id="location"
+                                class="form-control @error('location') is-invalid @enderror"
+                                name="location"
+                                rows="4" autocomplete="location" required>{{ $maintenance->location }}</textarea>
+
+                            @error('location')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                    @else
+                    <div class="row mb-3">
+                        <label for="location"
+                            class="col-md-4 col-form-label text-md-end">{{ __('ตำแหน่งของครุภัณฑ์') }}</label>
+
+                        <div class="col-md-6">
+                            <textarea id="location"
+                                class="form-control @error('location') is-invalid @enderror"
+                                name="location"
+                                rows="4" autocomplete="location" required>{{ $maintenance->location }}</textarea>
+
+                            @error('location')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                    @endif
+
                     <div class="row mb-3">
                         <label for="presenter"
                             class="col-md-4 col-form-label text-md-end">{{ __('ผู้แจ้งซ่อม') }}</label>
@@ -133,131 +166,131 @@
                         <label for="assetCode"
                             class="col-md-4 col-form-label text-md-end">{{ __('Asset Code') }}</label>
 
-                        <div class="col-md-6">
-                            <input type="text" class="form-control asset_search" placeholder="พิมพ์ Asset Code เพื่อค้นหา">
-                            <input type="hidden" name="asset_id" class="asset_id">
-                            
-                            @error('assetCode')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control asset_search" placeholder="พิมพ์ Asset Code เพื่อค้นหา">
+                        <input type="hidden" name="asset_id" class="asset_id">
+
+                        @error('assetCode')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
-                    @endif --}}
+            </div>
+            @endif --}}
 
-                    <div class="row mb-3">
-                        <label for="repair_price"
-                            class="col-md-4 col-form-label text-md-end">{{ __('ราคา') }}</label>
+            <div class="row mb-3">
+                <label for="repair_price"
+                    class="col-md-4 col-form-label text-md-end">{{ __('ราคา') }}</label>
 
-                        <div class="col-md-6">
-                            <input id="repair_price" type="text"
-                                class="form-control @error('repair_price') is-invalid @enderror"
-                                name="repair_price" value="" autocomplete="off" required>
+                <div class="col-md-6">
+                    <input id="repair_price" type="text"
+                        class="form-control @error('repair_price') is-invalid @enderror"
+                        name="repair_price" value="" autocomplete="off" required>
 
-                            @error('repair_price')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
+                    @error('repair_price')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
+            </div>
 
-                    <div class="row mb-3">
-                        <label for="quotation"
-                            class="col-md-4 col-form-label text-md-end">{{ __('ใบเสนอราคา') }}</label>
+            <div class="row mb-3">
+                <label for="quotation"
+                    class="col-md-4 col-form-label text-md-end">{{ __('ใบเสนอราคา') }}</label>
 
-                        <div class="col-md-6">
-                            {{-- @if(!empty($maintenance->quotation))
+                <div class="col-md-6">
+                    {{-- @if(!empty($maintenance->quotation))
                             <div class="mb-2">
                                 <a href="{{ asset('storage/' . $maintenance->quotation) }}" target="_blank" class="btn btn-secondary">
-                                    ดูไฟล์ใบเสนอราคา
-                                </a>
-                            </div>
-                            @endif --}}
+                    ดูไฟล์ใบเสนอราคา
+                    </a>
+                </div>
+                @endif --}}
 
-                            <input id="quotation" type="file"
-                                class="form-control @error('quotation') is-invalid @enderror"
-                                name="quotation" 
-                                accept="image/*,application/pdf" 
-                                required>
+                <input id="quotation" type="file"
+                    class="form-control @error('quotation') is-invalid @enderror"
+                    name="quotation"
+                    accept="image/*,application/pdf"
+                    required>
 
-                            @error('quotation')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="operator"
-                            class="col-md-4 col-form-label text-md-end">{{ __('ผู้ตรวจสอบ') }}</label>
-
-                        <div class="col-md-6">
-                            <input id="operator"
-                                type="text"
-                                class="form-control readonly-field bg-light"
-                                name="operator"
-                                value="{{ Auth::user()->name }}"
-                                readonly>
-
-                            @error('operator')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="process_date"
-                            class="col-md-4 col-form-label text-md-end">{{ __('วันที่ขออนุมัติ') }}</label>
-
-                        <div class="col-md-6">
-                            <input id="process_date" type="date"
-                                class="form-control @error('process_date') is-invalid @enderror"
-                                name="process_date" max="{{ date('Y-m-d') }}" value="{{ $maintenance->process_date }}" autocomplete="process_date" required>
-
-                            @error('process_date')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="approver" class="col-md-4 col-form-label text-md-end">{{ __('ผู้อนุมัติ') }}</label>
-                        <div class="col-md-6">
-                            <select name="approver" id="approver" class="form-select" required>
-                                <option value="">-- เลือกผู้อนุมัติ --</option>
-                            </select>
-
-                            @error('approver')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    @endif
-
-                    <div class="row mb-0">
-                        <div class="col-md-6 offset-md-4">
-                            @if($maintenance->status == 'pending')
-                            <button type="button" id="btnUpdateMaintenance" class="btn btn-primary">
-                                บันทึก
-                            </button>
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
-                            @endif
-                        </div>
-                    </div>
-                </form>
+                @error('quotation')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
             </div>
         </div>
+
+        <div class="row mb-3">
+            <label for="process_date"
+                class="col-md-4 col-form-label text-md-end">{{ __('วันที่ดำเนินการ') }}</label>
+
+            <div class="col-md-6">
+                <input id="process_date" type="date"
+                    class="form-control @error('process_date') is-invalid @enderror"
+                    name="process_date" max="{{ date('Y-m-d') }}" value="{{ $maintenance->process_date }}" autocomplete="process_date" required>
+
+                @error('process_date')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="approver" class="col-md-4 col-form-label text-md-end">{{ __('ผู้อนุมัติ') }}</label>
+            <div class="col-md-6">
+                <select name="approver" id="approver" class="form-select" required>
+                    <option value="">-- เลือกผู้อนุมัติ --</option>
+                </select>
+
+                @error('approver')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="operator"
+                class="col-md-4 col-form-label text-md-end">{{ __('ผู้ตรวจสอบ') }}</label>
+
+            <div class="col-md-6">
+                <input id="operator"
+                    type="text"
+                    class="form-control readonly-field bg-light"
+                    name="operator"
+                    value="{{ Auth::user()->name }}"
+                    readonly>
+
+                @error('operator')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+        </div>
+
+        @endif
+
+        <div class="row mb-0">
+            <div class="col-md-6 offset-md-4">
+                @if($maintenance->status == 'pending')
+                <button type="button" id="btnUpdateMaintenance" class="btn btn-primary">
+                    บันทึก
+                </button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
+                @endif
+            </div>
+        </div>
+        </form>
     </div>
+</div>
+</div>
 </div>
 
 <style>

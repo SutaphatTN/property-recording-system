@@ -36,6 +36,7 @@ class asset_maintenance extends Model
         'category',
         'repair_result',
         'images',
+        'location',
     ];
 
     protected $dates = ['deleted_at'];
@@ -45,11 +46,6 @@ class asset_maintenance extends Model
     const STATUS_APPROVED = 'approved';
     const STATUS_REJECTED = 'rejected';
     const STATUS_FINISHED = 'finished';
-
-    public function getImagesAttribute($value)
-    {
-        return $value ? json_decode($value, true) : [];
-    }
 
     public function asset_information()
     {

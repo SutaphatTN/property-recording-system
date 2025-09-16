@@ -77,6 +77,25 @@
                         </div>
 
                         <div class="row mb-3">
+                        <label for="location"
+                            class="col-md-4 col-form-label text-md-end">{{ __('ตำแหน่งของทรัพย์สิน') }}</label>
+
+                        <div class="col-md-6">
+                            <textarea id="location"
+                                class="form-control @error('location') is-invalid @enderror"
+                                name="location"
+                                rows="4" required>{{ old('location') }}</textarea>
+
+
+                            @error('location')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+
+                        <div class="row mb-3">
                             <label for="presenter"
                                 class="col-md-4 col-form-label text-md-end">{{ __('ผู้แจ้ง') }}</label>
 
