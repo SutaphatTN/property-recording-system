@@ -10,6 +10,25 @@
                     @csrf
 
                     <div class="row mb-3">
+                        <label for="images"
+                            class="col-md-4 col-form-label text-md-end">{{ __('รูปทรัพย์สิน') }}</label>
+
+                        <div class="col-md-6">
+                            <input id="imagesMain" type="file"
+                                class="form-control @error('images') is-invalid @enderror"
+                                name="images[]" multiple required accept="image/*">
+
+                            <small class="text-muted">แนบรูปอย่างน้อย 1 รูป แนบได้สูงสุด 3 รูป</small>
+
+                            @error('images')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
                         <label for="asset_id" class="col-md-4 col-form-label text-md-end">{{ __('Asset Code') }}</label>
 
                         <div class="col-md-6">
@@ -106,5 +125,9 @@
         font-weight: bold;
         font-size: 1.25rem;
         margin-bottom: 1rem;
+    }
+
+    .swal2-container {
+        z-index: 2000 !important;
     }
 </style>

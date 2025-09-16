@@ -55,7 +55,23 @@ class MaintenanceController extends Controller
 
             $validated = $request->validate([
                 'asset_id' => 'required|exists:asset_information,id',
+                'images'   => 'required|array|min:1|max:3',
+                'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            ], [
+                'images.max' => 'สามารถอัปโหลดรูปได้สูงสุด 3 รูปเท่านั้น',
+                'images.min' => 'กรุณาเลือกอย่างน้อย 1 รูป',
+                'images.*.image' => 'ไฟล์ที่อัปโหลดต้องเป็นรูปภาพเท่านั้น',
             ]);
+
+
+            $imagePaths = [];
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $path = $file->storeAs('maintenance_images', $filename, 'public');
+                    $imagePaths[] = $path;
+                }
+            }
 
             $data = [
                 'asset_id' => $validated['asset_id'],
@@ -64,6 +80,7 @@ class MaintenanceController extends Controller
                 'presenter' => $request->presenter,
                 'status' => asset_maintenance::STATUS_PENDING,
                 'category' => '01',
+                'images' => json_encode($imagePaths),
             ];
 
             $maintenance = asset_maintenance::create($data);
@@ -106,6 +123,25 @@ class MaintenanceController extends Controller
                 }
             }
 
+            $validated = $request->validate([
+                'images'   => 'required|array|min:1|max:3',
+                'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            ], [
+                'images.max' => 'สามารถอัปโหลดรูปได้สูงสุด 3 รูปเท่านั้น',
+                'images.min' => 'กรุณาเลือกอย่างน้อย 1 รูป',
+                'images.*.image' => 'ไฟล์ที่อัปโหลดต้องเป็นรูปภาพเท่านั้น',
+            ]);
+
+
+            $imagePaths = [];
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $path = $file->storeAs('maintenance_images', $filename, 'public');
+                    $imagePaths[] = $path;
+                }
+            }
+
             $data = [
                 'repair_name' => $request->repair_name,
                 'repair_date' => $request->repair_date,
@@ -113,6 +149,7 @@ class MaintenanceController extends Controller
                 'presenter' => $request->presenter,
                 'status' => asset_maintenance::STATUS_PENDING,
                 'category' => '02',
+                'images' => json_encode($imagePaths),
             ];
 
             $maintenance = asset_maintenance::create($data);
@@ -157,6 +194,26 @@ class MaintenanceController extends Controller
                 }
             }
 
+            $validated = $request->validate([
+                'asset_id' => 'required|exists:asset_information,id',
+                'images'   => 'required|array|min:1|max:3',
+                'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            ], [
+                'images.max' => 'สามารถอัปโหลดรูปได้สูงสุด 3 รูปเท่านั้น',
+                'images.min' => 'กรุณาเลือกอย่างน้อย 1 รูป',
+                'images.*.image' => 'ไฟล์ที่อัปโหลดต้องเป็นรูปภาพเท่านั้น',
+            ]);
+
+
+            $imagePaths = [];
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $path = $file->storeAs('maintenance_images', $filename, 'public');
+                    $imagePaths[] = $path;
+                }
+            }
+
             $data = [
                 'asset_id' => $request->asset_id,
                 'repair_date' => $request->repair_date,
@@ -164,6 +221,7 @@ class MaintenanceController extends Controller
                 'presenter' => $request->presenter,
                 'status' => asset_maintenance::STATUS_PENDING,
                 'category' => '01',
+                'images' => json_encode($imagePaths),
             ];
 
             $maintenance = asset_maintenance::create($data);
@@ -201,7 +259,20 @@ class MaintenanceController extends Controller
         try {
             $maintenance = asset_maintenance::findOrFail($id);
 
-            $data = $request->except(['_token', '_method']);
+            $existingImages = $request->input('existing_images', []);
+            $newImages = [];
+
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $path = $file->storeAs('maintenance_images', $filename, 'public');
+                    $newImages[] = $path;
+                }
+            }
+
+            $allImages = array_merge($existingImages, $newImages);
+            $data = $request->except(['_token', '_method', 'existing_images', 'images']);
+            $data['images'] = json_encode($allImages);
 
             if ($request->repair_price) {
                 $data['repair_price'] = str_replace(',', '', $request->repair_price);
@@ -333,14 +404,40 @@ class MaintenanceController extends Controller
         try {
             $maintenance = asset_maintenance::findOrFail($id);
 
-            $data = $request->except(['_token', '_method']);
+            $existingImages = $request->input('existing_images', []);
+            $newImages = [];
+
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $path = $file->storeAs('maintenance_images', $filename, 'public');
+                    $newImages[] = $path;
+                }
+            }
+
+            $allImages = array_merge($existingImages, $newImages);
+            $data = $request->except(['_token', '_method', 'existing_images', 'images']);
+            $data['images'] = json_encode($allImages);
             $data['status'] = asset_maintenance::STATUS_PROCESSING;
             $data['repair_price'] = (float) str_replace(',', '', $request->repair_price);
 
             if ($request->hasFile('quotation')) {
                 $file = $request->file('quotation');
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $path = $file->storeAs('maintenance_pdfs', $filename, 'public');
+                $extension = $file->getClientOriginalExtension();
+
+                if (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'gif'])) {
+                    $filename = time() . '_' . uniqid() . '.' . $extension;
+                    $path = $file->storeAs('maintenanceQuotation_images', $filename, 'public');
+                } elseif (strtolower($extension) === 'pdf') {
+                    $filename = time() . '_' . $file->getClientOriginalName();
+                    $path = $file->storeAs('maintenance_pdfs', $filename, 'public');
+                } else {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'ไฟล์ต้องเป็นรูปภาพหรือ PDF เท่านั้น'
+                    ], 400);
+                }
+
                 $data['quotation'] = $path;
             }
 

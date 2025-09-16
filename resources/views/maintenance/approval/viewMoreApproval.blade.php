@@ -6,23 +6,25 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                @if($maintenance->asset_id && $maintenance->asset_information->images)
+                @if($maintenance->images)
+                @php
+                $images = json_decode($maintenance->images, true) ?? [];
+                @endphp
+
                 <div class="card-body">
                     <div class="row justify-content-center">
-                        <div class="col-8">
+                        @foreach($images as $img)
+                        <div class="col-4 mb-3">
                             <div class="card">
                                 <div class="d-flex justify-content-center align-items-center mt-3"
                                     style="width: 100%; height: 200px; margin:auto;">
-
-                                    <img src="{{ asset('storage/'.$maintenance->asset_information->images) }}"
+                                    <img src="{{ asset('storage/'.$img) }}"
                                         class="card-img-top"
                                         style="max-width: 100%; max-height: 100%; object-fit: contain;">
                                 </div>
-                                <div class="card-body">
-                                    <p class="card-text text-center">รูปทรัพย์สิน</p>
-                                </div>
                             </div>
                         </div>
+                        @endforeach
                     </div>
                 </div>
                 @endif

@@ -376,6 +376,38 @@ $(document).on('click', '#btnUpdateMaintenance', function () {
     });
 });
 
+$(document).on('change', '#imagesMain', function () {
+    if (this.files.length > 3) {
+        const input = this;
+        Swal.fire({
+            icon: 'warning',
+            title: 'เกินจำนวนที่กำหนด',
+            text: 'เลือกได้สูงสุด 3 รูปเท่านั้น'
+        }).then(() => {
+            input.value = "";
+        });
+    }
+});
+
+$(document).on('click', '.remove-image', function () {
+    $(this).closest('.existing-image').remove();
+});
+
+$(document).on('change', '#imagesMainEdit', function () {
+    let existingCount = $('#existingImages .existing-image').length;
+    let newFilesCount = this.files.length;
+
+    if (existingCount + newFilesCount > 3) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'เกินจำนวนที่กำหนด',
+            text: 'รูปทั้งหมด ต้องไม่เกิน 3 รูป'
+        }).then(() => {
+            this.value = "";
+        });
+    }
+});
+
 $(document).on('click', '#btnSaveMaintenance', function () {
     const $btn = $(this);
     const form = $btn.closest('form')[0];

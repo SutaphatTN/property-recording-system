@@ -30,6 +30,32 @@
                     @method('PUT')
 
                     @if($maintenance->status == 'pending')
+
+                    <div class="row mb-3">
+                        <div class="col-md-12 d-flex flex-wrap justify-content-center" id="existingImages">
+                            @php
+                            $images = is_array($maintenance->images) ? $maintenance->images : json_decode($maintenance->images, true) ?? [];
+                            @endphp
+
+                            @foreach($images as $index => $img)
+                            <div class="existing-image position-relative m-2">
+                                <img src="{{ asset('storage/'.$img) }}" alt="Image" width="120" height="120" class="img-thumbnail">
+                                <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 remove-image">X</button>
+                                <input type="hidden" name="existing_images[]" value="{{ $img }}">
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    {{-- Upload new images --}}
+                    <div class="row mb-3">
+                        <label class="col-md-4 col-form-label text-md-end">เพิ่มรูปใหม่</label>
+                        <div class="col-md-6">
+                            <input type="file" name="images[]" id="imagesMainEdit" class="form-control" multiple accept="image/*">
+                            <small class="text-muted">รวมรูปทั้งหมด ต้องไม่เกิน 3 รูป</small>
+                        </div>
+                    </div>
+
                     @if($maintenance->asset_id)
                     <div class="row mb-3">
                         <label for="assetCode"
@@ -362,5 +388,32 @@
         font-weight: bold;
         font-size: 1.25rem;
         margin-bottom: 1rem;
+    }
+
+    #existingImages {
+        gap: 10px;
+    }
+
+    .existing-image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .existing-image img {
+        display: block;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    .existing-image .remove-image {
+        top: 2px;
+        right: 2px;
+        padding: 0 6px;
+    }
+
+    .swal2-container {
+        z-index: 2000 !important;
     }
 </style>

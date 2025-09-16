@@ -14,6 +14,9 @@ class asset_maintenance extends Model
     use SoftDeletes;
 
     protected $table = 'asset_maintenance';
+    protected $casts = [
+        'images' => 'array',
+    ];
 
     protected $fillable = [
         'asset_id',
@@ -32,6 +35,7 @@ class asset_maintenance extends Model
         'operator',
         'category',
         'repair_result',
+        'images',
     ];
 
     protected $dates = ['deleted_at'];
@@ -41,6 +45,11 @@ class asset_maintenance extends Model
     const STATUS_APPROVED = 'approved';
     const STATUS_REJECTED = 'rejected';
     const STATUS_FINISHED = 'finished';
+
+    public function getImagesAttribute($value)
+    {
+        return $value ? json_decode($value, true) : [];
+    }
 
     public function asset_information()
     {
