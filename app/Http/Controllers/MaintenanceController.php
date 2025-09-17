@@ -516,11 +516,7 @@ class MaintenanceController extends Controller
                         $sub->where('role', 'md');
                     });
             })
-            ->get(['id', 'name', 'role', 'price']);
-
-        if (!$approvers->contains('id', $currentUser->id)) {
-            $approvers->push($currentUser);
-        }
+            ->get(['id', 'name', 'role', 'price', 'company_approver']);
 
         return response()->json($approvers);
     }
