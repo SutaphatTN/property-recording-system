@@ -180,20 +180,15 @@
 
                     @elseif($maintenance->status == 'processing' || 'approved' || 'rejected' || 'finished')
 
-                    @if($maintenance->images)
-                    @php
-                    $images = json_decode($maintenance->images, true) ?? [];
-                    @endphp
-
+                    @if(!empty($maintenance->images) && is_array($maintenance->images))
                     <div class="card-body">
                         <div class="row justify-content-center">
-                            @foreach($images as $img)
+                            @foreach($maintenance->images as $img)
                             <div class="col-4 mb-3">
                                 <div class="card">
                                     <div class="d-flex justify-content-center align-items-center mt-3"
                                         style="width: 100%; height: 200px; margin:auto;">
-                                        <img src="{{ asset('storage/'.$img) }}"
-                                            class="card-img-top"
+                                        <img src="{{ asset('storage/'.$img) }}" class="card-img-top"
                                             style="max-width: 100%; max-height: 100%; object-fit: contain;">
                                     </div>
                                 </div>
