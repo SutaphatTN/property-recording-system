@@ -500,9 +500,13 @@ class MaintenanceController extends Controller
     {
         $repairPrice = (float) str_replace(',', '', $request->repair_price);
         $currentUser = Auth::user();
-        $currentCompany = $currentUser->company;
+        $companyApprovers = array_filter(explode(',', $currentUser->company_approver));
 
-        $approvers = User::whereRaw("FIND_IN_SET(?, company_approver)", [$currentCompany])
+        $approvers = User::where(function ($query) use ($companyApprovers) {
+            foreach ($companyApprovers as $companyId) {
+                $query->orWhereRaw("FIND_IN_SET(?, company_approver)", [$companyId]);
+            }
+        })
             ->where(function ($q) use ($repairPrice) {
                 $q->where(function ($sub) use ($repairPrice) {
                     $sub->whereIn('role', ['audit', 'manager', 'md'])
@@ -514,8 +518,13 @@ class MaintenanceController extends Controller
             })
             ->get(['id', 'name', 'role', 'price']);
 
+        if (!$approvers->contains('id', $currentUser->id)) {
+            $approvers->push($currentUser);
+        }
+
         return response()->json($approvers);
     }
+
 
     public function viewApproval(Request $request)
     {
