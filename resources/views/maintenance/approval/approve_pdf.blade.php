@@ -113,12 +113,12 @@
         <table class="no-border" style="width: 100%;">
             <tr class="no-border">
                 <td class="no-border" style="text-align: center;">
-                    ผู้เสนอ<br><br>
-                    ({{ $maintenance->presenterUser->full_name }})
+                    ผู้เสนอ<br>
+                    {{ $maintenance->presenterUser->full_name }}
                 </td>
                 <td class="no-border" style="text-align: center;">
-                    ผู้อนุมัติ<br><br>
-                    ({{ $maintenance->approverUser->full_name  }})
+                    ผู้อนุมัติ<br>
+                    {{ $maintenance->approverUser->full_name  }}
                 </td>
             </tr>
         </table>
