@@ -57,6 +57,16 @@ class asset_maintenance extends Model
         return $this->belongsTo(User::class, 'approver', 'id');
     }
 
+    public function presenterUser()
+    {
+        return $this->belongsTo(User::class, 'presenter', 'id');
+    }
+
+    public function operatorUser()
+    {
+        return $this->belongsTo(User::class, 'operator', 'id');
+    }
+
     public function getApproverNameAttribute()
     {
         $user = User::find($this->approver);

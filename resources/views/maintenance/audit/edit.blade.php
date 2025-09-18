@@ -149,9 +149,12 @@
                             class="col-md-4 col-form-label text-md-end">{{ __('ผู้แจ้งซ่อม') }}</label>
 
                         <div class="col-md-6">
-                            <input id="presenter" type="text"
+                            <input type="text"
                                 class="form-control readonly-field bg-light"
-                                name="presenter" value="{{ $maintenance->presenter }}" readonly>
+                                value="{{ $maintenance->presenterUser->name }}"
+                                readonly>
+
+                            <input type="hidden" name="presenter" value="{{ $maintenance->presenter }}">
 
                             @error('presenter')
                             <span class="invalid-feedback" role="alert">
@@ -260,12 +263,14 @@
                 class="col-md-4 col-form-label text-md-end">{{ __('ผู้ตรวจสอบ') }}</label>
 
             <div class="col-md-6">
-                <input id="operator"
-                    type="text"
+                <input type="text"
                     class="form-control readonly-field bg-light"
-                    name="operator"
                     value="{{ Auth::user()->name }}"
                     readonly>
+
+                <input type="hidden"
+                    name="operator"
+                    value="{{ Auth::user()->id }}">
 
                 @error('operator')
                 <span class="invalid-feedback" role="alert">

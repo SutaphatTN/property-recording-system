@@ -266,12 +266,14 @@
                             class="col-md-4 col-form-label text-md-end">{{ __('ผู้แจ้ง') }}</label>
 
                         <div class="col-md-6">
-                            <input id="presenter"
-                                type="text"
+                            <input type="text"
                                 class="form-control readonly-field bg-light"
-                                name="presenter"
                                 value="{{ Auth::user()->name }}"
                                 readonly>
+
+                            <input type="hidden"
+                                name="presenter"
+                                value="{{ Auth::user()->id }}">
 
                             @error('presenter')
                             <span class="invalid-feedback" role="alert">

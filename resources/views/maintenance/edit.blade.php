@@ -166,9 +166,12 @@
                             class="col-md-4 col-form-label text-md-end">{{ __('ผู้แจ้งซ่อม') }}</label>
 
                         <div class="col-md-6">
-                            <input id="presenter" type="text"
+                            <input type="text"
                                 class="form-control readonly-field bg-light"
-                                name="presenter" value="{{ $maintenance->presenter }}" readonly>
+                                value="{{ $maintenance->presenterUser->name }}"
+                                readonly>
+
+                            <input type="hidden" name="presenter" value="{{ $maintenance->presenter }}">
 
                             @error('presenter')
                             <span class="invalid-feedback" role="alert">
@@ -254,7 +257,7 @@
                             <div class="form-group row mb-0">
                                 <label class="col-md-4 col-form-label text-md-end">ผู้แจ้งซ่อม :</label>
                                 <div class="col-md-8">
-                                    <input type="text" name="presenter" class="form-control" value="{{ $maintenance->presenter }}" disabled />
+                                    <input type="text" name="presenter" class="form-control" value="{{ $maintenance->presenterUser->name }}" disabled />
                                 </div>
                             </div>
                         </div>

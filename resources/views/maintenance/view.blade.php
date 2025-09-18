@@ -71,7 +71,7 @@
                             @endif
                             <td>{{ $row->repair_date_formatted }}</td>
                             <td>{{ $row->repair_reason }}</td>
-                            <td>{{ $row->presenter }}</td>
+                            <td>{{ $row->presenterUser->name }}</td>
                             <td>
                                 @if($row->status === 'pending')
                                 <span class="badge bg-label-warning">รอตรวจสอบ</span>

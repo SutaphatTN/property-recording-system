@@ -40,7 +40,7 @@
                         @endif
                         <td>{{ $row->repair_date_formatted }}</td>
                         <td>{{ $row->repair_reason }}</td>
-                        <td>{{ $row->presenter }}</td>
+                        <td>{{ $row->presenterUser->name }}</td>
                         <td>
                             <div class="d-flex justify-content-center gap-2">
                                 @if($row->status == 'pending')

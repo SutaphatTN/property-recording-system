@@ -197,7 +197,7 @@
                         <div class="col-md-6">
                             <input id="purchase_date" type="date"
                                 class="form-control @error('purchase_date') is-invalid @enderror"
-                                name="purchase_date" max="{{ date('Y-m-d') }}" 
+                                name="purchase_date" max="{{ date('Y-m-d') }}"
                                 value="{{ $asset->purchase_date }}">
 
                             @error('purchase_date')
@@ -288,12 +288,12 @@
                             class="col-md-4 col-form-label text-md-end">{{ __('ผู้แจ้งซื้อ') }}</label>
 
                         <div class="col-md-6">
-                            <input id="presenter"
-                                type="text"
+                            <input type="text"
                                 class="form-control readonly-field bg-light"
-                                name="presenter"
-                                value="{{ $asset->presenter }}"
+                                value="{{ $asset->presenterUser->name }}"
                                 readonly>
+
+                            <input type="hidden" name="presenter" value="{{ $asset->presenter }}">
 
                             @error('presenter')
                             <span class="invalid-feedback" role="alert">

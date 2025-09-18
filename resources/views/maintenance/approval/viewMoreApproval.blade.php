@@ -80,7 +80,7 @@
                         <div class="form-group row mb-0">
                             <label class="col-md-4 col-form-label text-md-end">ผู้แจ้งซ่อม :</label>
                             <div class="col-md-8">
-                                <input type="text" name="presenter" class="form-control" value="{{ $maintenance->presenter }}" disabled />
+                                <input type="text" name="presenter" class="form-control" value="{{ $maintenance->presenterUser->name }}" disabled />
                             </div>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                         <div class="form-group row mb-0">
                             <label class="col-md-4 col-form-label text-md-end">ผู้ตรวจสอบ :</label>
                             <div class="col-md-8">
-                                <input type="text" name="operator" class="form-control" value="{{ $maintenance->operator }}" disabled />
+                                <input type="text" name="operator" class="form-control" value="{{ $maintenance->operatorUser->name }}" disabled />
                             </div>
                         </div>
                     </div>

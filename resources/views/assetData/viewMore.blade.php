@@ -187,7 +187,7 @@
                                 <div class="form-group row mb-0">
                                     <label class="col-md-4 col-form-label text-md-end">ผู้แจ้งซื้อ :</label>
                                     <div class="col-md-8">
-                                        <input type="text" name="presenter" class="form-control" value="{{ $asset->presenter }}" disabled />
+                                        <input type="text" name="presenter" class="form-control" value="{{ $asset->presenterUser->name }}" disabled />
                                     </div>
                                 </div>
                             </div>

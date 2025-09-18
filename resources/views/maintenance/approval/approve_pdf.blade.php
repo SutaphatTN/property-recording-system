@@ -114,7 +114,7 @@
             <tr class="no-border">
                 <td class="no-border" style="text-align: center;">
                     ผู้เสนอ<br><br>
-                    ({{ $maintenance->presenter }})
+                    ({{ $maintenance->presenterUser->full_name }})
                 </td>
                 <td class="no-border" style="text-align: center;">
                     ผู้อนุมัติ<br><br>

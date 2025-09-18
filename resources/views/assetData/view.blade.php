@@ -37,7 +37,7 @@
                             <span class="badge bg-label-warning">{{ $row->status }}</span>
                             @endif
                         </td>
-                        <td>{{ $row->presenter }}</td>
+                        <td>{{ $row->presenterUser->name }}</td>
                         <td>
                             @if($row->asset_status === 'ใช้งานอยู่')
                             <span class="badge bg-label-success">{{ $row->asset_status }}</span>

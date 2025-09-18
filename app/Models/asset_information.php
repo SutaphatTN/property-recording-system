@@ -36,6 +36,11 @@ class asset_information extends Model
 
     protected $dates = ['deleted_at'];
 
+    public function presenterUser()
+    {
+        return $this->belongsTo(User::class, 'presenter', 'id');
+    }
+
     public function asset_maintenance()
     {
         return $this->hasMany(asset_maintenance::class, 'asset_id', 'id');
