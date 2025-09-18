@@ -32,13 +32,14 @@
                         @endif
                         <td>{{ $row->repair_reason }}</td>
                         <td>{{ $row->operator }}</td>
-                        @php
-                        $approverUser = \App\Models\User::find($row->approver);
-                        $badgeClass = ($approverUser && $approverUser->role == 'manager') ? 'bg-label-warning' : 'bg-label-primary';
-                        @endphp
                         <td>
+                            @php
+                            $badgeClass = ($row->approverUser && $row->approverUser->role == 'manager')
+                            ? 'bg-label-warning'
+                            : 'bg-label-primary';
+                            @endphp
                             <span class="badge {{ $badgeClass }}">
-                                {{ $approverUser ? $approverUser->name : '-' }}
+                                {{ $row->approverUser->name ?? '-' }}
                             </span>
                         </td>
                         <td>

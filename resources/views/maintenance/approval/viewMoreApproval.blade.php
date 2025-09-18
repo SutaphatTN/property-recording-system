@@ -163,19 +163,19 @@
                     @if($maintenance->status == 'approved')
                     <div class="col-6 text-center">
                         <a href="{{ asset('storage/' . $maintenance->quotation) }}" target="_blank" class="btn btn-secondary">
-                            ดูไฟล์ใบเสนอราคา
+                            ดูใบเสนอราคา
                         </a>
                     </div>
 
                     <div class="col-6 text-center">
-                        <a href="{{ route('maintenance.downloadApprove', $maintenance->id) }}" class="btn btn-info">
-                            ดาวน์โหลดใบอนุมัติ
+                        <a href="{{ route('maintenance.downloadApprove', $maintenance->id) }}" target="_blank" class="btn btn-info">
+                            ดูใบอนุมัติ
                         </a>
                     </div>
                     @else
                     <div class="col-12 text-center">
                         <a href="{{ asset('storage/' . $maintenance->quotation) }}" target="_blank" class="btn btn-secondary">
-                            ดูไฟล์ใบเสนอราคา
+                            ดูใบเสนอราคา
                         </a>
                     </div>
                     @endif

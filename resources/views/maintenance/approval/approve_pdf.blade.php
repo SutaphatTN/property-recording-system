@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <title>{{ $maintenance->asset_information->assetCode ?? $maintenance->repair_name }}</title>
     <style>
         @page {
             margin: 100px 25px;
@@ -113,13 +114,11 @@
             <tr class="no-border">
                 <td class="no-border" style="text-align: center;">
                     ผู้เสนอ<br><br>
-                    .................................<br>
                     ({{ $maintenance->presenter }})
                 </td>
                 <td class="no-border" style="text-align: center;">
                     ผู้อนุมัติ<br><br>
-                    .................................<br>
-                    ({{ $maintenance->approverUser->name }})
+                    ({{ $maintenance->approverUser->full_name  }})
                 </td>
             </tr>
         </table>

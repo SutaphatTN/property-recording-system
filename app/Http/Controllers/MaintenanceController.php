@@ -589,6 +589,6 @@ class MaintenanceController extends Controller
 
         $pdf = Pdf::loadView('maintenance.approval.approve_pdf', compact('maintenance'));
 
-        return $pdf->download($filename);
+        return $pdf->stream($filename);
     }
 }
