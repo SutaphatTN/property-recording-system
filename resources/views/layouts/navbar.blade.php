@@ -87,6 +87,13 @@
                             <span class="align-middle">ลงทะเบียน</span>
                         </a>
                     </li>
+
+                    <li>
+                        <a class="dropdown-item btnUserIndex" href="{{ route('user.index') }}">
+                            <i class="bx bx-user me-2 align-middle"></i>
+                            <span class="align-middle">รายชื่อผู้ใช้งาน</span>
+                        </a>
+                    </li>
                     @endif
 
                     <li>

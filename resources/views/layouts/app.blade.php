@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
-    
+
 
     <style>
         #mainContent {
@@ -169,11 +169,19 @@
                 loadContent(url);
             });
 
+            $(document).on('click', '.btnUserIndex', function(e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                setActiveMenu(this);
+                loadContent(url, initUserTable);
+            });
+
         });
     </script>
 
     <script src="{{ asset('js/assetData.js') }}"></script>
     <script src="{{ asset('js/maintenance.js') }}"></script>
+    <script src="{{ asset('js/user.js') }}"></script>
 
 </body>
 

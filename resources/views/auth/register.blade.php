@@ -75,10 +75,10 @@
                             </div>
 
                             {{-- Confirm Password --}}
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label for="password-confirm" class="form-label fs-6">{{ __('Confirm Password') }}</label>
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
+                            </div> --}}
 
                             <div class="mb-3">
                                 <label for="company" class="form-label fs-6">{{ __('Company') }}</label>

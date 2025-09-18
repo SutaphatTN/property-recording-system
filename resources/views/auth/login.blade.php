@@ -69,6 +69,10 @@
                                 {{ old('remember') ? 'checked' : '' }}>
                             <label class="form-check-label" for="remember">Remember Me</label>
                         </div>
+
+                        <a class="text-decoration-none" href="{{ route('forgot.form') }}">
+                            Reset Password?
+                        </a>
                     </div>
 
                     @guest
@@ -81,11 +85,11 @@
                     {{-- <div class="text-center">
                         <span>Don't have an account? </span>
                         <a href="{{ route('register') }}">Sign Up</a>
-                    </div> --}}
-                    @endguest
-                </form>
-            </div>
+            </div> --}}
+            @endguest
+            </form>
         </div>
+    </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

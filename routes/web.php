@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AssetController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -15,8 +17,13 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+//register
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register.view');
 Route::post('/register', [RegisterController::class, 'register'])->name('register.store');
+
+//forgot password
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotForm'])->name('forgot.form');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'resetPassword'])->name('forgot.reset');
 
 Route::group(['middleware' => 'auth'], function () {
     //maintenance store general
@@ -74,11 +81,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('assetData/report-money', [AssetController::class, 'reportMoney'])->name('assetData.reportMoney');
     Route::get('assetData/report-money/export', [AssetController::class, 'exportExcel'])->name('assetData.exportExcel');
 
+    //user 
+    Route::get('/user/{id}/view-more', [UserController::class, 'viewMore'])->name('user.viewMore');
+
     //asset maintenance
     Route::resource('maintenance', MaintenanceController::class);
 
     //asset information
     Route::resource('assetData', AssetController::class);
+
+    // user
+    Route::resource('user', UserController::class);
 });
 
 Route::fallback(function () {
