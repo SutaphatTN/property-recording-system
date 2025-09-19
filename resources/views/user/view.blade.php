@@ -12,6 +12,7 @@
                     <tr>
                         <th class="text-center">No.</th>
                         <th class="text-center">Name</th>
+                        <th class="text-center">Full Name</th>
                         <th class="text-center">E-mail</th>
                         <th class="text-center">Username</th>
                         <th class="text-center">Role</th>
@@ -23,6 +24,7 @@
                     <tr>
                         <td>{{ $key+1 }}</td>
                         <td>{{ $row->name }}</td>
+                        <td>{{ $row->full_name }}</td>
                         <td>{{ $row->email }}</td>
                         <td>{{ $row->username }}</td>
                         <td>{{ $row->role }}</td>
