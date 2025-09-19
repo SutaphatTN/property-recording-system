@@ -11,7 +11,7 @@ $assets = $asset instanceof \Illuminate\Support\Collection ? $asset : collect([$
     <style>
         @font-face {
             font-family: 'THSarabunNew';
-            src: url("{{ resource_path('fonts/THSarabunNew-Regular.ttf') }}") format('truetype');
+            src: url("{{ resource_path('fonts/THSarabunNew.ttf') }}") format('truetype');
             font-weight: normal;
             font-style: normal;
         }
