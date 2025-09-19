@@ -9,6 +9,20 @@
             margin: 100px 25px;
         }
 
+        @font-face {
+            font-family: 'THSarabunNew';
+            src: url("{{ resource_path('fonts/THSarabunNew.ttf') }}") format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'THSarabunNew';
+            src: url("{{ resource_path('fonts/THSarabunNew-Bold.ttf') }}") format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
         footer {
             position: fixed;
             bottom: 0;
@@ -18,8 +32,9 @@
         }
 
         body {
-            font-family: 'sarabun';
-            font-size: 16pt;
+            font-family: 'THSarabunNew';
+            font-size: 22pt;
+            line-height: 1.1;
         }
 
         table {
@@ -31,11 +46,14 @@
         th,
         td {
             border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+            line-height: 1.1
         }
 
         th,
         td {
-            padding: 5px;
+            padding: 3px;
             text-align: center;
         }
 
@@ -59,14 +77,12 @@
             </td>
             <td class="no-border" style="text-align: right;">
                 @if($maintenance->asset_information)
-                <b>Asset Code:</b> {{ $maintenance->asset_information->assetCode }}<br>
+                Asset Code: {{ $maintenance->asset_information->assetCode }}<br>
                 @endif
-                <b>วันที่เสนอ:</b> {{ $maintenance->approv_date_thai }}
+                วันที่เสนอ: {{ $maintenance->approv_date_thai }}
             </td>
         </tr>
     </table>
-
-    <br>
 
     <table>
         <thead>
@@ -92,7 +108,7 @@
             </tr>
 
             <tr>
-                <td colspan="5" style="text-align: center; font-weight: bold;">
+                <td colspan="5" style="text-align: center;">
                     {{ $maintenance->repair_price_text }}
                 </td>
             </tr>

@@ -16,11 +16,11 @@ return [
     'custom_font_dir' => resource_path('fonts/'),
 
     'custom_font_data' => [
-        'sarabun' => [
-            'R' => 'Sarabun-Regular.ttf',        // Regular
-            'B' => 'Sarabun-Bold.ttf',           // Bold
-            'I' => 'Sarabun-Italic.ttf',         // Italic
-            'BI' => 'Sarabun-BoldItalic.ttf',    // BoldItalic
+        'THSarabunNew' => [
+            'R' => 'THSarabunNew.ttf',
+            'B' => 'THSarabunNew-Bold.ttf',
+            'I' => 'THSarabunNew-Italic.ttf',
+            'BI' => 'THSarabunNew-BoldItalic.ttf',
         ],
     ],
 
@@ -122,7 +122,7 @@ return [
         /**
          * Whether to enable font subsetting or not.
          */
-        'enable_font_subsetting' => true,
+        'enable_font_subsetting' => false,
 
         /**
          * The PDF rendering backend to use
@@ -191,7 +191,7 @@ return [
          *
          * @var string
          */
-        'default_font' => 'sarabun',
+        'default_font' => 'THSarabunNew',
 
         /**
          * Image DPI setting

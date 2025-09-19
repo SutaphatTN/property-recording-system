@@ -10,22 +10,22 @@ $assets = $asset instanceof \Illuminate\Support\Collection ? $asset : collect([$
     <title>QR Code Assets</title>
     <style>
         @font-face {
-            font-family: 'sarabun';
-            src: url("{{ resource_path('fonts/Sarabun-Regular.ttf') }}") format('truetype');
+            font-family: 'THSarabunNew';
+            src: url("{{ resource_path('fonts/THSarabunNew-Regular.ttf') }}") format('truetype');
             font-weight: normal;
             font-style: normal;
         }
 
         @font-face {
-            font-family: 'sarabun';
-            src: url("{{ resource_path('fonts/Sarabun-Bold.ttf') }}") format('truetype');
+            font-family: 'THSarabunNew';
+            src: url("{{ resource_path('fonts/THSarabunNew-Bold.ttf') }}") format('truetype');
             font-weight: bold;
             font-style: normal;
         }
 
         body {
-            font-family: 'sarabun', DejaVu Sans, sans-serif;
-            font-size: 10pt;
+            font-family: 'THSarabunNew', DejaVu Sans, sans-serif;
+            font-size: 16pt;
         }
 
         table {
@@ -36,7 +36,7 @@ $assets = $asset instanceof \Illuminate\Support\Collection ? $asset : collect([$
         td {
             width: 50%;
             border: 1px solid #ccc;
-            padding: 8px;
+            padding: 3px;
             vertical-align: top;
         }
 
@@ -56,8 +56,13 @@ $assets = $asset instanceof \Illuminate\Support\Collection ? $asset : collect([$
             display: table-cell;
             vertical-align: top;
             padding-left: 8px;
-            font-size: 11pt;
+            font-size: 16pt;
             text-align: left;
+        }
+
+        .label-text p {
+            margin: 0;
+            line-height: 1.2;
         }
     </style>
 </head>
