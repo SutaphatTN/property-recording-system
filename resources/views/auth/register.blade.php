@@ -44,6 +44,16 @@
                                 @enderror
                             </div>
 
+                            {{-- Full Name --}}
+                            <div class="mb-3">
+                                <label for="full_name" class="form-label fs-6">{{ __('Full Name') }}</label>
+                                <input id="full_name" type="text" class="form-control @error('full_name') is-invalid @enderror"
+                                    name="full_name" value="{{ old('full_name') }}" required>
+                                @error('full_name')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                                @enderror
+                            </div>
+
                             {{-- Email --}}
                             <div class="mb-3">
                                 <label for="email" class="form-label fs-6">{{ __('Email') }}</label>
