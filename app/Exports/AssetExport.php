@@ -40,7 +40,7 @@ class AssetExport implements FromCollection, WithHeadings, WithStyles
                 'สถานะทรัพย์สิน'   => $row->asset_status,
                 'รายละเอียดทรัพย์สิน'   => $row->detail_property,
                 'สาเหตุ'   => $row->purchase_reason,
-                'ผู้แจ้งซื้อ'   => $row->presenter,
+                'ผู้แจ้งซื้อ'   => $row->presenterUser->name,
             ];
         });
     }
