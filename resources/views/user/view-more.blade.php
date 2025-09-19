@@ -83,7 +83,7 @@
 
                         @foreach($companies as $company)
                         @if(in_array($company->id, $approvedCompanies))
-                        <span class="badge bg-label-primary me-2 d-inline-flex align-items-center">
+                        <span class="badge bg-label-primary me-2 mb-2 d-inline-flex align-items-center">
                             {{ $company->company_name_th }}
                         </span>
 

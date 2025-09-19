@@ -77,9 +77,9 @@
             </td>
             <td class="no-border" style="text-align: right;">
                 @if($maintenance->asset_information)
-                Asset Code: {{ $maintenance->asset_information->assetCode }}<br>
+                Asset Code : {{ $maintenance->asset_information->assetCode }}<br>
                 @endif
-                วันที่เสนอ: {{ $maintenance->approv_date_thai }}
+                วันที่เสนอ : {{ $maintenance->approv_date_thai }}
             </td>
         </tr>
     </table>
