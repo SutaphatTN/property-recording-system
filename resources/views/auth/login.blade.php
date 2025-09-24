@@ -13,6 +13,12 @@
             background: url('../images/branch_chookiat.png') no-repeat center center;
             background-size: cover;
         }
+
+        @media (max-width: 767.98px) {
+            .branch-bg {
+                min-height: 50vh;
+            }
+        }
     </style>
 </head>
 

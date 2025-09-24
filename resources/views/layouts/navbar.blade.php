@@ -6,7 +6,7 @@
     </div>
 
     <div class="navbar-nav-left d-flex align-items-center">
-        <ul class="navbar-nav flex-row align-items-center ms-auto d-xl-none">
+        <ul class="navbar-nav flex-row align-items-center ms-auto d-none d-sm-flex d-xl-none">
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('home') }}">
                     <i class="menu-icon tf-icons bx bxs-home"></i>
@@ -64,6 +64,45 @@
                     <li><a class="dropdown-item btnOpenExcel" href="#">ข้อมูลทรัพย์สินประจำเดือน</a></li>
                     <li><a class="dropdown-item btnOpenReportMoney" href="{{ route('assetData.reportMoney') }}">รายงานการใช้งบประมาณ</a></li>
                     <li><a class="dropdown-item btnOpenPrintAll" href="#">ปริ้น Qr Code</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav flex-row align-items-center ms-auto d-flex d-sm-none">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="menu-icon tf-icons bx bx-menu"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item dropdown-item-mobile" href="{{ route('home') }}"><i class="menu-icon tf-icons bx bxs-home menu-icon-mobile"></i> หน้าแรก</a></li>
+                    <li><a class="dropdown-item dropdown-item-mobile btnIndex" href="{{ route('assetData.index') }}"><i class="menu-icon tf-icons bx bxs-box menu-icon-mobile"></i> ข้อมูลทรัพย์สิน</a></li>
+                    <li><a class="dropdown-item dropdown-item-mobile btnOpenStoreAssetModal" href="#"><i class="menu-icon tf-icons bx bx-plus menu-icon-mobile"></i> เพิ่มข้อมูลทรัพย์สิน</a></li>
+
+                    <li class="nav-item">
+                        <span class="dropdown-item nav-span dropdown-item-mobile"><i class="menu-icon tf-icons bx bx-wrench menu-icon-mobile"></i> แจ้งซ่อม</span>
+                        <ul class="list-unstyled">
+                            <li><a class="dropdown-item dropdown-item-mobile btnOpenStoreMainModal" href="#"><i class="menu-icon tf-icons bx bx-chevron-right menu-icon-mobile"></i>แจ้งซ่อมทรัพย์สิน</a></li>
+                            <li><a class="dropdown-item dropdown-item-mobile btnOpenStoreGeneralMainModal" href="#"><i class="menu-icon tf-icons bx bx-chevron-right menu-icon-mobile"></i>แจ้งซ่อมทั่วไป</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <span class="dropdown-item nav-span dropdown-item-mobile"><i class="menu-icon tf-icons bx bx-package menu-icon-mobile"></i> ระบบข้อมูลแจ้งซ่อม</span>
+                        <ul class="list-unstyled">
+                            <li><a class="dropdown-item dropdown-item-mobile btnMainIndex" href="{{ route('maintenance.index') }}"><i class="menu-icon tf-icons bx bx-chevron-right menu-icon-mobile"></i>ข้อมูลแจ้งซ่อม</a></li>
+                            <li><a class="dropdown-item dropdown-item-mobile btnViewAudit" href="{{ route('maintenance.viewAudit') }}"><i class="menu-icon tf-icons bx bx-chevron-right menu-icon-mobile"></i>รอตรวจสอบ</a></li>
+                            <li><a class="dropdown-item dropdown-item-mobile btnViewApproval" href="{{ route('maintenance.viewApproval') }}"><i class="menu-icon tf-icons bx bx-chevron-right menu-icon-mobile"></i>รออนุมัติ</a></li>
+                            <li><a class="dropdown-item dropdown-item-mobile btnViewResultApproval" href="{{ route('maintenance.viewResultApproval') }}"><i class="menu-icon tf-icons bx bx-chevron-right menu-icon-mobile"></i>ผลการอนุมัติ</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <span class="dropdown-item nav-span dropdown-item-mobile"><i class="menu-icon tf-icons bx bxs-report menu-icon-mobile"></i> รายงาน</span>
+                        <ul class="list-unstyled">
+                            <li><a class="dropdown-item dropdown-item-mobile btnOpenExcel" href="#"><i class="menu-icon tf-icons bx bx-chevron-right menu-icon-mobile"></i>ข้อมูลทรัพย์สินประจำเดือน</a></li>
+                            <li><a class="dropdown-item dropdown-item-mobile btnOpenReportMoney" href="{{ route('assetData.reportMoney') }}"><i class="menu-icon tf-icons bx bx-chevron-right menu-icon-mobile"></i>รายงานการใช้งบประมาณ</a></li>
+                            <li><a class="dropdown-item dropdown-item-mobile btnOpenPrintAll" href="#"><i class="menu-icon tf-icons bx bx-chevron-right menu-icon-mobile"></i>ปริ้น Qr Code</a></li>
+                        </ul>
+                    </li>
+
                 </ul>
             </li>
         </ul>
@@ -144,5 +183,32 @@
 
     .navbar-nav-left .dropdown-menu {
         min-width: 180px;
+    }
+
+    .nav-span {
+        padding-left: 1.3rem;
+    }
+
+    .navbar-nav-left .list-unstyled {
+        padding-left: 2rem;
+
+    }
+
+    .dropdown-menu .dropdown-item-mobile {
+        padding-top: 0.30rem;
+        padding-bottom: 0.30rem;
+        line-height: 1.5;
+    }
+
+    .dropdown-menu .menu-icon-mobile {
+        font-size: 18px;
+        margin-right: 0.4rem;
+        vertical-align: middle;
+    }
+
+    @media (max-width: 576px) {
+        .navbar-nav .dropdown-toggle::after {
+            display: none !important;
+        }
     }
 </style>
