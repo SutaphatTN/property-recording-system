@@ -199,7 +199,6 @@
                     <div class="col-12 text-end">
                         @if($maintenance->status == 'processing')
 
-                        @if($maintenance->approverUser->role == 'manager')
                         @if( ($userRole == 'audit' || $userRole == 'manager' || $userRole == 'md') )
                         <button class="btn btn-success btn-approve" style="margin-right: 4px;" title="อนุมัติ" data-id="{{ $maintenance->id }}">
                             <i class="bi bi-check2"></i> อนุมัติ
@@ -208,9 +207,7 @@
                             <i class="bi bi-x-lg"></i> ไม่อนุมัติ
                         </button>
                         @endif
-                        @endif
 
-                        @if($maintenance->approverUser->role == 'md')
                         @if( $userRole == 'md' )
                         <button class="btn btn-success btn-approve" style="margin-right: 4px;" title="อนุมัติ" data-id="{{ $maintenance->id }}">
                             <i class="bi bi-check2"></i> อนุมัติ
@@ -218,7 +215,6 @@
                         <button class="btn btn-danger btn-reject" title="ไม่อนุมัติ" data-id="{{ $maintenance->id }}">
                             <i class="bi bi-x-lg"></i> ไม่อนุมัติ
                         </button>
-                        @endif
                         @endif
 
                         @endif
