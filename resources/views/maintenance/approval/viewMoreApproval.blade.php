@@ -161,6 +161,7 @@
 
                 <div class="row mt-5">
                     @if($maintenance->status == 'approved')
+                    @if($maintenance->quotation)
                     <div class="col-6 text-center">
                         <a href="{{ asset('storage/' . $maintenance->quotation) }}" target="_blank" class="btn btn-secondary">
                             ดูใบเสนอราคา
@@ -172,17 +173,28 @@
                             ดูใบอนุมัติ
                         </a>
                     </div>
+
                     @else
+                    <div class="col-12 text-center">
+                        <a href="{{ route('maintenance.downloadApprove', $maintenance->id) }}" target="_blank" class="btn btn-info">
+                            ดูใบอนุมัติ
+                        </a>
+                    </div>
+                    @endif
+
+                    @else
+                    @if($maintenance->quotation)
                     <div class="col-12 text-center">
                         <a href="{{ asset('storage/' . $maintenance->quotation) }}" target="_blank" class="btn btn-secondary">
                             ดูใบเสนอราคา
                         </a>
                     </div>
                     @endif
+                    @endif
                 </div>
 
                 @if($maintenance->status == 'approved')
-                <div class="row mt-3">
+                <div class="row mt-5">
                     <div class="col-12 text-center">
                         <button type="button" id="btnFinishMaintenance" class="btn btn-success" data-id="{{ $maintenance->id }}">
                             ซ่อมเสร็จแล้ว

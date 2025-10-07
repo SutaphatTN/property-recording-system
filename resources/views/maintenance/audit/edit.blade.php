@@ -215,8 +215,7 @@
                 <input id="quotation" type="file"
                     class="form-control @error('quotation') is-invalid @enderror"
                     name="quotation"
-                    accept="image/*,application/pdf"
-                    required>
+                    accept="image/*,application/pdf" >
 
                 @error('quotation')
                 <span class="invalid-feedback" role="alert">
