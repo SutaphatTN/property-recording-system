@@ -18,6 +18,7 @@ use Endroid\QrCode\Writer\PngWriter;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\AssetExport;
 use App\Exports\ReportMoneyExport;
+use Illuminate\Support\Carbon;
 
 class AssetController extends Controller
 {
@@ -238,7 +239,10 @@ class AssetController extends Controller
             $branch = branch::findOrFail($request->branch_id);
             $branchCode = strtoupper(substr($branch->branch_name, 0, 3));
 
-            $purchaseYear = \Carbon\Carbon::parse($request->purchase_date)->format('Y');
+            $purchaseYear = $request->purchase_date
+                ? Carbon::parse($request->purchase_date)->format('Y')
+                : now()->subYears(5)->format('Y');
+
 
             $prefix = $companyCode . $departmentCode . $branchCode . $purchaseYear;
 
