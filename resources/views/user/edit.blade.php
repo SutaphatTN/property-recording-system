@@ -104,7 +104,7 @@
                             <select name="company" class="form-control @error('name') is-invalid @enderror">
                                 @foreach($companies as $company)
                                 <option value="{{ $company->id }}"
-                                    {{ (old('company', $user->company_id) == $company->id) ? 'selected' : '' }}>
+                                    {{ (old('company', $user->company) == $company->id) ? 'selected' : '' }}>
                                     {{ $company->company_name_th }}
                                 </option>
                                 @endforeach

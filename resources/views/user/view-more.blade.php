@@ -68,7 +68,7 @@
                     <div class="col-md-6">
                         <input id="company" type="text"
                             class="form-control readonly-field bg-light"
-                            name="company" value="{{ $user->company?->company_name_th ?? '-' }}">
+                            name="company" value="{{ $user->companyRelation?->company_name_th ?? '-' }}">
                     </div>
                 </div>
 
