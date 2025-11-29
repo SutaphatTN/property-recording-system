@@ -44,7 +44,10 @@ class MaintenanceController extends Controller
         try {
             if ($request->asset_id) {
                 $exists = asset_maintenance::where('asset_id', $request->asset_id)
-                    ->where('status', '!=', asset_maintenance::STATUS_FINISHED)
+                    ->whereNotIn('status', [
+                        asset_maintenance::STATUS_FINISHED,
+                        asset_maintenance::STATUS_REJECTED,
+                    ])
                     ->exists();
 
                 if ($exists) {
@@ -96,9 +99,10 @@ class MaintenanceController extends Controller
             $maintenance = asset_maintenance::create($data);
 
             $presenterEmail = Auth::check() ? Auth::user()->email : null;
-            Mail::to(['WorawongM@Chookiat.org', 'HR@Chookiat.org'])
-                ->cc($presenterEmail ? [$presenterEmail] : [])
-                ->send(new RequestMaintenanceMail($maintenance));
+            // Mail::to(['WorawongM@Chookiat.org', 'HR@Chookiat.org'])
+            // Mail::to([''])
+            //     ->cc($presenterEmail ? [$presenterEmail] : [])
+            //     ->send(new RequestMaintenanceMail($maintenance));
 
             return response()->json([
                 'success' => true,
@@ -122,7 +126,10 @@ class MaintenanceController extends Controller
         try {
             if ($request->asset_id) {
                 $exists = asset_maintenance::where('asset_id', $request->asset_id)
-                    ->where('status', '!=', asset_maintenance::STATUS_FINISHED)
+                    ->whereNotIn('status', [
+                        asset_maintenance::STATUS_FINISHED,
+                        asset_maintenance::STATUS_REJECTED,
+                    ])
                     ->exists();
 
                 if ($exists) {
@@ -173,9 +180,10 @@ class MaintenanceController extends Controller
             $maintenance = asset_maintenance::create($data);
 
             $presenterEmail = Auth::check() ? Auth::user()->email : null;
-            Mail::to(['WorawongM@Chookiat.org', 'HR@Chookiat.org'])
-                ->cc($presenterEmail ? [$presenterEmail] : [])
-                ->send(new RequestMaintenanceMail($maintenance));
+            // Mail::to(['WorawongM@Chookiat.org', 'HR@Chookiat.org'])
+            // Mail::to([''])
+            //     ->cc($presenterEmail ? [$presenterEmail] : [])
+            //     ->send(new RequestMaintenanceMail($maintenance));
 
             return response()->json([
                 'success' => true,
@@ -184,8 +192,14 @@ class MaintenanceController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'เกิดข้อผิดพลาด กรุณาติดต่อแอดมิน'
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
             ], 500);
+
+            // return response()->json([
+            //     'success' => false,
+            //     'message' => 'เกิดข้อผิดพลาด กรุณาติดต่อแอดมิน'
+            // ], 500);
         }
     }
 
@@ -201,7 +215,10 @@ class MaintenanceController extends Controller
         try {
             if ($request->asset_id) {
                 $exists = asset_maintenance::where('asset_id', $request->asset_id)
-                    ->where('status', '!=', asset_maintenance::STATUS_FINISHED)
+                    ->whereNotIn('status', [
+                        asset_maintenance::STATUS_FINISHED,
+                        asset_maintenance::STATUS_REJECTED,
+                    ])
                     ->exists();
 
                 if ($exists) {
@@ -253,9 +270,10 @@ class MaintenanceController extends Controller
             $maintenance = asset_maintenance::create($data);
 
             $presenterEmail = Auth::check() ? Auth::user()->email : null;
-            Mail::to(['WorawongM@Chookiat.org', 'HR@Chookiat.org'])
-                ->cc($presenterEmail ? [$presenterEmail] : [])
-                ->send(new RequestMaintenanceMail($maintenance));
+            // Mail::to(['WorawongM@Chookiat.org', 'HR@Chookiat.org'])
+            // Mail::to([''])
+            //     ->cc($presenterEmail ? [$presenterEmail] : [])
+            //     ->send(new RequestMaintenanceMail($maintenance));
 
             return response()->json([
                 'success' => true,
