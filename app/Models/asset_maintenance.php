@@ -30,6 +30,7 @@ class asset_maintenance extends Model
         'note',
         'quotation',
         'approver',
+        'approved_by',
         'approv_date',
         'status',
         'operator',
@@ -55,6 +56,11 @@ class asset_maintenance extends Model
     public function approverUser()
     {
         return $this->belongsTo(User::class, 'approver', 'id');
+    }
+
+    public function approverUserBy()
+    {
+        return $this->belongsTo(User::class, 'approved_by', 'id');
     }
 
     public function presenterUser()

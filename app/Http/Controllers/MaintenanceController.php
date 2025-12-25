@@ -367,6 +367,7 @@ class MaintenanceController extends Controller
             $maintenance = asset_maintenance::findOrFail($id);
             $maintenance->status = asset_maintenance::STATUS_APPROVED;
             $maintenance->approv_date = now();
+            $maintenance->approved_by = Auth::id();
             $maintenance->save();
 
             return response()->json([
@@ -389,6 +390,7 @@ class MaintenanceController extends Controller
             $maintenance->status = asset_maintenance::STATUS_REJECTED;
             $maintenance->note = $request->note;
             $maintenance->approv_date = now();
+            $maintenance->approved_by = Auth::id();
             $maintenance->save();
 
             return response()->json([
