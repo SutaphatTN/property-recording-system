@@ -80,7 +80,7 @@
                         <div class="form-group row mb-0">
                             <label class="col-md-4 col-form-label text-md-end">ผู้แจ้งซ่อม :</label>
                             <div class="col-md-8">
-                                <input type="text" name="presenter" class="form-control" value="{{ $maintenance->presenterUser->name }}" disabled />
+                                <input type="text" name="presenter" class="form-control" value="{{ $maintenance->presenterUser->name ?? '-' }}" disabled />
                             </div>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                         <div class="form-group row mb-0">
                             <label class="col-md-4 col-form-label text-md-end">ผู้ตรวจสอบ :</label>
                             <div class="col-md-8">
-                                <input type="text" name="operator" class="form-control" value="{{ $maintenance->operatorUser->name }}" disabled />
+                                <input type="text" name="operator" class="form-control" value="{{ $maintenance->operatorUser->name ?? '-' }}" disabled />
                             </div>
                         </div>
                     </div>
@@ -131,7 +131,7 @@
                             <label class="col-md-4 col-form-label text-md-end">ผู้อนุมัติ :</label>
                             <div class="col-md-8">
                                 <!-- <input type="text" name="approver" class="form-control" value="{{ $maintenance->approver_name  }}" disabled /> -->
-                                <input type="text" name="approver" class="form-control" value="{{ $maintenance->approverUser->name }}" disabled />
+                                <input type="text" name="approver" class="form-control" value="{{ $maintenance->approverUser->name ?? '-'  }}" disabled />
                             </div>
                         </div>
                     </div>
@@ -139,23 +139,47 @@
 
                 <div class="row mt-3">
                     @if($maintenance->asset_id)
-                    <div class="col-12">
+                    <div class="col-6">
                         <div class="form-group row mb-0">
-                            <label class="col-md-3 col-form-label text-md-end">ตำแหน่งของทรัพย์สิน :</label>
-                            <div class="col-md-9">
-                                <input type="text" name="location" class="form-control" value="{{ $maintenance->location }}" disabled />
+                            <label class="col-md-4 col-form-label text-md-end">ตำแหน่งทรัพย์ฯ :</label>
+                            <div class="col-md-8">
+                                <textarea name="location"
+                                    class="form-control"
+                                    disabled>{{ $maintenance->location }}</textarea>
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-6">
+                        <div class="form-group row mb-0">
+                            <label class="col-md-4 col-form-label text-md-end">ผู้กดอนุมัติ :</label>
+                            <div class="col-md-8">
+                                <input type="text" name="approver" class="form-control" value="{{ $maintenance->approverUserBy->name ?? '-'  }}" disabled />
+                            </div>
+                        </div>
+                    </div>
+
                     @else
-                    <div class="col-12">
+                    <div class="col-6">
                         <div class="form-group row mb-0">
-                            <label class="col-md-3 col-form-label text-md-end">ตำแหน่งของครุภัณฑ์ :</label>
-                            <div class="col-md-9">
-                                <input type="text" name="location" class="form-control" value="{{ $maintenance->location }}" disabled />
+                            <label class="col-md-4 col-form-label text-md-end">ตำแหน่งครุฯ :</label>
+                            <div class="col-md-8">
+                                <textarea name="location"
+                                    class="form-control"
+                                    disabled>{{ $maintenance->location }}</textarea>
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-6">
+                        <div class="form-group row mb-0">
+                            <label class="col-md-4 col-form-label text-md-end">ผู้กดอนุมัติ :</label>
+                            <div class="col-md-8">
+                                <input type="text" name="approver" class="form-control" value="{{ $maintenance->approverUserBy->name ?? '-'  }}" disabled />
+                            </div>
+                        </div>
+                    </div>
+
                     @endif
                 </div>
 

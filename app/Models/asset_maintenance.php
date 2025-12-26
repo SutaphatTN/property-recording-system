@@ -100,6 +100,27 @@ class asset_maintenance extends Model
         return $date->day . ' ' . $months[$date->month] . ' ' . ($date->year + 543);
     }
 
+    public function getResultDateThaiAttribute()
+    {
+        $months = [
+            1 => 'มกราคม',
+            2 => 'กุมภาพันธ์',
+            3 => 'มีนาคม',
+            4 => 'เมษายน',
+            5 => 'พฤษภาคม',
+            6 => 'มิถุนายน',
+            7 => 'กรกฎาคม',
+            8 => 'สิงหาคม',
+            9 => 'กันยายน',
+            10 => 'ตุลาคม',
+            11 => 'พฤศจิกายน',
+            12 => 'ธันวาคม'
+        ];
+
+        $date = Carbon::parse($this->result_date);
+        return $date->day . ' ' . $months[$date->month] . ' ' . ($date->year + 543);
+    }
+
     private function thaiBahtText($number)
     {
         $txtnum1 = ['ศูนย์', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'];

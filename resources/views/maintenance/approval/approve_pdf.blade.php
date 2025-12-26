@@ -79,7 +79,10 @@
                 @if($maintenance->asset_information)
                 Asset Code : {{ $maintenance->asset_information->assetCode }}<br>
                 @endif
-                วันที่เสนอ : {{ $maintenance->approv_date_thai }}
+                วันที่เสนอ : {{ $maintenance->approv_date_thai }}<br>
+                @if($maintenance->status == 'finished')
+                วันที่ซ่อมเสร็จ : {{ $maintenance->result_date_thai }}
+                @endif
             </td>
         </tr>
     </table>

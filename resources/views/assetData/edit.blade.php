@@ -290,7 +290,7 @@
                         <div class="col-md-6">
                             <input type="text"
                                 class="form-control readonly-field bg-light"
-                                value="{{ $asset->presenterUser->name }}"
+                                value="{{ $asset->presenterUser->name ?? '-' }}"
                                 readonly>
 
                             <input type="hidden" name="presenter" value="{{ $asset->presenter }}">

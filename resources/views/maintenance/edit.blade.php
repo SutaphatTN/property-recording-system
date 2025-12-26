@@ -168,7 +168,7 @@
                         <div class="col-md-6">
                             <input type="text"
                                 class="form-control readonly-field bg-light"
-                                value="{{ $maintenance->presenterUser->name }}"
+                                value="{{ $maintenance->presenterUser->name ?? '-' }}"
                                 readonly>
 
                             <input type="hidden" name="presenter" value="{{ $maintenance->presenter }}">
@@ -257,7 +257,7 @@
                             <div class="form-group row mb-0">
                                 <label class="col-md-4 col-form-label text-md-end">ผู้แจ้งซ่อม :</label>
                                 <div class="col-md-8">
-                                    <input type="text" name="presenter" class="form-control" value="{{ $maintenance->presenterUser->name }}" disabled />
+                                    <input type="text" name="presenter" class="form-control" value="{{ $maintenance->presenterUser->name ?? '-' }}" disabled />
                                 </div>
                             </div>
                         </div>
@@ -284,113 +284,14 @@
                             <div class="form-group row mb-0">
                                 <label class="col-md-4 col-form-label text-md-end">ผู้อนุมัติ :</label>
                                 <div class="col-md-8">
-                                    <input type="text" name="approver" class="form-control" value="{{ $maintenance->approverUser->name }}" disabled />
+                                    <input type="text" name="approver" class="form-control" value="{{ $maintenance->approverUser->name ?? '-' }}" disabled />
                                 </div>
                             </div>
                         </div>
                     </div>
                     @endif
 
-                    @if($maintenance->status == 'approved')
-                    <div class="row mt-3">
-                        <div class="col-6">
-                            <div class="form-group row mb-0">
-                                <label class="col-md-4 col-form-label text-md-end">วันที่อนุมัติ :</label>
-                                <div class="col-md-8">
-                                    <input type="text" name="approv_date" class="form-control" value="{{ $maintenance->approv_date_formatted }}" disabled />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group row mb-0">
-                                <label class="col-md-4 col-form-label text-md-end">ผลการอนุมัติ :</label>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control"
-                                        value="{{ $maintenance->status == 'approved' ? 'ผ่าน' : '' }}"
-                                        disabled />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endif
-
-                    @if($maintenance->status == 'rejected')
-                    <div class="row mt-3">
-                        <div class="col-6">
-                            <div class="form-group row mb-0">
-                                <label class="col-md-4 col-form-label text-md-end">วันที่อนุมัติ :</label>
-                                <div class="col-md-8">
-                                    <input type="text" name="approv_date" class="form-control" value="{{ $maintenance->approv_date_formatted }}" disabled />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group row mb-0">
-                                <label class="col-md-4 col-form-label text-md-end">ผลการอนุมัติ :</label>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control"
-                                        value="{{ $maintenance->status == 'rejected' ? 'ไม่ผ่าน' : '' }}"
-                                        disabled />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-12">
-                            <div class="form-group row mb-0">
-                                <label class="col-md-3 col-form-label text-md-end">สาเหตุที่ไม่ผ่านการอนุมัติ :</label>
-                                <div class="col-md-9">
-                                    <textarea class="form-control" name="note" rows="2" disabled>{{ $maintenance->note }}</textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endif
-
-                    @if($maintenance->status == 'finished')
-                    <div class="row mt-3">
-                        <div class="col-6">
-                            <div class="form-group row mb-0">
-                                <label class="col-md-4 col-form-label text-md-end">วันที่อนุมัติ :</label>
-                                <div class="col-md-8">
-                                    <input type="text" name="approv_date" class="form-control" value="{{ $maintenance->approv_date_formatted }}" disabled />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group row mb-0">
-                                <label class="col-md-4 col-form-label text-md-end">ผลการอนุมัติ :</label>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control"
-                                        value="{{ $maintenance->status == 'finished' ? 'ผ่าน' : '' }}"
-                                        disabled />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-6">
-                            <div class="form-group row mb-0">
-                                <label class="col-md-4 col-form-label text-md-end">ผลการซ่อม :</label>
-                                <div class="col-md-8">
-                                    <input type="text" name="repair_result" class="form-control" value="{{ $maintenance->repair_result }}" disabled />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group row mb-0">
-                                <label class="col-md-4 col-form-label text-md-end">วันที่ซ่อมเสร็จ :</label>
-                                <div class="col-md-8">
-                                    <input type="text" name="result_date" class="form-control" value="{{ $maintenance->result_date_formatted }}" disabled />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endif
-
-                    @if($maintenance->status !== 'pending')
+                    @if($maintenance->status == 'processing')
 
                     <div class="row mt-3">
                         @if($maintenance->asset_id)
@@ -413,8 +314,265 @@
 
                         </div>
                         @endif
+
+                        @if($maintenance->quotation)
+                        <div class="col-12 text-center mt-3">
+                            <a href="{{ asset('storage/' . $maintenance->quotation) }}" target="_blank" class="btn btn-secondary">
+                                ดูใบเสนอราคา
+                            </a>
+                        </div>
+                        @endif
                     </div>
 
+                    @endif
+
+                    @if($maintenance->status == 'approved')
+                    <div class="row mt-3">
+                        @if($maintenance->asset_id)
+                        <div class="col-6">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">ตำแหน่งทรัพย์ฯ :</label>
+                                <div class="col-md-8">
+                                    <textarea name="location"
+                                        class="form-control"
+                                        disabled>{{ $maintenance->location }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        @else
+                        <div class="col-6">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">ตำแหน่งครุฯ :</label>
+                                <div class="col-md-8">
+                                    <textarea name="location"
+                                        class="form-control"
+                                        disabled>{{ $maintenance->location }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
+                        <div class="col-6">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">ผู้กดอนุมัติ :</label>
+                                <div class="col-md-8">
+                                    <input type="text" name="approver" class="form-control" value="{{ $maintenance->approverUserBy->name ?? '-'  }}" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 mt-3">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">วันที่อนุมัติ :</label>
+                                <div class="col-md-8">
+                                    <input type="text" name="approv_date" class="form-control" value="{{ $maintenance->approv_date_formatted }}" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 mt-3">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">ผลการอนุมัติ :</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control"
+                                        value="{{ $maintenance->status == 'approved' ? 'ผ่าน' : '' }}"
+                                        disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        @if($maintenance->quotation)
+                        <div class="col-6 text-center mt-3">
+                            <a href="{{ asset('storage/' . $maintenance->quotation) }}" target="_blank" class="btn btn-secondary">
+                                ดูใบเสนอราคา
+                            </a>
+                        </div>
+                        @endif
+                        <div class="col-6 text-center mt-3">
+                            <a href="{{ route('maintenance.downloadApprove', $maintenance->id) }}" target="_blank" class="btn btn-info">
+                                ดูใบอนุมัติ
+                            </a>
+                        </div>
+                    </div>
+                    @endif
+
+                    @if($maintenance->status == 'rejected')
+                    <div class="row mt-3">
+                        @if($maintenance->asset_id)
+                        <div class="col-6">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">ตำแหน่งทรัพย์ฯ :</label>
+                                <div class="col-md-8">
+                                    <textarea name="location"
+                                        class="form-control"
+                                        disabled>{{ $maintenance->location }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        @else
+                        <div class="col-6">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">ตำแหน่งครุฯ :</label>
+                                <div class="col-md-8">
+                                    <textarea name="location"
+                                        class="form-control"
+                                        disabled>{{ $maintenance->location }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
+                        <div class="col-6">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">ผู้กดอนุมัติ :</label>
+                                <div class="col-md-8">
+                                    <input type="text" name="approver" class="form-control" value="{{ $maintenance->approverUserBy->name ?? '-'  }}" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">ตำแหน่งทรัพย์ฯ :</label>
+                                <div class="col-md-8">
+                                    <textarea name="location"
+                                        class="form-control"
+                                        disabled>{{ $maintenance->location }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">ผู้กดอนุมัติ :</label>
+                                <div class="col-md-8">
+                                    <input type="text" name="approver" class="form-control" value="{{ $maintenance->approverUserBy->name ?? '-'  }}" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 mt-3">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">วันที่อนุมัติ :</label>
+                                <div class="col-md-8">
+                                    <input type="text" name="approv_date" class="form-control" value="{{ $maintenance->approv_date_formatted }}" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 mt-3">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">ผลการอนุมัติ :</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control"
+                                        value="{{ $maintenance->status == 'rejected' ? 'ไม่ผ่าน' : '' }}"
+                                        disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-3 col-form-label text-md-end">สาเหตุที่ไม่ผ่านการอนุมัติ :</label>
+                                <div class="col-md-9">
+                                    <textarea class="form-control" name="note" rows="2" disabled>{{ $maintenance->note }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if($maintenance->quotation)
+                    <div class="col-12 text-center mt-3">
+                        <a href="{{ asset('storage/' . $maintenance->quotation) }}" target="_blank" class="btn btn-secondary">
+                            ดูใบเสนอราคา
+                        </a>
+                    </div>
+                    @endif
+                    @endif
+
+                    @if($maintenance->status == 'finished')
+                    <div class="row mt-3">
+                        @if($maintenance->asset_id)
+                        <div class="col-6">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">ตำแหน่งทรัพย์ฯ :</label>
+                                <div class="col-md-8">
+                                    <textarea name="location"
+                                        class="form-control"
+                                        disabled>{{ $maintenance->location }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        @else
+                        <div class="col-6">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">ตำแหน่งครุฯ :</label>
+                                <div class="col-md-8">
+                                    <textarea name="location"
+                                        class="form-control"
+                                        disabled>{{ $maintenance->location }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
+                        <div class="col-6">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">ผู้กดอนุมัติ :</label>
+                                <div class="col-md-8">
+                                    <input type="text" name="approver" class="form-control" value="{{ $maintenance->approverUserBy->name ?? '-'  }}" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 mt-3">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">วันที่อนุมัติ :</label>
+                                <div class="col-md-8">
+                                    <input type="text" name="approv_date" class="form-control" value="{{ $maintenance->approv_date_formatted }}" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 mt-3">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">ผลการอนุมัติ :</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control"
+                                        value="{{ $maintenance->status == 'finished' ? 'ผ่าน' : '' }}"
+                                        disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 mt-3">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">ผลการซ่อม :</label>
+                                <div class="col-md-8">
+                                    <input type="text" name="repair_result" class="form-control" value="{{ $maintenance->repair_result }}" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 mt-3">
+                            <div class="form-group row mb-0">
+                                <label class="col-md-4 col-form-label text-md-end">วันที่ซ่อมเสร็จ :</label>
+                                <div class="col-md-8">
+                                    <input type="text" name="result_date" class="form-control" value="{{ $maintenance->result_date_formatted }}" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        @if($maintenance->quotation)
+                        <div class="col-6 text-center mt-3">
+                            <a href="{{ asset('storage/' . $maintenance->quotation) }}" target="_blank" class="btn btn-secondary">
+                                ดูใบเสนอราคา
+                            </a>
+                        </div>
+                        @endif
+                        <div class="col-6 text-center mt-3">
+                            <a href="{{ route('maintenance.downloadApprove', $maintenance->id) }}" target="_blank" class="btn btn-info">
+                                ดูใบอนุมัติ
+                            </a>
+                        </div>
+                    </div>
                     @endif
 
                     <div class="row mb-0">

@@ -23,12 +23,12 @@
 
                 <div class="col-auto">
                     <label class="me-2">จากวันที่:</label>
-                    <input type="date" name="fromDate" max="{{ date('Y-m-d') }}" class="form-control form-control-sm" value="{{ date('Y-m-d') }}">
+                    <input type="date" name="fromDate" max="{{ date('Y-m-d') }}" class="form-control form-control-sm">
                 </div>
 
                 <div class="col-auto">
                     <label class="me-2">ถึงวันที่:</label>
-                    <input type="date" name="toDate" max="{{ date('Y-m-d') }}" class="form-control form-control-sm" value="{{ date('Y-m-d') }}">
+                    <input type="date" name="toDate" max="{{ date('Y-m-d') }}" class="form-control form-control-sm">
                 </div>
 
                 <div class="col-auto">

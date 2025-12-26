@@ -31,7 +31,7 @@
                         <td><strong class="text-muted">{{ $row->repair_name }}</strong></td>
                         @endif
                         <td>{{ $row->repair_reason }}</td>
-                        <td>{{ $row->operatorUser->name }}</td>
+                        <td>{{ $row->operatorUser->name ?? '-' }}</td>
                         <td>
                             @php
                             $badgeClass = ($row->approverUser && $row->approverUser->role == 'manager')
